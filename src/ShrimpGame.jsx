@@ -8,9 +8,9 @@ const ShrimpCookingGame = () => {
   
   // --- Assets (Using placeholders for the logic, replace src with your actual file paths) ---
   const assets = {
-    chef: "Tony_character.jpg",
-    wok: "wok.jpg",
-    supplies: "cooking-supplies.jpg"
+    chef: "tony_character.png",
+    wok: "wok.png",
+    supplies: "cooking-supplies.png"
   };
 
   // --- Order & Logic ---
