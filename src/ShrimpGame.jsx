@@ -3,7 +3,6 @@ import { Knife, RotateCcw, CheckCircle } from 'lucide-react';
 
 const ShrimpCookingGame = () => {
   // --- ASSETS CONFIGURATION ---
-  // Ensure these files are in your /public folder
   const assets = {
     tony: "/tony.png",
     wok: "/wok.png",
@@ -18,7 +17,7 @@ const ShrimpCookingGame = () => {
   };
 
   // --- GAME STATE ---
-  const [gameState, setGameState] = useState('menu'); // menu, prep, sauce, cooking, plating, gameOver
+  const [gameState, setGameState] = useState('menu'); 
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [draggedItem, setDraggedItem] = useState(null);
@@ -32,16 +31,13 @@ const ShrimpCookingGame = () => {
   const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
 
   // COOKING STATE
-  // steps: 'empty', 'shrimp_cooking', 'shrimp_cooked', 'sauce_added', 'egg_added'
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
   // PLATING STATE
   const [scallionsSprinkled, setScallionsSprinkled] = useState(0);
 
-  // --- LOGIC & TIMERS ---
-
-  // Cooking Timer
+  // --- TIMERS ---
   useEffect(() => {
     let timer;
     if (gameState === 'cooking' && cookingStep === 'shrimp_cooking') {
@@ -52,7 +48,7 @@ const ShrimpCookingGame = () => {
             triggerFeedback("Shrimp Ready! Add Sauce!");
             return 100;
           }
-          return prev + 1; // Speed of cooking
+          return prev + 1; 
         });
       }, 50);
     }
@@ -60,7 +56,6 @@ const ShrimpCookingGame = () => {
   }, [cookingStep, gameState]);
 
   // --- HANDLERS ---
-
   const triggerFeedback = (text) => {
     setFeedback(text);
     setTimeout(() => setFeedback(''), 1500);
@@ -70,7 +65,6 @@ const ShrimpCookingGame = () => {
     setDraggedItem(item);
   };
 
-  // 1. PREP HANDLER
   const handlePrepDrop = (e, index) => {
     e.preventDefault();
     if (draggedItem === 'knife' && index === shrimpPrepped) {
@@ -79,7 +73,6 @@ const ShrimpCookingGame = () => {
     }
   };
 
-  // 2. SAUCE HANDLER
   const handleSauceDrop = (e) => {
     e.preventDefault();
     if (requiredSauceIngredients.includes(draggedItem) && !sauceIngredientsAdded.includes(draggedItem)) {
@@ -88,40 +81,33 @@ const ShrimpCookingGame = () => {
     }
   };
 
-  // 3. COOKING HANDLER
   const handleWokDrop = (e) => {
     e.preventDefault();
-    
     // Step A: Add Raw Shrimp
     if (draggedItem === 'prepped_shrimp' && cookingStep === 'empty') {
       setCookingStep('shrimp_cooking');
       triggerFeedback("Cooking starts!");
     }
-    
-    // Step B: Add Mixed Sauce (Only after shrimp is cooked)
+    // Step B: Add Mixed Sauce 
     if (draggedItem === 'mixed_sauce' && cookingStep === 'shrimp_cooked') {
       setCookingStep('sauce_added');
       triggerFeedback("Sauce Sizzle!");
     }
-
-    // Step C: Add Egg (Tony's Favorite)
+    // Step C: Add Egg
     if (draggedItem === 'egg' && cookingStep === 'sauce_added') {
       setCookingStep('egg_added');
-      setScore(prev => prev + 500); // Big bonus
+      setScore(prev => prev + 500);
       triggerFeedback("Tony's Favorite Step! 🥚");
-      // Wait a moment then go to plating
       setTimeout(() => setGameState('plating'), 2000);
     }
   };
 
-  // 4. PLATING HANDLER
   const handlePlatingDrop = (e) => {
     e.preventDefault();
     if (draggedItem === 'scallions') {
       const newCount = scallionsSprinkled + 1;
       setScallionsSprinkled(newCount);
       triggerFeedback("Sprinkle!");
-      
       if (newCount >= 3) {
         setTimeout(() => setGameState('gameOver'), 1000);
       }
@@ -138,8 +124,7 @@ const ShrimpCookingGame = () => {
     setScallionsSprinkled(0);
   };
 
-  // --- RENDER HELPERS ---
-
+  // --- TICKET COMPONENT (MUST BE INSIDE) ---
   const Ticket = () => (
     <div className="absolute top-4 right-4 bg-white p-4 rounded shadow-xl border-t-8 border-gray-300 w-48 z-50 rotate-2">
       <h3 className="font-bold border-b-2 border-dashed border-gray-400 mb-2">Order #101</h3>
@@ -236,7 +221,6 @@ const ShrimpCookingGame = () => {
           <p className="text-amber-700 mb-8">Drag all ingredients into the bowl!</p>
 
           <div className="flex-1 w-full max-w-5xl flex items-center justify-between">
-            {/* Ingredients Shelf */}
             <div className="grid grid-cols-2 gap-6">
               {[
                 { id: 'seasonings', img: assets.seasonings, label: 'Spices' },
@@ -258,14 +242,12 @@ const ShrimpCookingGame = () => {
               ))}
             </div>
 
-            {/* Mixing Bowl */}
             <div 
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleSauceDrop}
               className="w-64 h-64 rounded-full border-8 border-gray-300 bg-gradient-to-b from-gray-100 to-gray-200 flex items-center justify-center shadow-inner relative"
             >
               <div className="text-gray-400 font-bold">DROP HERE</div>
-              {/* Fluid inside based on progress */}
               <div 
                 className="absolute bottom-4 bg-amber-700 rounded-full transition-all duration-500 opacity-80"
                 style={{
@@ -288,7 +270,6 @@ const ShrimpCookingGame = () => {
       {gameState === 'cooking' && (
         <div className="flex-1 bg-stone-800 p-8 flex flex-col items-center relative overflow-hidden">
           
-          {/* INSTRUCTIONS HUD */}
           <div className="absolute top-4 left-1/2 transform -translate-x-1/2 bg-black/50 text-white px-6 py-2 rounded-full backdrop-blur-sm z-30">
             {cookingStep === 'empty' && "Drag PREPPED SHRIMP to the Wok"}
             {cookingStep === 'shrimp_cooking' && "Wait for it to cook..."}
@@ -296,18 +277,13 @@ const ShrimpCookingGame = () => {
             {cookingStep === 'sauce_added' && "Drag the EGG to finish!"}
           </div>
 
-          {/* STOVE SETUP */}
           <div className="relative mt-auto mb-10 w-[500px] h-[500px]">
-            
-            {/* 1. Stove (Bottom Layer) */}
             <img src={assets.stove} className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-64 z-0" alt="Stove" />
 
-            {/* 2. Fire Effect (If cooking) */}
             {cookingStep !== 'empty' && (
                <div className="absolute bottom-20 left-1/2 transform -translate-x-1/2 w-48 h-48 bg-orange-500 rounded-full blur-3xl opacity-40 animate-pulse z-10"></div>
             )}
 
-            {/* 3. Wok (Top Layer) */}
             <div 
               onDragOver={(e) => e.preventDefault()}
               onDrop={handleWokDrop}
@@ -315,23 +291,16 @@ const ShrimpCookingGame = () => {
             >
               <img src={assets.wok} className="w-full h-full object-contain drop-shadow-2xl" alt="Wok" />
               
-              {/* CONTENTS INSIDE WOK */}
               <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 flex items-center justify-center">
-                
-                {/* Shrimp */}
                 {cookingStep !== 'empty' && (
                   <img 
                     src={assets.shrimp} 
                     className={`w-32 transition-all duration-1000 ${cookingStep === 'shrimp_cooking' ? 'opacity-80 sepia animate-shake' : ''} ${cookProgress >= 100 ? 'sepia-0 scale-110' : ''}`} 
                   />
                 )}
-
-                {/* Sauce Overlay */}
                 {(cookingStep === 'sauce_added' || cookingStep === 'egg_added') && (
                   <div className="absolute inset-0 bg-amber-900 mix-blend-multiply opacity-50 rounded-full"></div>
                 )}
-
-                {/* Egg Overlay */}
                 {cookingStep === 'egg_added' && (
                   <img src={assets.egg} className="absolute w-20 top-0 animate-bounce" />
                 )}
@@ -339,10 +308,7 @@ const ShrimpCookingGame = () => {
             </div>
           </div>
 
-          {/* INGREDIENT DOCK */}
           <div className="w-full h-32 bg-stone-700 flex items-center justify-center gap-8 border-t-4 border-stone-600 z-40">
-            
-            {/* Draggable Shrimp Bowl */}
             {cookingStep === 'empty' && (
               <div 
                 draggable 
@@ -356,7 +322,6 @@ const ShrimpCookingGame = () => {
               </div>
             )}
 
-            {/* Draggable Sauce Bowl */}
             {cookingStep === 'shrimp_cooked' && (
               <div 
                 draggable 
@@ -370,7 +335,6 @@ const ShrimpCookingGame = () => {
               </div>
             )}
 
-            {/* Draggable Egg */}
             {cookingStep === 'sauce_added' && (
               <div 
                 draggable 
@@ -381,7 +345,6 @@ const ShrimpCookingGame = () => {
                 <p className="text-white text-center text-sm font-bold mt-1">CRACK EGG</p>
               </div>
             )}
-
           </div>
         </div>
       )}
@@ -393,7 +356,6 @@ const ShrimpCookingGame = () => {
           <p className="text-green-700 mb-8">Sprinkle Scallions on top!</p>
 
           <div className="relative w-96 h-96 mt-10">
-            {/* The Finished Dish */}
             <div 
                onDragOver={(e) => e.preventDefault()}
                onDrop={handlePlatingDrop}
@@ -403,7 +365,6 @@ const ShrimpCookingGame = () => {
                <img src={assets.egg} className="absolute w-24 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2" />
                <div className="absolute inset-0 bg-amber-900 mix-blend-multiply opacity-20"></div>
 
-               {/* Render Sprinkled Scallions */}
                {[...Array(scallionsSprinkled)].map((_, i) => (
                  <img 
                    key={i} 
