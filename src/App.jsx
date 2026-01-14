@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Knife, RotateCcw, CheckCircle } from 'lucide-react';
+import { RotateCcw, CheckCircle } from 'lucide-react';
 
 // --- THE GAME COMPONENT ---
 const ShrimpCookingGame = () => {
@@ -15,6 +15,7 @@ const ShrimpCookingGame = () => {
     wine: "/wine.png",
     egg: "/egg.png",
     scallions: "/scallions.png",
+    knife: "/knife.png", // Added your knife here
   };
 
   // State
@@ -112,7 +113,7 @@ const ShrimpCookingGame = () => {
     setScallionsSprinkled(0);
   };
 
-  // --- TICKET COMPONENT (Inside Game Component) ---
+  // --- TICKET COMPONENT ---
   const Ticket = () => (
     <div className="absolute top-4 right-4 bg-white p-4 rounded shadow-xl border-t-8 border-gray-300 w-48 z-50 rotate-2">
       <h3 className="font-bold border-b-2 border-dashed border-gray-400 mb-2">Order #101</h3>
@@ -158,7 +159,7 @@ const ShrimpCookingGame = () => {
       {gameState === 'prep' && (
         <div className="flex-1 bg-blue-50 p-8 flex flex-col items-center">
           <h2 className="text-3xl font-bold text-blue-900 mb-2">Step 1: Devein</h2>
-          <p className="text-blue-600 mb-8">Drag the knife to the glowing shrimp!</p>
+          <p className="text-blue-600 mb-8">Drag the tool to the glowing shrimp!</p>
           <div className="flex-1 flex flex-wrap justify-center content-center gap-6 max-w-4xl">
              {[...Array(targetShrimpCount)].map((_, i) => (
                <div key={i} onDragOver={(e) => e.preventDefault()} onDrop={(e) => handlePrepDrop(e, i)}
@@ -169,7 +170,7 @@ const ShrimpCookingGame = () => {
           </div>
           <div className="h-32 w-full bg-gray-200 mt-auto rounded-t-3xl flex items-center justify-center border-t-4 border-gray-300">
              <div draggable onDragStart={(e) => handleDragStart(e, 'knife')} className="bg-white p-4 rounded-full shadow-xl cursor-grab active:cursor-grabbing hover:rotate-12 transition">
-               <Knife size={48} className="text-gray-700" />
+               <img src={assets.knife} className="w-12 h-12 object-contain" alt="Knife Tool" />
                <p className="text-center font-bold text-xs mt-1">TOOL</p>
              </div>
           </div>
