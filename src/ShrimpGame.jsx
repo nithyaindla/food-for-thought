@@ -124,7 +124,7 @@ const ShrimpCookingGame = () => {
     setScallionsSprinkled(0);
   };
 
-  // --- TICKET COMPONENT (MUST BE INSIDE) ---
+  // --- TICKET COMPONENT (Must be inside the main function to access state) ---
   const Ticket = () => (
     <div className="absolute top-4 right-4 bg-white p-4 rounded shadow-xl border-t-8 border-gray-300 w-48 z-50 rotate-2">
       <h3 className="font-bold border-b-2 border-dashed border-gray-400 mb-2">Order #101</h3>
