@@ -1,33 +1,73 @@
-{/* --- THE GAME SECTION --- */}
-<section id="game" className="py-16 bg-gray-100">
-  <div className="container mx-auto px-4">
-    
-    {/* 1. VIMEO VIDEO HEADER */}
-    <div className="max-w-4xl mx-auto mb-12">
-      <div className="text-center mb-6">
-        <h2 className="text-3xl font-bold text-gray-800">Tony's Recipe</h2>
-        <p className="text-gray-600">Watch how Tony does it, then try it yourself below!</p>
-      </div>
-      
-      {/* Responsive Video Container */}
-      <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-black">
-        <iframe 
-          src = "https://player.vimeo.com/video/1132358106?badge=0&amp"
-          className="w-full h-full" 
-          frameBorder="0" 
-          allow="autoplay; fullscreen; picture-in-picture" 
-          allowFullScreen
-        ></iframe>
-      </div>
-    </div>
+import React from 'react';
+import ShrimpCookingGame from './ShrimpGame';
 
-    {/* 2. THE GAME CONTAINER */}
-    <div className="text-center mb-6">
-      <h2 className="text-4xl font-bold text-gray-800">Your Turn to Cook</h2>
-    </div>
+function App() {
+  return (
+    <div className="min-h-screen bg-white">
+      {/* --- Navigation Bar --- */}
+      <nav className="bg-gray-900 text-white p-4 shadow-lg">
+        <div className="container mx-auto flex justify-between items-center">
+          <h1 className="text-2xl font-bold text-orange-500">Tony's Kitchen</h1>
+          <div className="space-x-4">
+            <a href="#" className="hover:text-orange-400">Home</a>
+            <a href="#game" className="hover:text-orange-400">Play Game</a>
+            <a href="#" className="hover:text-orange-400">About</a>
+          </div>
+        </div>
+      </nav>
 
-    <div className="max-w-5xl mx-auto h-[700px] border-4 border-gray-800 rounded-3xl overflow-hidden shadow-2xl bg-white">
-      <ShrimpCookingGame />
+      {/* --- Hero Section --- */}
+      <header className="bg-orange-50 py-20 text-center px-4">
+        <h1 className="text-5xl font-extrabold text-gray-800 mb-4">Master the Art of Wok</h1>
+        <p className="text-xl text-gray-600 mb-8 max-w-2xl mx-auto">
+          Join Tony in the kitchen and learn the secrets of the perfect shrimp stir-fry. 
+          It's all about timing, sauce ratios, and high heat!
+        </p>
+        <a href="#game" className="bg-orange-600 text-white px-8 py-3 rounded-full font-bold shadow-lg hover:bg-orange-700 transition">
+          Start Cooking Now
+        </a>
+      </header>
+
+      {/* --- THE GAME SECTION --- */}
+      <section id="game" className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
+          
+          {/* 1. VIMEO VIDEO HEADER */}
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="text-center mb-6">
+              <h2 className="text-3xl font-bold text-gray-800">Tony's Recipe</h2>
+              <p className="text-gray-600">Watch how Tony does it, then try it yourself below!</p>
+            </div>
+            
+            {/* Responsive Video Container */}
+            <div className="aspect-video w-full rounded-2xl overflow-hidden shadow-xl border-4 border-white bg-black">
+              <iframe 
+                src="https://player.vimeo.com/video/1132358106?badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" 
+                className="w-full h-full" 
+                frameBorder="0" 
+                allow="autoplay; fullscreen; picture-in-picture" 
+                allowFullScreen
+              ></iframe>
+            </div>
+          </div>
+
+          {/* 2. THE GAME CONTAINER */}
+          <div className="text-center mb-6">
+            <h2 className="text-4xl font-bold text-gray-800">Your Turn to Cook</h2>
+          </div>
+
+          <div className="max-w-5xl mx-auto h-[700px] border-4 border-gray-800 rounded-3xl overflow-hidden shadow-2xl bg-white">
+            <ShrimpCookingGame />
+          </div>
+        </div>
+      </section>
+
+      {/* --- Footer --- */}
+      <footer className="bg-gray-900 text-gray-400 py-8 text-center">
+        <p>© 2025 Tony's Kitchen Digital Experience.</p>
+      </footer>
     </div>
-  </div>
-</section>
+  );
+}
+
+export default App;
