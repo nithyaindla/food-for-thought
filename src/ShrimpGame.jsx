@@ -14,7 +14,7 @@ const ShrimpCookingGame = () => {
     wine: "/wine.png",
     egg: "/egg.png",
     scallions: "/scallions.png",
-    knife: "/knife.png", 
+    knife: "/knife.png" 
   };
 
   // State
