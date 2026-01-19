@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Volume2, VolumeX } from 'lucide-react';
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Volume2, VolumeX, Play } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
 const FloatingText = ({ children, delay = 0 }) => {
@@ -115,7 +115,7 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    salted_black_soy_beans: "/beans.png",
+    beans: "/beans.png",
     garlic: "/garlic.png",
     wine: "/wine.png",
     egg: "/egg.png",
@@ -130,7 +130,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shioxing wine'];
+  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
@@ -484,9 +484,9 @@ const ProfileSection = () => {
         <div className="md:col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <img src="https://placehold.co/500x500/333/FFF?text=Portrait" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
+              <img src="/headshot" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
               <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
-                  DEVELOPER
+                 n
               </div>
             </div>
             <div>
@@ -616,37 +616,86 @@ function App() {
         <p className="mt-6 text-[10px] text-gray-400 text-center uppercase tracking-widest font-bold">
           Disclaimer: The graphics in this game were created by Google Gemini and are AI generated.
         </p>
-
-        <div className="grid grid-cols-2 mt-8 text-xs font-bold gap-4 uppercase tracking-widest">
-           <div className="border border-black p-2 text-center">WASD: N/A</div>
-           <div className="border border-black p-2 text-center">MOUSE: DRAG & DROP</div>
-        </div>
+        
       </Section>
 
-      {/* 5. NEW GALLERY SECTION */}
-      <Section title="(03) GALLERY">
-        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
-          {/* Main Tall Post */}
-          <div className="border-2 border-black p-2 bg-gray-50 flex justify-center items-start overflow-hidden">
-             <div className="w-[500px] max-w-full overflow-x-auto">
-                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D10231101214900989%26set%3Da.3552662022457%26type%3D3&show_text=false&width=500" width="500" height="690" style={{border:'none', overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-             </div>
+      {/* 5. NEW GALLERY SECTION (BENTO CONTACT SHEET) */}
+      <Section title="(03) ARCHIVE">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-2 border-black bg-black gap-0.5">
+          {/* gap-0.5 with bg-black creates the "border" effect between items */}
+          
+          {/* 1. Video: Preparation (Focus) */}
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <video 
+                  src="/mom6.mp4" 
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
+                  autoPlay loop muted playsInline
+              />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
+                  FIG A. PREP WORK
+              </div>
           </div>
 
-          {/* Stacked Smaller Posts */}
-          <div className="flex flex-col gap-8">
-            <div className="border-2 border-black p-2 bg-gray-50 flex justify-center items-center overflow-hidden">
-               <div className="w-[500px] max-w-full overflow-x-auto">
-                  <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftony.low.906%2Fposts%2Fpfbid02JFjpcqG8o2CHGYzjKdQFZbiMj95azb8fRh6kF38kb61tzJB6XvuUBrEdCvWPjJz5l&show_text=true&width=500" width="500" height="250" style={{border:'none', overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-               </div>
-            </div>
-            
-            <div className="border-2 border-black p-2 bg-gray-50 flex justify-center items-center overflow-hidden h-full">
-               <div className="w-[500px] max-w-full overflow-x-auto">
-                 <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftony.low.906%2Fposts%2Fpfbid0FXpd7mB5xmzVmQznaCPFk3ik9YE6cpexDu3yqeJxiDfBqYx6Lzsdk9JDTMUM3hJJl&show_text=true&width=500" width="500" height="250" style={{border:'none', overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
-               </div>
-            </div>
+          {/* 2. Photo: Raw Materials */}
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img 
+                  src="/mom1.jpg" 
+                  alt="Cleaning Fish"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
+              />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
+                  FIG B. RAW MATERIALS
+              </div>
           </div>
+
+          {/* 3. Photo: Process/Reduction */}
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img 
+                  src="/mom5.jpg" 
+                  alt="Blending Soup"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
+              />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
+                  FIG C. REDUCTION
+              </div>
+          </div>
+
+          {/* 4. Photo: Assembly 1 */}
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img 
+                  src="/mom3.jpg" 
+                  alt="Wrapping Dumplings"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
+              />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
+                  FIG D. ASSEMBLY
+              </div>
+          </div>
+
+          {/* 5. Photo: Assembly 2 (Shared Labor) */}
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img 
+                  src="/mom2.jpg" 
+                  alt="Wrapping Together"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
+              />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
+                  FIG E. TRANSMISSION
+              </div>
+          </div>
+
+          {/* 6. Photo: Result (Joy) */}
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img 
+                  src="/mom4.jpg" 
+                  alt="Eating"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
+              />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
+                  FIG F. NOURISHMENT
+              </div>
+          </div>
+
         </div>
       </Section>
 
