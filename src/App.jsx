@@ -484,7 +484,7 @@ const ProfileSection = () => {
         <div className="md:col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <img src="/headshot.jpeg" alt="Profile" className="w-full aspect-square object-cover" />
+              <img src="/headshot.jpeg" alt="Profile" className="object-cover" />
               <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
               </div>
             </div>
@@ -562,7 +562,7 @@ function App() {
         
         <div className="text-center md:text-left relative z-10">
           {/* mix-blend-difference creates that cool inverted color effect against the image */}
-          <h1 className="text-[11vw] leading-[0.8] font-black tracking-tighter uppercase mix-blend-difference text-black">
+          <h1 className="text-[11vw] leading-[0.8] top-10 font-black tracking-tighter uppercase mix-blend-difference text-black">
             TONY'S KITCHEN LAB
           </h1>
         </div>
