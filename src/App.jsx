@@ -67,7 +67,7 @@ const FloatingContext = () => {
       <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-4xl leading-tight">
         
         <FloatingText>
-          King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in a myth every third grader reads.
+          King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed bread into the weight of his own greed. The lesson lives in a myth every third grader reads.
         </FloatingText>
 
         <FloatingText>
