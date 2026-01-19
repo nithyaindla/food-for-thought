@@ -40,7 +40,6 @@ const ParallaxContext = () => {
       if (containerRef.current) {
         const { top, height } = containerRef.current.getBoundingClientRect();
         const windowHeight = window.innerHeight;
-        // Calculate how far through the section we are (0 to 1)
         const progress = Math.max(0, Math.min(1, (windowHeight - top) / (height + windowHeight)));
         setScrollProgress(progress);
       }
@@ -55,14 +54,10 @@ const ParallaxContext = () => {
       
       {/* BACKGROUND GRAPHICS LAYER (Parallax) */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        
-        {/* 1. Midas Gold Orb - Moves based on scroll */}
         <div 
           className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-gradient-to-b from-yellow-600 to-transparent opacity-20 blur-3xl transition-transform duration-100 ease-out"
           style={{ transform: `translateY(${scrollProgress * 200}px) scale(${1 + scrollProgress})` }}
         />
-
-        {/* 2. Wireframe Grid (Geometry) */}
         <div 
           className="absolute inset-0 opacity-10"
           style={{ 
@@ -71,12 +66,11 @@ const ParallaxContext = () => {
             transform: `perspective(500px) rotateX(60deg) translateY(${scrollProgress * -100}px)`
           }}
         />
-
-        {/* 3. Floating "Code" Elements */}
-        <div className="absolute top-1/2 left-10 font-mono text-green-500 opacity-20 text-xs hidden md:block" style={{ transform: `translateY(${scrollProgress * -400}px)` }}>
-           01001001 01101110 01100111<br/>
-           01110010 01100101 01100100<br/>
-           01101001 01100101 01101110
+        {/* Abstract "Code" visual replacing the mono font version */}
+        <div className="absolute top-1/2 left-10 font-bold opacity-10 text-xs hidden md:block tracking-widest leading-loose" style={{ transform: `translateY(${scrollProgress * -400}px)` }}>
+           SYSTEM.INIT<br/>
+           RENDER.SEQUENCE<br/>
+           MEMORY.LOAD
         </div>
       </div>
 
@@ -86,11 +80,11 @@ const ParallaxContext = () => {
         {/* PARAGRAPH 1: MIDAS */}
         <FadeIn>
           <div className="md:w-3/4">
-            <h3 className="text-yellow-500 font-mono text-sm mb-4 tracking-widest uppercase border-b border-yellow-500 inline-block pb-1">The Myth</h3>
-            <p className="text-4xl md:text-6xl font-serif leading-tight">
+            <h3 className="text-yellow-500 text-xs font-bold mb-4 tracking-widest uppercase border-b border-yellow-500 inline-block pb-1">The Myth</h3>
+            <p className="text-4xl md:text-6xl font-medium leading-tight tracking-tight">
               King Midas starved in a palace made of <span className="text-yellow-500 italic">hunger</span>. 
             </p>
-            <p className="text-xl md:text-2xl mt-6 text-gray-400 font-light max-w-2xl">
+            <p className="text-xl md:text-2xl mt-6 text-gray-400 font-light max-w-2xl leading-relaxed">
               His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in the myth every third grader reads.
             </p>
           </div>
@@ -98,13 +92,13 @@ const ParallaxContext = () => {
 
         {/* PARAGRAPH 2: RECORDS */}
         <FadeIn>
-          <div className="md:ml-auto md:w-3/4 text-right">
-             <div className="text-8xl font-black text-gray-800 absolute -top-20 right-0 -z-10 select-none opacity-50">35,000</div>
-             <h3 className="text-blue-400 font-mono text-sm mb-4 tracking-widest uppercase">The Ritual</h3>
-             <p className="text-3xl md:text-5xl font-bold leading-tight mb-6">
+          <div className="md:ml-auto md:w-3/4 text-right relative">
+             <div className="text-[12rem] font-black text-white absolute -top-32 right-0 -z-10 select-none opacity-5 leading-none">35K</div>
+             <h3 className="text-blue-400 text-xs font-bold mb-4 tracking-widest uppercase">The Ritual</h3>
+             <p className="text-3xl md:text-5xl font-bold leading-tight mb-6 tracking-tight">
                Across oceans, Hindu families celebrate a first taste of solid food. In Wisconsin, a man celebrates his 35,000th Big Mac.
              </p>
-             <p className="text-xl text-gray-400">
+             <p className="text-xl text-gray-400 font-light">
                A world record that exists somewhere between devotion and madness.
              </p>
           </div>
@@ -113,12 +107,12 @@ const ParallaxContext = () => {
         {/* PARAGRAPH 3: JFK */}
         <FadeIn>
           <div className="flex flex-col items-center text-center">
-            <Globe size={64} className="text-white mb-8 animate-pulse" />
-            <p className="text-2xl md:text-4xl font-serif italic mb-8 max-w-4xl">
+            <Globe size={64} className="text-white mb-8 animate-pulse stroke-1" />
+            <p className="text-2xl md:text-4xl font-medium italic mb-8 max-w-4xl leading-snug">
               "Food is strength, and food is peace, and food is freedom."
             </p>
             <div className="w-24 h-1 bg-white mb-8"></div>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed">
+            <p className="text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed font-light">
               President Kennedy wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
             </p>
           </div>
@@ -128,13 +122,13 @@ const ParallaxContext = () => {
         <FadeIn>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center border-l-4 border-green-500 pl-8">
             <div>
-              <p className="font-mono text-green-500 mb-2">&lt;System.Connect /&gt;</p>
-              <p className="text-3xl md:text-5xl font-bold mb-6">
+              <p className="text-green-500 mb-2 text-sm font-bold tracking-wider">SYSTEM CONNECT</p>
+              <p className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
                 From kitchen to camera to code.
               </p>
             </div>
-            <p className="text-xl text-gray-400">
-              But beyond keeping our organs operational, food is culture and friendship and tradition. This project brought together two of humanity's most primitive and prominent loves: <span className="text-white font-bold underline decoration-green-500">food and mothers.</span>
+            <p className="text-xl text-gray-400 font-light leading-relaxed">
+              But beyond keeping our organs operational, food is culture and friendship and tradition. This project brought together two of humanity's most primitive and prominent loves: <span className="text-white font-bold underline decoration-green-500 underline-offset-4">food and mothers.</span>
             </p>
           </div>
         </FadeIn>
@@ -143,20 +137,20 @@ const ParallaxContext = () => {
         <FadeIn>
           <div className="bg-white text-black p-12 md:p-20 transform -rotate-1 shadow-[20px_20px_0px_0px_rgba(50,50,50,1)]">
             <h2 className="text-5xl md:text-7xl font-black mb-8 uppercase tracking-tighter">What Matters</h2>
-            <p className="text-xl md:text-2xl mb-8 font-serif">
+            <p className="text-xl md:text-2xl mb-8 font-light leading-relaxed">
               What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person.
             </p>
-            <div className="space-y-6 font-mono text-sm md:text-base border-t-2 border-black pt-8">
+            <div className="space-y-6 text-sm md:text-base border-t-2 border-black pt-8 font-medium">
               <p className="flex items-center gap-4">
-                <span className="w-4 h-4 bg-black block"></span>
+                <span className="w-3 h-3 bg-black rounded-full block"></span>
                 When was the last time you actually tasted your food instead of scrolling through it?
               </p>
               <p className="flex items-center gap-4">
-                <span className="w-4 h-4 bg-black block"></span>
+                <span className="w-3 h-3 bg-black rounded-full block"></span>
                 Who taught you to cook the dish that feels like home?
               </p>
               <p className="flex items-center gap-4">
-                <span className="w-4 h-4 bg-black block"></span>
+                <span className="w-3 h-3 bg-black rounded-full block"></span>
                 <span className="font-bold">When they're gone, will you remember how they made it?</span>
               </p>
             </div>
@@ -192,20 +186,14 @@ const ShrimpCookingGame = () => {
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [draggedItem, setDraggedItem] = useState(null);
-  
-  // PREP STATE
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
-  
-  // SAUCE STATE
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
   const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
-  
-  // COOKING STATE
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
-  // Timer for cooking simulation
+  // Timer
   useEffect(() => {
     let timer;
     if (gameState === 'cooking' && cookingStep === 'shrimp_cooking') {
@@ -261,7 +249,6 @@ const ShrimpCookingGame = () => {
       setCookingStep('egg_added');
       setScore(prev => prev + 1000);
       triggerFeedback("PERFECTO");
-      // Skip plating, go straight to Final Product
       setTimeout(() => setGameState('final'), 2000);
     }
   };
@@ -276,11 +263,11 @@ const ShrimpCookingGame = () => {
   };
 
   return (
-    <div className="w-full h-[700px] border-2 border-black bg-white relative font-mono select-none flex flex-col overflow-hidden brutal-shadow">
+    <div className="w-full h-[700px] border-2 border-black bg-white relative select-none flex flex-col overflow-hidden brutal-shadow">
       
       {/* HUD */}
       <div className="h-12 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20">
-        <div className="flex items-center gap-4 text-sm font-bold">
+        <div className="flex items-center gap-4 text-sm font-bold tracking-wider">
            <span>STATION: {gameState.toUpperCase()}</span>
            <span>SCORE: {score.toString().padStart(4, '0')}</span>
         </div>
@@ -293,7 +280,7 @@ const ShrimpCookingGame = () => {
 
       {feedback && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none w-full text-center">
-          <span className="text-6xl font-black bg-yellow-400 text-black px-4 py-2 border-2 border-black shadow-lg animate-bounce inline-block">
+          <span className="text-6xl font-black bg-yellow-400 text-black px-4 py-2 border-2 border-black shadow-lg animate-bounce inline-block tracking-tighter">
             {feedback}
           </span>
         </div>
@@ -302,8 +289,8 @@ const ShrimpCookingGame = () => {
       {/* MENU */}
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative">
-          <h1 className="text-5xl md:text-7xl font-black mb-2 tracking-tighter">SHRIMP.EXE</h1>
-          <p className="font-mono text-sm mb-8 text-gray-500">INTERACTIVE COOKING MODULE v2.0</p>
+          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter">SHRIMP.EXE</h1>
+          <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Interactive Cooking Module v2.0</p>
           <button onClick={startGame} className="brutal-btn text-xl">
             INITIALIZE SEQUENCE
           </button>
@@ -318,8 +305,8 @@ const ShrimpCookingGame = () => {
           {gameState === 'prep' && (
             <div className="h-full flex flex-col p-8 items-center">
               <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8 bg-white/80 backdrop-blur-sm p-2">
-                <h2 className="text-2xl font-bold">01 / DEVEIN</h2>
-                <span className="text-xs">DRAG KNIFE TO SHRIMP</span>
+                <h2 className="text-2xl font-bold tracking-tight">01 / DEVEIN</h2>
+                <span className="text-xs font-bold tracking-wider">DRAG KNIFE TO SHRIMP</span>
               </div>
               
               <div className="grid grid-cols-3 gap-8">
@@ -331,7 +318,7 @@ const ShrimpCookingGame = () => {
                      {i < shrimpPrepped ? (
                         <CheckCircle className="w-24 h-24 text-green-500" />
                      ) : (
-                        <img src={assets.oneShrimp} className={`w-full h-full object-contain drop-shadow-lg ${i === shrimpPrepped ? 'animate-pulse' : ''}`} alt="Shrimp to Clean" />
+                        <img src={assets.oneShrimp} className={`w-full h-full object-contain drop-shadow-lg ${i === shrimpPrepped ? 'animate-pulse' : ''}`} alt="Shrimp" />
                      )}
                    </div>
                  ))}
@@ -339,8 +326,8 @@ const ShrimpCookingGame = () => {
 
               <div className="mt-auto relative">
                  <div draggable onDragStart={(e) => handleDragStart(e, 'knife')} className="cursor-grab active:cursor-grabbing hover:scale-110 transition-transform">
-                   <img src={assets.knife} className="w-24 h-24 object-contain drop-shadow-xl" alt="Knife Tool" />
-                   <div className="bg-black text-white text-xs px-2 py-1 absolute -bottom-2 left-1/2 transform -translate-x-1/2">TOOL</div>
+                   <img src={assets.knife} className="w-24 h-24 object-contain drop-shadow-xl" alt="Knife" />
+                   <div className="bg-black text-white text-[10px] font-bold px-2 py-1 absolute -bottom-2 left-1/2 transform -translate-x-1/2 tracking-widest">TOOL</div>
                  </div>
               </div>
               
@@ -354,8 +341,8 @@ const ShrimpCookingGame = () => {
           {gameState === 'sauce' && (
             <div className="h-full flex flex-col p-8 items-center">
               <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8 bg-white/80 backdrop-blur-sm p-2">
-                <h2 className="text-2xl font-bold">02 / COMPOUND</h2>
-                <span className="text-xs">DRAG INGREDIENTS TO BOWL</span>
+                <h2 className="text-2xl font-bold tracking-tight">02 / COMPOUND</h2>
+                <span className="text-xs font-bold tracking-wider">DRAG INGREDIENTS TO BOWL</span>
               </div>
 
               <div className="flex flex-col md:flex-row w-full justify-between items-center max-w-5xl gap-12">
@@ -365,14 +352,14 @@ const ShrimpCookingGame = () => {
                       className={`w-32 h-32 flex flex-col items-center justify-center cursor-grab transition-transform 
                         ${sauceIngredientsAdded.includes(item) ? 'opacity-20 grayscale pointer-events-none' : 'hover:scale-110'}`}>
                       <img src={assets[item]} className="w-24 h-24 object-contain drop-shadow-md" alt={item} />
-                      <span className="font-bold text-xs uppercase bg-white px-1 mt-1 border border-black">{item}</span>
+                      <span className="font-bold text-[10px] uppercase bg-white px-2 mt-1 border border-black tracking-widest">{item}</span>
                     </div>
                   ))}
                 </div>
                 
                 <div onDragOver={(e) => e.preventDefault()} onDrop={handleSauceDrop} className="w-80 h-80 border-4 border-black rounded-full flex items-center justify-center relative bg-white shadow-xl overflow-hidden group">
                   <div className="absolute inset-4 border-2 border-dashed border-gray-300 rounded-full"></div>
-                  <span className="text-xs font-bold z-10 bg-black text-white px-2 py-1">MIXING BOWL</span>
+                  <span className="text-xs font-black z-10 bg-black text-white px-2 py-1 tracking-widest">MIXING BOWL</span>
                   <div className="absolute bottom-0 w-full bg-amber-600 transition-all duration-500 opacity-80" style={{height: `${sauceIngredientsAdded.length * 25}%`}}></div>
                   {sauceIngredientsAdded.map((item, idx) => (
                      <img key={idx} src={assets[item]} className="absolute w-12 h-12 animate-bounce" style={{left: `${20 + idx*15}%`, bottom: `${10 + idx*10}%`}} />
@@ -390,8 +377,8 @@ const ShrimpCookingGame = () => {
           {gameState === 'cooking' && (
             <div className="h-full flex flex-col p-8 items-center relative">
                <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-4 bg-white/80 backdrop-blur-sm p-2">
-                <h2 className="text-2xl font-bold">03 / THERMAL</h2>
-                <span className="text-xs text-red-600 font-bold">{cookingStep.toUpperCase().replace('_', ' ')}</span>
+                <h2 className="text-2xl font-bold tracking-tight">03 / THERMAL</h2>
+                <span className="text-xs text-red-600 font-black tracking-widest">{cookingStep.toUpperCase().replace('_', ' ')}</span>
               </div>
 
               <div className="relative flex-1 w-full flex items-center justify-center">
@@ -420,7 +407,7 @@ const ShrimpCookingGame = () => {
                      <div className="w-24 h-24 bg-white border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
                         <img src={assets.shrimp} className="w-16" alt="Prepped" />
                      </div>
-                     <span className="font-bold text-xs bg-black text-white px-2">PREPPED SHRIMP</span>
+                     <span className="font-bold text-[10px] bg-black text-white px-2 tracking-wider">PREPPED SHRIMP</span>
                   </div>
                 )}
                 {cookingStep === 'shrimp_cooked' && (
@@ -428,7 +415,7 @@ const ShrimpCookingGame = () => {
                       <div className="w-24 h-24 bg-amber-100 border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
                         <span className="text-4xl">🥣</span>
                       </div>
-                      <span className="font-bold text-xs bg-black text-white px-2">SAUCE MIX</span>
+                      <span className="font-bold text-[10px] bg-black text-white px-2 tracking-wider">SAUCE MIX</span>
                    </div>
                 )}
                  {cookingStep === 'sauce_added' && (
@@ -436,7 +423,7 @@ const ShrimpCookingGame = () => {
                       <div className="w-24 h-24 bg-white border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
                         <img src={assets.egg} className="w-16" alt="Egg" />
                       </div>
-                      <span className="font-bold text-xs bg-black text-white px-2">FARM EGG</span>
+                      <span className="font-bold text-[10px] bg-black text-white px-2 tracking-wider">FARM EGG</span>
                    </div>
                 )}
               </div>
@@ -456,11 +443,11 @@ const ShrimpCookingGame = () => {
                 <img src={assets.finalShrimp} alt="Final Dish" className="w-96 h-auto mx-auto drop-shadow-2xl transform transition hover:scale-105 duration-500" />
             </div>
 
-            <p className="font-mono text-sm mb-6 border-b-2 border-black pb-4 inline-block">FINAL SCORE: {score}</p>
-            <p className="italic text-gray-500 mb-8 font-serif text-lg">"A perfect harmony of wok hei and texture."</p>
+            <p className="text-sm font-bold mb-6 border-b-2 border-black pb-4 inline-block tracking-wider">FINAL SCORE: {score}</p>
+            <p className="italic text-gray-500 mb-8 text-lg font-medium">"A perfect harmony of wok hei and texture."</p>
             
-            <button onClick={startGame} className="bg-black text-white px-8 py-4 font-bold hover:bg-yellow-400 hover:text-black transition-colors w-full flex items-center justify-center gap-2">
-              <RotateCcw size={20}/> RESTART SHIFT
+            <button onClick={startGame} className="bg-black text-white px-8 py-4 font-bold hover:bg-yellow-400 hover:text-black transition-colors w-full flex items-center justify-center gap-2 tracking-wide uppercase">
+              <RotateCcw size={20}/> Restart Shift
             </button>
           </div>
         </div>
@@ -475,7 +462,7 @@ const Section = ({ title, children, className = "" }) => (
   <section className={`border-b-2 border-black py-20 px-6 md:px-12 ${className}`}>
     <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
       <div className="md:col-span-3">
-        <h2 className="text-xs font-bold font-mono uppercase tracking-widest sticky top-8">{title}</h2>
+        <h2 className="text-xs font-bold uppercase tracking-widest sticky top-8">{title}</h2>
       </div>
       <div className="md:col-span-9">
         {children}
@@ -490,9 +477,9 @@ function App() {
       
       {/* 1. ENTRY / TITLE PAGE */}
       <header className="h-screen flex flex-col justify-between p-6 md:p-12 border-b-2 border-black relative">
-        <div className="flex justify-between items-start">
-          <span className="font-mono text-xs">EST. 2025</span>
-          <span className="font-mono text-xs text-right">SINGAPORE<br/>SG</span>
+        <div className="flex justify-between items-start font-bold text-xs tracking-widest uppercase">
+          <span>EST. 2025</span>
+          <span className="text-right">SINGAPORE<br/>SG</span>
         </div>
         
         <div className="text-center md:text-left">
@@ -502,7 +489,7 @@ function App() {
         </div>
 
         <div className="flex justify-between items-end">
-          <div className="hidden md:block font-mono text-xs max-w-xs">
+          <div className="hidden md:block font-bold text-xs max-w-xs tracking-wide leading-relaxed">
             A digital exploration of culinary heritage, wok hei, and the art of shrimp preparation.
           </div>
           <ArrowDown className="animate-bounce w-8 h-8" />
@@ -521,31 +508,31 @@ function App() {
                 title="Tony's Kitchen Film"
               ></iframe>
         </div>
-        <div className="mt-4 flex justify-between font-mono text-xs border-t border-black pt-2">
+        <div className="mt-4 flex justify-between text-xs font-bold tracking-widest border-t border-black pt-2 uppercase">
           <span>DIR. TONY</span>
           <span>DURATION: 03:45</span>
         </div>
       </Section>
 
-      {/* 3. PARALLAX CONTEXT (NEW SECTION) */}
+      {/* 3. PARALLAX CONTEXT */}
       <ParallaxContext />
 
       {/* 4. THE GAME */}
       <Section title="(02) INTERACTIVE">
         <div className="mb-8">
-          <h3 className="text-4xl font-bold mb-2">WOK SIMULATOR</h3>
-          <p className="font-mono text-sm text-gray-600">Drag ingredients to interact. Experience the pressure of the line.</p>
+          <h3 className="text-4xl font-bold mb-2 tracking-tight">WOK SIMULATOR</h3>
+          <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Experience the pressure of the line.</p>
         </div>
         
         {/* The Game Component */}
         <ShrimpCookingGame />
         
         {/* DISCLAIMER */}
-        <p className="mt-6 font-mono text-[10px] text-gray-400 text-center uppercase tracking-widest">
+        <p className="mt-6 text-[10px] text-gray-400 text-center uppercase tracking-widest font-bold">
           Disclaimer: The graphics in this game were created by Google Gemini and are AI generated.
         </p>
 
-        <div className="grid grid-cols-2 mt-8 font-mono text-xs gap-4">
+        <div className="grid grid-cols-2 mt-8 text-xs font-bold gap-4 uppercase tracking-widest">
            <div className="border border-black p-2 text-center">WASD: N/A</div>
            <div className="border border-black p-2 text-center">MOUSE: DRAG & DROP</div>
         </div>
@@ -556,25 +543,25 @@ function App() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
           <div className="relative">
              <img src="https://placehold.co/500x500/333/FFF?text=Portrait" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
-             <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 font-mono text-sm font-bold">
+             <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
                 DEVELOPER
              </div>
           </div>
           <div>
-            <h3 className="text-4xl font-bold mb-6">HI, I'M [NAME]</h3>
-            <p className="mb-6 text-gray-400 leading-relaxed">
+            <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M [NAME]</h3>
+            <p className="mb-6 text-gray-400 leading-relaxed font-light text-lg">
               I am a creative technologist based in Singapore, specializing in React, interactive media, and digital storytelling. I build bridges between the culinary world and code.
             </p>
-            <div className="flex gap-4">
-               <a href="#" className="flex items-center gap-2 border border-white px-4 py-2 hover:bg-white hover:text-black transition"><Instagram size={16}/> INSTAGRAM</a>
-               <a href="#" className="flex items-center gap-2 border border-white px-4 py-2 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
-               <a href="#" className="flex items-center gap-2 border border-white px-4 py-2 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
+            <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
+               <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Instagram size={16}/> INSTAGRAM</a>
+               <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
+               <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
             </div>
           </div>
         </div>
       </Section>
 
-      <footer className="py-8 px-12 border-t border-white bg-black text-white flex justify-between font-mono text-xs">
+      <footer className="py-8 px-12 border-t border-white bg-black text-white flex justify-between text-xs font-bold tracking-widest uppercase">
         <div>© 2025 ALL RIGHTS RESERVED</div>
         <div>DESIGNED IN SINGAPORE</div>
       </footer>
