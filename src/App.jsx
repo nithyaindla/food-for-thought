@@ -562,7 +562,7 @@ function App() {
         
         <div className="text-center md:text-left relative z-10">
           {/* mix-blend-difference creates that cool inverted color effect against the image */}
-          <h1 className="text-[11vw] leading-[0.8] top-10 font-black tracking-tighter uppercase mix-blend-difference text-black">
+          <h1 className="text-[12vw] leading-[0.8] top-10 font-black tracking-tighter uppercase mix-blend-difference text-black mt-[15px]">
             TONY'S KITCHEN LAB
           </h1>
         </div>
