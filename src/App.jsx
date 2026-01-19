@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Volume2, VolumeX, Play, Linkedin } from 'lucide-react';
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Linkedin, Play } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
 const FloatingText = ({ children, delay = 0 }) => {
@@ -398,125 +398,91 @@ const ShrimpCookingGame = () => {
   );
 };
 
-// --- PROFILE SECTION WITH MUSIC PLAYER ---
+// --- PROFILE SECTION (CLEAN) ---
 const ProfileSection = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
-  const sectionRef = useRef(null);
-  
-  const hasManualControl = useRef(false);
-
-  useEffect(() => {
-    audioRef.current = new Audio('/profile-loop.mp3'); 
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.5;
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting && !hasManualControl.current) {
-            const playPromise = audioRef.current.play();
-            if (playPromise !== undefined) {
-              playPromise
-                .then(() => setIsPlaying(true))
-                .catch(error => {
-                  console.log("Autoplay blocked. User interaction needed first.");
-                });
-            }
-          } else if (!entry.isIntersecting && !hasManualControl.current) {
-            audioRef.current.pause();
-            setIsPlaying(false);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
-
-  const toggleAudio = () => {
-    hasManualControl.current = true; 
-    if (isPlaying) {
-      audioRef.current.pause();
-      setIsPlaying(false);
-    } else {
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
-
   return (
-    <section ref={sectionRef} className="bg-black text-white border-b-0 py-20 px-6 md:px-12 relative overflow-hidden">
+    <section className="bg-black text-white border-b-0 py-20 px-6 md:px-12 relative overflow-hidden">
       
-      {isPlaying && (
-         <div className="absolute top-10 right-10 flex gap-1 z-10">
-            {[...Array(5)].map((_, i) => (
-              <div key={i} className="w-1 bg-white animate-pulse" style={{
-                height: '20px', 
-                animationDuration: `${0.4 + Math.random() * 0.5}s`
-              }}></div>
-            ))}
-         </div>
-      )}
-
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 relative z-10">
-        <div className="md:col-span-3 flex flex-col justify-between">
-          <h2 className="text-xs font-bold uppercase tracking-widest sticky top-8">(04) PROFILE</h2>
-          
-          {/* <div className="mt-8 hidden md:block">
-             <button onClick={toggleAudio} className="border border-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition flex items-center gap-2">
-                {isPlaying ? <Volume2 size={14}/> : <VolumeX size={14}/>}
-                {isPlaying ? "SOUND ON" : "SOUND OFF"}
-             </button>
-          </div> */}
+        
+        {/* LEFT COLUMN: TITLE */}
+        <div className="md:col-span-3">
+          <h2 className="text-xs font-bold uppercase tracking-widest sticky top-8 text-gray-400">(04) PROFILE</h2>
         </div>
         
+        {/* RIGHT COLUMN: CONTENT */}
         <div className="md:col-span-9">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            <div className="relative">
-              <img src="/headshot.jpeg" alt="Profile" className="object-cover" />
-              <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+            
+            {/* IMAGE */}
+            <div className="relative group">
+              <div className="border-2 border-white p-2">
+                <img 
+                  src="/headshot.jpeg" 
+                  alt="Nithya" 
+                  className="w-full aspect-[4/5] object-cover filter grayscale group-hover:grayscale-0 transition duration-700 ease-in-out" 
+                />
+              </div>
+              <div className="absolute -bottom-3 -right-3 bg-white text-black px-3 py-1 text-[10px] font-black uppercase tracking-widest border border-black">
+                DEVELOPER
               </div>
             </div>
-            <div>
-              <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M NITHYA</h3>
-              <div className="mb-6 text-gray-400 leading-relaxed font-light text-lg space-y-4">
-                <p className="italic text-sm">
-                  She was walking in the street, looked up and noticed<br/>
-                  He was nameless, he was homeless<br/>
-                  She asked him his name and told him what hers was<br/>
-                  He gave her a story 'bout life<br/>
-                  With a glint in his eye and a corner of a smile<br/>
-                  One conversation, a simple moment<br/>
-                  The things that change us if we notice<br/>
-                  When we look up sometimes
-                </p>
-                <p className="italic text-sm">- from Underdog by Alicia Keys</p>
+
+            {/* TEXT CONTENT */}
+            <div className="flex flex-col justify-center h-full">
+              <h3 className="text-5xl font-black mb-8 uppercase tracking-tighter leading-none">
+                Hi, I'm <br/>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Nithya</span>
+              </h3>
+              
+              <div className="mb-10 text-gray-400 leading-relaxed font-light text-lg space-y-6">
+                <div className="pl-4 border-l-2 border-gray-700 italic text-gray-500 text-sm">
+                  <p>
+                    "She was walking in the street, looked up and noticed<br/>
+                    He was nameless, he was homeless...<br/>
+                    The things that change us if we notice<br/>
+                    When we look up sometimes"
+                  </p>
+                  <span className="block mt-2 text-xs font-bold not-italic text-gray-600">— Alicia Keys, Underdog</span>
+                </div>
+
                 <p>
-                  When I tell people that I am a Media and Journalism and Computer Science double-major, people are often confused or amused. My great uncle laughed hysterically. I can't recall a single moment where I decided that this would be the path I take. However, in the whirlwind of the pandemic and high school, this song may have been the catalyst for every strange, insightful, memorable conversation I've started. This song inspired me to listen: to my grandparents' stories of agriculture and farming, my mom's tales of immigrating to a country with a stranger who also doubled as her husband, the joys and struggles and the mundane details of my family's lawn moving guy, a music influencer on Instagram, a 90 year old activist, and even my neighbors like Tony. 
+                  When I tell people that I am a <span className="text-white font-medium">Media and Journalism</span> and <span className="text-white font-medium">Computer Science</span> double-major, people are often confused or amused. 
                 </p>
                 <p>
-                  This would not be possible without the people who shape me, challenge me, and believe in me, sometimes more than I believe in myself. Thank you to my family, friends, teachers, mentors, and all the people with whom I have shared even a simple conversation. 
+                  However, in the whirlwind of the pandemic and high school, this song may have been the catalyst for every strange, insightful, memorable conversation I've started. This song inspired me to listen: to my grandparents' stories, my mom's tales of immigration, and even my neighbors like Tony.
+                </p>
+                <p>
+                  This would not be possible without the people who shape me, challenge me, and believe in me.
                 </p>
               </div>
               
-  
-
-              <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
-                <a href="nithya.indla8@gmail.com" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
-                <a href="https://bynithya.com/portfolio/" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
-                <a href="https://www.linkedin.com/in/nithya-ind/" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Linkedin size={16}/> LINKEDIN</a>
+              {/* LINKS */}
+              <div className="flex flex-wrap gap-4 font-bold text-xs uppercase tracking-widest">
+                <a 
+                  href="mailto:nithya.indla8@gmail.com" 
+                  className="flex items-center gap-2 border border-gray-600 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition duration-300"
+                >
+                  <Mail size={14}/> Email
+                </a>
+                <a 
+                  href="https://bynithya.com/portfolio/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 border border-gray-600 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition duration-300"
+                >
+                  <Globe size={14}/> Portfolio
+                </a>
+                <a 
+                  href="https://www.linkedin.com/in/nithya-ind/" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="flex items-center gap-2 border border-gray-600 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition duration-300"
+                >
+                  <Linkedin size={14}/> LinkedIn
+                </a>
               </div>
+
             </div>
           </div>
         </div>
