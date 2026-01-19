@@ -115,9 +115,9 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    beans: "/beans.png",
+    salted_black_soy_beans: "/beans.png",
     garlic: "/garlic.png",
-    wine: "/wine.png",
+    shaoxing_wine: "/wine.png",
     egg: "/egg.png",
     knife: "/knife.png", 
   };
@@ -130,7 +130,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
+  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
@@ -484,15 +484,14 @@ const ProfileSection = () => {
         <div className="md:col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <img src="/headshot.jpg" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
+              <img src="/headshot.jpeg" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
               <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
-                 n
               </div>
             </div>
             <div>
               <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M NITHYA</h3>
               <div className="mb-6 text-gray-400 leading-relaxed font-light text-lg space-y-4">
-                <p>
+                <p className="italic text-sm">
                   She was walking in the street, looked up and noticed<br/>
                   He was nameless, he was homeless<br/>
                   She asked him his name and told him what hers was<br/>
