@@ -1,3 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  --color-bg: #ffffff;
+  --color-text: #0a0a0a;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', sans-serif; 
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbar for that "Digital" feel */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: #000;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #333;
+}
+
+/* Utilities for the Brutalist look */
+.font-mono {
+  font-family: 'Space Mono', monospace;
+}
+
+.brutal-border {
+  border: 2px solid black;
+}
+
+.brutal-shadow {
+  box-shadow: 6px 6px 0px 0px rgba(0,0,0,1);
+}
+
+.brutal-btn {
+  @apply border-2 border-black bg-white px-6 py-3 font-mono font-bold uppercase transition-all duration-200;
+}
+.brutal-btn:hover {
+  @apply bg-black text-white translate-y-1 translate-x-1 shadow-none;
+  box-shadow: 4px 4px 0px 0px rgba(0,0,0,0.2);
+}
