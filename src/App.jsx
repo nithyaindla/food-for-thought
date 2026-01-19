@@ -484,7 +484,7 @@ const ProfileSection = () => {
         <div className="md:col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <img src="/headshot.jpeg" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
+              <img src="/headshot.jpeg" alt="Profile" className="w-full aspect-square object-cover filter contrast-125" />
               <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
               </div>
             </div>
@@ -510,12 +510,7 @@ const ProfileSection = () => {
                 </p>
               </div>
               
-              <div className="mb-8 md:hidden">
-                 <button onClick={toggleAudio} className="border border-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition flex items-center gap-2 w-full justify-center">
-                    {isPlaying ? <Volume2 size={14}/> : <VolumeX size={14}/>}
-                    {isPlaying ? "SOUND ON" : "SOUND OFF"}
-                 </button>
-              </div>
+  
 
               <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
                 <a href="nithya.indla8@gmail.com" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
