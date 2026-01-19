@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw } from 'lucide-react';
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Volume2, VolumeX } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
 const FloatingText = ({ children, delay = 0 }) => {
@@ -64,44 +64,36 @@ const FloatingContext = () => {
       </div>
 
       {/* FLOATING TEXT STREAM - LARGE SERIF, ALL LEFT ALIGNED */}
-      <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-4.3xl leading-tight">
+      <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-4xl leading-tight">
         
-        {/* Paragraph 1: Midas (Gold Effect Removed) */}
         <FloatingText>
           King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in a myth every third grader reads.
         </FloatingText>
 
-        {/* Paragraph 2: Oceans & Big Macs */}
         <FloatingText>
           Across oceans and centuries, Hindu families gather to celebrate a child's first taste of solid food, treating survival itself as worthy of ceremony. 
         </FloatingText>
 
-        {/* Paragraph 2: Oceans & Big Macs */}
         <FloatingText>
           In Wisconsin, a man named Donald Gorske marks time differently. At 71, he celebrated his 35,000th Big Mac, a world record that exists somewhere between devotion and madness.
         </FloatingText>
 
-        {/* Paragraph 3: JFK */}
         <FloatingText>
           "Food is strength, and food is peace, and food is freedom, and food is a helping hand to people around the world whose good will and friendship we want," proclaimed President John F. Kennedy.
         </FloatingText>
 
-        {/* Paragraph 3.5: JFK */}
         <FloatingText>
           He wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
         </FloatingText>
 
-        {/* Paragraph 4: Mothers */}
         <FloatingText>
           Beyond keeping our organs operational, food is culture and friendship and tradition and community and conversation. From kitchen to camera to code, this project brought together two of humanity's most primitive and prominent loves: food and mothers.
         </FloatingText>
 
-        {/* Paragraph 5: Questions */}
         <FloatingText>
           What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person, because here's what matters: 
         </FloatingText>
 
-        {/* Paragraph 5.5: Questions */}
         <FloatingText>
           When was the last time you actually tasted your food instead of scrolling through it? Who taught you to cook the dish that feels like home? And when they're gone, will you remember how they made it, or will you wish you'd paid attention?
         </FloatingText>
@@ -406,6 +398,140 @@ const ShrimpCookingGame = () => {
   );
 };
 
+// --- PROFILE SECTION WITH MUSIC PLAYER ---
+const ProfileSection = () => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const audioRef = useRef(null);
+  const sectionRef = useRef(null);
+  
+  const hasManualControl = useRef(false);
+
+  useEffect(() => {
+    audioRef.current = new Audio('/profile-loop.mp3'); 
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.5;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting && !hasManualControl.current) {
+            const playPromise = audioRef.current.play();
+            if (playPromise !== undefined) {
+              playPromise
+                .then(() => setIsPlaying(true))
+                .catch(error => {
+                  console.log("Autoplay blocked. User interaction needed first.");
+                });
+            }
+          } else if (!entry.isIntersecting && !hasManualControl.current) {
+            audioRef.current.pause();
+            setIsPlaying(false);
+          }
+        });
+      },
+      { threshold: 0.3 }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
+  const toggleAudio = () => {
+    hasManualControl.current = true; 
+    if (isPlaying) {
+      audioRef.current.pause();
+      setIsPlaying(false);
+    } else {
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  };
+
+  return (
+    <section ref={sectionRef} className="bg-black text-white border-b-0 py-20 px-6 md:px-12 relative overflow-hidden">
+      
+      {isPlaying && (
+         <div className="absolute top-10 right-10 flex gap-1 z-10">
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className="w-1 bg-white animate-pulse" style={{
+                height: '20px', 
+                animationDuration: `${0.4 + Math.random() * 0.5}s`
+              }}></div>
+            ))}
+         </div>
+      )}
+
+      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 relative z-10">
+        <div className="md:col-span-3 flex flex-col justify-between">
+          <h2 className="text-xs font-bold uppercase tracking-widest sticky top-8">(04) PROFILE</h2>
+          
+          <div className="mt-8 hidden md:block">
+             <button onClick={toggleAudio} className="border border-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition flex items-center gap-2">
+                {isPlaying ? <Volume2 size={14}/> : <VolumeX size={14}/>}
+                {isPlaying ? "SOUND ON" : "SOUND OFF"}
+             </button>
+          </div>
+        </div>
+        
+        <div className="md:col-span-9">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            <div className="relative">
+              <img src="https://placehold.co/500x500/333/FFF?text=Portrait" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
+              <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
+                  DEVELOPER
+              </div>
+            </div>
+            <div>
+              <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M [NAME]</h3>
+              <div className="mb-6 text-gray-400 leading-relaxed font-light text-lg space-y-4">
+                <p>
+                  She was walking in the street, looked up and noticed<br/>
+                  He was nameless, he was homeless<br/>
+                  She asked him his name and told him what hers was<br/>
+                  He gave her a story 'bout life<br/>
+                  With a glint in his eye and a corner of a smile<br/>
+                  One conversation, a simple moment<br/>
+                  The things that change us if we notice<br/>
+                  When we look up sometimes
+                </p>
+                <p className="italic text-sm">- from Underdog by Alicia Keys</p>
+                <p>
+                  When I tell people that I am a Media and Journalism and Computer Science double-major, people are often confused or amused. My great uncle laughed hysterically. I can't recall a single moment where I decided that this would be the path I take. However, in the whirlwind of the pandemic and high school, this song may have been the catalyst for every strange, insightful, memorable conversation I've started. This song inspired me to listen: to my grandparents' stories of agriculture and farming, my mom's tales of immigrating to a country with a stranger who also doubled as her husband, the joys and struggles and the mundane details of my family's lawn moving guy, a music influencer on Instagram, a 90 year old activist, and even my neighbors like Tony. 
+                </p>
+                <p>
+                  This would not be possible without the people who shape me, challenge me, and believe in me, sometimes more than I believe in myself. Thank you to my family, friends, teachers, mentors, and all the people with whom I have shared even a simple conversation. 
+                </p>
+              </div>
+              
+              <div className="mb-8 md:hidden">
+                 <button onClick={toggleAudio} className="border border-white px-4 py-2 text-[10px] font-bold uppercase tracking-widest hover:bg-white hover:text-black transition flex items-center gap-2 w-full justify-center">
+                    {isPlaying ? <Volume2 size={14}/> : <VolumeX size={14}/>}
+                    {isPlaying ? "SOUND ON" : "SOUND OFF"}
+                 </button>
+              </div>
+
+              <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
+                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Instagram size={16}/> INSTAGRAM</a>
+                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
+                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+
 // --- MAIN LAYOUT COMPONENT ---
 const Section = ({ title, children, className = "" }) => (
   <section className={`border-b-2 border-black py-20 px-6 md:px-12 ${className}`}>
@@ -487,43 +613,35 @@ function App() {
         </div>
       </Section>
 
-      {/* 5. ABOUT ME */}
-      <Section title="(03) PROFILE" className="bg-black text-white border-b-0">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-          <div className="relative">
-             <img src="https://placehold.co/500x500/333/FFF?text=Portrait" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
-             <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
-                DEVELOPER
+      {/* 5. NEW GALLERY SECTION */}
+      <Section title="(03) GALLERY">
+        <div className="grid grid-cols-1 xl:grid-cols-2 gap-8">
+          {/* Main Tall Post */}
+          <div className="border-2 border-black p-2 bg-gray-50 flex justify-center items-start overflow-hidden">
+             <div className="w-[500px] max-w-full overflow-x-auto">
+                <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Fphoto.php%3Ffbid%3D10231101214900989%26set%3Da.3552662022457%26type%3D3&show_text=false&width=500" width="500" height="690" style={{border:'none', overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
              </div>
           </div>
-          <div>
-            <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M [NAME]</h3>
-            <p className="mb-6 text-gray-400 leading-relaxed font-light text-lg">
-              She was walking in the street, looked up and noticed
-              He was nameless, he was homeless
-              She asked him his name and told him what hers was
-              He gave her a story 'bout life
-              With a glint in his eye and a corner of a smile
-              One conversation, a simple moment
-              The things that change us if we notice
-              When we look up sometimes
 
-                      from Underdog by Alicia Keys
-
-              When I tell people that I am a Media and Journalism and Computer Science double-major, people are often confused or amused. My great uncle laughed hysterically. I can't recall a single moment where I decided that this would be the path I take. However, in the whirlwind of the pandemic and high school, this song may have been the catalyst for every strange, insightful, memorable conversation I've started. This song inspired me to listen: to my grandparents' stories of agriculture and farming, my mom's tales of immigrating to a country with a stranger who also doubled as her husband, the joys and struggles and the mundane details of my family's lawn moving guy, a music influencer on Instagram, a 90 year old activist, and even my neighbors like Tony. 
-
-              This would not be possible without the people who shape me, challenge me, and believe in me, sometimes more than I believe in myself. Thank you to my family, friends, teachers, mentors, and all the people with whom I have shared even a simple conversation. 
-
-
-            </p>
-            <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
-               <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Instagram size={16}/> INSTAGRAM</a>
-               <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
-               <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
+          {/* Stacked Smaller Posts */}
+          <div className="flex flex-col gap-8">
+            <div className="border-2 border-black p-2 bg-gray-50 flex justify-center items-center overflow-hidden">
+               <div className="w-[500px] max-w-full overflow-x-auto">
+                  <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftony.low.906%2Fposts%2Fpfbid02JFjpcqG8o2CHGYzjKdQFZbiMj95azb8fRh6kF38kb61tzJB6XvuUBrEdCvWPjJz5l&show_text=true&width=500" width="500" height="250" style={{border:'none', overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+               </div>
+            </div>
+            
+            <div className="border-2 border-black p-2 bg-gray-50 flex justify-center items-center overflow-hidden h-full">
+               <div className="w-[500px] max-w-full overflow-x-auto">
+                 <iframe src="https://www.facebook.com/plugins/post.php?href=https%3A%2F%2Fwww.facebook.com%2Ftony.low.906%2Fposts%2Fpfbid0FXpd7mB5xmzVmQznaCPFk3ik9YE6cpexDu3yqeJxiDfBqYx6Lzsdk9JDTMUM3hJJl&show_text=true&width=500" width="500" height="250" style={{border:'none', overflow:'hidden'}} scrolling="no" frameBorder="0" allowFullScreen={true} allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"></iframe>
+               </div>
             </div>
           </div>
         </div>
       </Section>
+
+      {/* 6. PROFILE SECTION (NOW WITH AUDIO) */}
+      <ProfileSection />
 
       <footer className="py-8 px-12 border-t border-white bg-black text-white flex justify-between text-xs font-bold tracking-widest uppercase">
         <div>© 2025 ALL RIGHTS RESERVED</div>
