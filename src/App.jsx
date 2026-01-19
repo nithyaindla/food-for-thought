@@ -115,7 +115,7 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    beans: "/beans.png",
+    salted_black_soy_beans: "/beans.png",
     garlic: "/garlic.png",
     wine: "/wine.png",
     egg: "/egg.png",
@@ -130,7 +130,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'salted black soy beans', 'garlic', 'shioxing wine'];
+  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shioxing wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
