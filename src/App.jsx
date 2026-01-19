@@ -2,14 +2,17 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN ---
-const FadeIn = ({ children, delay = 0 }) => {
+const FloatingText = ({ children, align = "center", delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
 
   useEffect(() => {
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => setIsVisible(entry.isIntersecting));
-    });
+    const observer = new IntersectionObserver(
+      entries => {
+        entries.forEach(entry => setIsVisible(entry.isIntersecting));
+      },
+      { threshold: 0.2 } // Triggers when 20% visible
+    );
     const current = domRef.current;
     if (current) observer.observe(current);
     return () => {
@@ -17,11 +20,18 @@ const FadeIn = ({ children, delay = 0 }) => {
     };
   }, []);
 
+  // Map alignment to Tailwind classes
+  const alignClass = {
+    left: "text-left mr-auto",
+    center: "text-center mx-auto",
+    right: "text-right ml-auto"
+  }[align];
+
   return (
     <div
       ref={domRef}
-      className={`transition-all duration-1000 transform ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-20'
+      className={`max-w-xl transition-all duration-[1500ms] ease-out transform ${alignClass} ${
+        isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-24 blur-sm'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -30,8 +40,8 @@ const FadeIn = ({ children, delay = 0 }) => {
   );
 };
 
-// --- NEW: PARALLAX CONTEXT SECTION ---
-const ParallaxContext = () => {
+// --- NEW: FLOATING CONTEXT SECTION ---
+const FloatingContext = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const containerRef = useRef(null);
 
@@ -50,112 +60,71 @@ const ParallaxContext = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative bg-black text-white py-20 overflow-hidden">
+    <div ref={containerRef} className="relative bg-black text-white py-40 overflow-hidden font-normal tracking-wide">
       
-      {/* BACKGROUND GRAPHICS LAYER (Parallax) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
-        <div 
-          className="absolute top-0 right-0 w-[800px] h-[800px] rounded-full bg-gradient-to-b from-yellow-600 to-transparent opacity-20 blur-3xl transition-transform duration-100 ease-out"
-          style={{ transform: `translateY(${scrollProgress * 200}px) scale(${1 + scrollProgress})` }}
-        />
-        <div 
-          className="absolute inset-0 opacity-10"
-          style={{ 
-            backgroundImage: 'linear-gradient(#333 1px, transparent 1px), linear-gradient(90deg, #333 1px, transparent 1px)',
-            backgroundSize: '40px 40px',
-            transform: `perspective(500px) rotateX(60deg) translateY(${scrollProgress * -100}px)`
-          }}
-        />
-        {/* Abstract "Code" visual replacing the mono font version */}
-        <div className="absolute top-1/2 left-10 font-bold opacity-10 text-xs hidden md:block tracking-widest leading-loose" style={{ transform: `translateY(${scrollProgress * -400}px)` }}>
-           SYSTEM.INIT<br/>
-           RENDER.SEQUENCE<br/>
-           MEMORY.LOAD
-        </div>
+      {/* BACKGROUND PARTICLES (Subtle Drift) */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-30">
+        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-[100px]" 
+             style={{ transform: `translateY(${scrollProgress * 100}px)` }} />
+        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-yellow-900/10 rounded-full blur-[120px]" 
+             style={{ transform: `translateY(${scrollProgress * -150}px)` }} />
       </div>
 
-      {/* CONTENT LAYER */}
-      <div className="max-w-6xl mx-auto px-6 md:px-12 relative z-10 space-y-48">
+      {/* FLOATING TEXT STREAM */}
+      <div className="relative z-10 px-8 md:px-20 space-y-48 text-xl md:text-3xl leading-relaxed">
         
-        {/* PARAGRAPH 1: MIDAS */}
-        <FadeIn>
-          <div className="md:w-3/4">
-            <h3 className="text-yellow-500 text-xs font-bold mb-4 tracking-widest uppercase border-b border-yellow-500 inline-block pb-1">The Myth</h3>
-            <p className="text-4xl md:text-6xl font-medium leading-tight tracking-tight">
-              King Midas starved in a palace made of <span className="text-yellow-500 italic">hunger</span>. 
-            </p>
-            <p className="text-xl md:text-2xl mt-6 text-gray-400 font-light max-w-2xl leading-relaxed">
-              His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in the myth every third grader reads.
-            </p>
-          </div>
-        </FadeIn>
+        {/* Block 1: Midas (Left) */}
+        <FloatingText align="left">
+          King Midas starved in a palace made of <span className="border-b border-white pb-1">hunger</span>. 
+          His golden touch transformed grapes into useless geometry and bread into the weight of his own greed.
+        </FloatingText>
 
-        {/* PARAGRAPH 2: RECORDS */}
-        <FadeIn>
-          <div className="md:ml-auto md:w-3/4 text-right relative">
-             <div className="text-[12rem] font-black text-white absolute -top-32 right-0 -z-10 select-none opacity-5 leading-none">35K</div>
-             <h3 className="text-blue-400 text-xs font-bold mb-4 tracking-widest uppercase">The Ritual</h3>
-             <p className="text-3xl md:text-5xl font-bold leading-tight mb-6 tracking-tight">
-               Across oceans, Hindu families celebrate a first taste of solid food. In Wisconsin, a man celebrates his 35,000th Big Mac.
-             </p>
-             <p className="text-xl text-gray-400 font-light">
-               A world record that exists somewhere between devotion and madness.
-             </p>
-          </div>
-        </FadeIn>
+        {/* Block 2: The Lesson (Center) */}
+        <FloatingText align="center" delay={200}>
+          The lesson lives in the myth every third grader reads.
+        </FloatingText>
 
-        {/* PARAGRAPH 3: JFK */}
-        <FadeIn>
-          <div className="flex flex-col items-center text-center">
-            <Globe size={64} className="text-white mb-8 animate-pulse stroke-1" />
-            <p className="text-2xl md:text-4xl font-medium italic mb-8 max-w-4xl leading-snug">
-              "Food is strength, and food is peace, and food is freedom."
-            </p>
-            <div className="w-24 h-1 bg-white mb-8"></div>
-            <p className="text-lg md:text-xl text-gray-300 max-w-3xl leading-relaxed font-light">
-              President Kennedy wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
-            </p>
-          </div>
-        </FadeIn>
+        {/* Block 3: Rituals (Right) */}
+        <FloatingText align="right">
+          Across oceans, Hindu families treat survival as ceremony. In Wisconsin, a man celebrates his 35,000th Big Mac. 
+          A record between devotion and <span className="font-bold">madness</span>.
+        </FloatingText>
 
-        {/* PARAGRAPH 4: CONNECTION */}
-        <FadeIn>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center border-l-4 border-green-500 pl-8">
-            <div>
-              <p className="text-green-500 mb-2 text-sm font-bold tracking-wider">SYSTEM CONNECT</p>
-              <p className="text-3xl md:text-5xl font-bold mb-6 tracking-tight">
-                From kitchen to camera to code.
-              </p>
-            </div>
-            <p className="text-xl text-gray-400 font-light leading-relaxed">
-              But beyond keeping our organs operational, food is culture and friendship and tradition. This project brought together two of humanity's most primitive and prominent loves: <span className="text-white font-bold underline decoration-green-500 underline-offset-4">food and mothers.</span>
-            </p>
-          </div>
-        </FadeIn>
+        {/* Block 4: JFK Quote (Center - Wide) */}
+        <FloatingText align="center">
+          "Food is strength, and food is <span className="italic">peace</span>, and food is freedom."
+        </FloatingText>
 
-        {/* PARAGRAPH 5: TONY & QUESTIONS */}
-        <FadeIn>
-          <div className="bg-white text-black p-12 md:p-20 transform -rotate-1 shadow-[20px_20px_0px_0px_rgba(50,50,50,1)]">
-            <h2 className="text-5xl md:text-7xl font-black mb-8 uppercase tracking-tighter">What Matters</h2>
-            <p className="text-xl md:text-2xl mb-8 font-light leading-relaxed">
-              What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person.
-            </p>
-            <div className="space-y-6 text-sm md:text-base border-t-2 border-black pt-8 font-medium">
-              <p className="flex items-center gap-4">
-                <span className="w-3 h-3 bg-black rounded-full block"></span>
-                When was the last time you actually tasted your food instead of scrolling through it?
-              </p>
-              <p className="flex items-center gap-4">
-                <span className="w-3 h-3 bg-black rounded-full block"></span>
+        {/* Block 5: The Diplomat (Left) */}
+        <FloatingText align="left">
+          It is the original diplomat. The thing that makes people put down their weapons long enough to argue about pineapple on pizza.
+        </FloatingText>
+
+        {/* Block 6: Connection (Right) */}
+        <FloatingText align="right">
+          From kitchen to camera to code, this project brought together two of humanity's most primitive loves: 
+          <br /><br />
+          <span className="font-bold text-4xl">Food & Mothers.</span>
+        </FloatingText>
+
+        {/* Block 7: The Questions (Scattered) */}
+        <div className="space-y-32 pt-20">
+            <FloatingText align="center">
+                What follows is Tony's story.
+            </FloatingText>
+            
+            <FloatingText align="left">
+                When was the last time you actually <span className="border-b border-white pb-1">tasted</span> your food instead of scrolling through it?
+            </FloatingText>
+
+            <FloatingText align="right">
                 Who taught you to cook the dish that feels like home?
-              </p>
-              <p className="flex items-center gap-4">
-                <span className="w-3 h-3 bg-black rounded-full block"></span>
-                <span className="font-bold">When they're gone, will you remember how they made it?</span>
-              </p>
-            </div>
-          </div>
-        </FadeIn>
+            </FloatingText>
+
+            <FloatingText align="center">
+                And when they're gone, will you remember how they made it?
+            </FloatingText>
+        </div>
 
       </div>
     </div>
@@ -514,8 +483,8 @@ function App() {
         </div>
       </Section>
 
-      {/* 3. PARALLAX CONTEXT */}
-      <ParallaxContext />
+      {/* 3. FLOATING CONTEXT */}
+      <FloatingContext />
 
       {/* 4. THE GAME */}
       <Section title="(02) INTERACTIVE">
