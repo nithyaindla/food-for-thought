@@ -639,7 +639,7 @@ function App() {
           {/* 2. Photo: Raw Materials */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
-                  src="/mom1.jpg" 
+                  src="/mom1.png" 
                   alt="Cleaning Fish"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
               />
@@ -651,7 +651,7 @@ function App() {
           {/* 3. Photo: Process/Reduction */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
-                  src="/mom5.jpg" 
+                  src="/mom5.png" 
                   alt="Blending Soup"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
               />
@@ -663,7 +663,7 @@ function App() {
           {/* 4. Photo: Assembly 1 */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
-                  src="/mom3.jpg" 
+                  src="/mom3.png" 
                   alt="Wrapping Dumplings"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
               />
@@ -675,7 +675,7 @@ function App() {
           {/* 5. Photo: Assembly 2 (Shared Labor) */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
-                  src="/mom2.jpg" 
+                  src="/mom2.png" 
                   alt="Wrapping Together"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
               />
@@ -687,7 +687,7 @@ function App() {
           {/* 6. Photo: Result (Joy) */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
-                  src="/mom4.jpg" 
+                  src="/mom4.png" 
                   alt="Eating"
                   className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
               />
