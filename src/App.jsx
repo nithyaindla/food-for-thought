@@ -33,35 +33,6 @@ const FloatingText = ({ children, delay = 0 }) => {
   );
 };
 
-// --- HELPER: GOLDEN TOUCH TEXT (Changes color on scroll) ---
-const GoldenText = ({ children }) => {
-  const [isGolden, setIsGolden] = useState(false);
-  const domRef = useRef();
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (domRef.current) {
-        const rect = domRef.current.getBoundingClientRect();
-        // Turn gold when the element is in the middle-ish of the screen
-        const isInSweetSpot = rect.top < window.innerHeight / 1.5 && rect.bottom > window.innerHeight / 3;
-        setIsGolden(isInSweetSpot);
-      }
-    };
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Check on mount
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  return (
-    <span 
-      ref={domRef} 
-      className={`transition-colors duration-1000 ${isGolden ? 'text-yellow-500' : 'text-white'}`}
-    >
-      {children}
-    </span>
-  );
-};
-
 // --- NEW: FLOATING CONTEXT SECTION ---
 const FloatingContext = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -95,12 +66,9 @@ const FloatingContext = () => {
       {/* FLOATING TEXT STREAM - LARGE SERIF, ALL LEFT ALIGNED */}
       <div className="relative z-10 px-6 md:px-12 space-y-48 text-4xl md:text-6xl leading-tight">
         
-        {/* Paragraph 1: Midas (With Gold Effect) */}
+        {/* Paragraph 1: Midas (Gold Effect Removed) */}
         <FloatingText>
-          <GoldenText>
-            King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed.
-          </GoldenText> 
-          {' '}The lesson lives in the myth every third grader reads.
+          King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in the myth every third grader reads.
         </FloatingText>
 
         {/* Paragraph 2: Oceans & Big Macs */}
@@ -110,7 +78,12 @@ const FloatingContext = () => {
 
         {/* Paragraph 3: JFK */}
         <FloatingText>
-          "Food is strength, and food is peace, and food is freedom, and food is a helping hand to people around the world whose good will and friendship we want," proclaimed President John F. Kennedy. He wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
+          "Food is strength, and food is peace, and food is freedom, and food is a helping hand to people around the world whose good will and friendship we want," proclaimed President John F. Kennedy.
+        </FloatingText>
+
+        {/* Paragraph 3.5: JFK */}
+        <FloatingText>
+          He wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
         </FloatingText>
 
         {/* Paragraph 4: Mothers */}
@@ -120,7 +93,12 @@ const FloatingContext = () => {
 
         {/* Paragraph 5: Questions */}
         <FloatingText>
-          What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person, because here's what matters: When was the last time you actually tasted your food instead of scrolling through it? Who taught you to cook the dish that feels like home? And when they're gone, will you remember how they made it, or will you wish you'd paid attention?
+          What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person, because here's what matters: 
+        </FloatingText>
+
+        {/* Paragraph 5.5: Questions */}
+        <FloatingText>
+          When was the last time you actually tasted your food instead of scrolling through it? Who taught you to cook the dish that feels like home? And when they're gone, will you remember how they made it, or will you wish you'd paid attention?
         </FloatingText>
 
       </div>
@@ -444,19 +422,19 @@ function App() {
       {/* 1. ENTRY / TITLE PAGE */}
       <header className="h-screen flex flex-col justify-between p-6 md:p-12 border-b-2 border-black relative">
         <div className="flex justify-between items-start font-bold text-xs tracking-widest uppercase">
-          <span>EST. 2025</span>
-          <span className="text-right">SINGAPORE<br/>SG</span>
+          <span>FOOD FOR THOUGHT</span>
+          <span className="text-right">BY NITHYA SUNKARA INDLAMURI<br/>2025</span>
         </div>
         
         <div className="text-center md:text-left">
           <h1 className="text-[12vw] leading-[0.8] font-black tracking-tighter uppercase mix-blend-difference">
-            TONY'S<br/>KITCHEN
+            TONY'S<br/>KITCHEN LAB
           </h1>
         </div>
 
         <div className="flex justify-between items-end">
           <div className="hidden md:block font-bold text-xs max-w-xs tracking-wide leading-relaxed">
-            A digital exploration of culinary heritage, wok hei, and the art of shrimp preparation.
+            A digital exploration of an evolving family recipe Shrimp with Lobster Sauce that transcended countries and generations.
           </div>
           <ArrowDown className="animate-bounce w-8 h-8" />
         </div>
@@ -471,12 +449,12 @@ function App() {
                 frameBorder="0" 
                 allow="autoplay; fullscreen; picture-in-picture" 
                 allowFullScreen
-                title="Tony's Kitchen Film"
+                title="To the Mothers"
               ></iframe>
         </div>
         <div className="mt-4 flex justify-between text-xs font-bold tracking-widest border-t border-black pt-2 uppercase">
-          <span>DIR. TONY</span>
-          <span>DURATION: 03:45</span>
+          <span>BY NITHYA SUNKARA INDLAMURI</span>
+          <span>FEATURING TONY LOW</span>
         </div>
       </Section>
 
@@ -486,8 +464,8 @@ function App() {
       {/* 4. THE GAME */}
       <Section title="(02) INTERACTIVE">
         <div className="mb-8">
-          <h3 className="text-4xl font-bold mb-2 tracking-tight">WOK SIMULATOR</h3>
-          <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Experience the pressure of the line.</p>
+          <h3 className="text-4xl font-bold mb-2 tracking-tight">\TONY'S KITCHEN LAB</h3>
+          <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Experience.</p>
         </div>
         
         {/* The Game Component */}
@@ -516,7 +494,22 @@ function App() {
           <div>
             <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M [NAME]</h3>
             <p className="mb-6 text-gray-400 leading-relaxed font-light text-lg">
-              I am a creative technologist based in Singapore, specializing in React, interactive media, and digital storytelling. I build bridges between the culinary world and code.
+              She was walking in the street, looked up and noticed
+              He was nameless, he was homeless
+              She asked him his name and told him what hers was
+              He gave her a story 'bout life
+              With a glint in his eye and a corner of a smile
+              One conversation, a simple moment
+              The things that change us if we notice
+              When we look up sometimes
+
+                      from Underdog by Alicia Keys
+
+              When I tell people that I am a Media and Journalism and Computer Science double-major, people are often confused or amused. My great uncle laughed hysterically. I can't recall a single moment where I decided that this would be the path I take. However, in the whirlwind of the pandemic and high school, this song may have been the catalyst for every strange, insightful, memorable conversation I've started. This song inspired me to listen: to my grandparents' stories of agriculture and farming, my mom's tales of immigrating to a country with a stranger who also doubled as her husband, the joys and struggles and the mundane details of my family's lawn moving guy, a music influencer on Instagram, a 90 year old activist, and even my neighbors like Tony. 
+
+              This would not be possible without the people who shape me, challenge me, and believe in me, sometimes more than I believe in myself. Thank you to my family, friends, teachers, mentors, and all the people with whom I have shared even a simple conversation. 
+
+
             </p>
             <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Instagram size={16}/> INSTAGRAM</a>
@@ -529,7 +522,7 @@ function App() {
 
       <footer className="py-8 px-12 border-t border-white bg-black text-white flex justify-between text-xs font-bold tracking-widest uppercase">
         <div>© 2025 ALL RIGHTS RESERVED</div>
-        <div>DESIGNED IN SINGAPORE</div>
+        <div>BUILT BY NITHYA AND GEMINI</div>
       </footer>
     </div>
   );
