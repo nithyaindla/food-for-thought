@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw } from 'lucide-react';
 
-// --- HELPER: SCROLL OBSERVER FOR FADE IN ---
-const FloatingText = ({ children, align = "center", delay = 0 }) => {
+// --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
+const FloatingText = ({ children, align = "left", delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
 
@@ -11,7 +11,7 @@ const FloatingText = ({ children, align = "center", delay = 0 }) => {
       entries => {
         entries.forEach(entry => setIsVisible(entry.isIntersecting));
       },
-      { threshold: 0.2 } // Triggers when 20% visible
+      { threshold: 0.1 }
     );
     const current = domRef.current;
     if (current) observer.observe(current);
@@ -20,23 +20,48 @@ const FloatingText = ({ children, align = "center", delay = 0 }) => {
     };
   }, []);
 
-  // Map alignment to Tailwind classes
-  const alignClass = {
-    left: "text-left mr-auto",
-    center: "text-center mx-auto",
-    right: "text-right ml-auto"
-  }[align];
+  // Strict Left/Right alignment, taking up more width
+  const alignClass = align === "right" ? "ml-auto text-right" : "mr-auto text-left";
 
   return (
     <div
       ref={domRef}
-      className={`max-w-xl transition-all duration-[1500ms] ease-out transform ${alignClass} ${
+      className={`max-w-4xl transition-all duration-[1500ms] ease-out transform ${alignClass} ${
         isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-24 blur-sm'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >
       {children}
     </div>
+  );
+};
+
+// --- HELPER: GOLDEN TOUCH TEXT (Changes color on scroll) ---
+const GoldenText = ({ children }) => {
+  const [isGolden, setIsGolden] = useState(false);
+  const domRef = useRef();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (domRef.current) {
+        const rect = domRef.current.getBoundingClientRect();
+        // Turn gold when the element is in the middle-ish of the screen
+        const isInSweetSpot = rect.top < window.innerHeight / 1.5 && rect.bottom > window.innerHeight / 3;
+        setIsGolden(isInSweetSpot);
+      }
+    };
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Check on mount
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  return (
+    <span 
+      ref={domRef} 
+      className={`transition-colors duration-1000 ${isGolden ? 'text-yellow-500' : 'text-white'}`}
+    >
+      {children}
+    </span>
   );
 };
 
@@ -60,39 +85,40 @@ const FloatingContext = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative bg-black text-white py-40 overflow-hidden font-normal tracking-wide">
+    <div ref={containerRef} className="relative bg-black text-white py-40 overflow-hidden font-serif tracking-wide">
       
       {/* BACKGROUND PARTICLES (Subtle Drift) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-30">
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-[100px]" 
              style={{ transform: `translateY(${scrollProgress * 100}px)` }} />
         <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-yellow-900/10 rounded-full blur-[120px]" 
              style={{ transform: `translateY(${scrollProgress * -150}px)` }} />
       </div>
 
-      {/* FLOATING TEXT STREAM */}
-      <div className="relative z-10 px-8 md:px-20 space-y-48 text-xl md:text-3xl leading-relaxed">
+      {/* FLOATING TEXT STREAM - LARGE SERIF */}
+      <div className="relative z-10 px-6 md:px-12 space-y-64 text-4xl md:text-6xl leading-tight">
         
-        {/* Block 1: Midas (Left) */}
+        {/* Block 1: Midas (Left) - GOLD INTERACTION */}
         <FloatingText align="left">
-          King Midas starved in a palace made of <span className="border-b border-white pb-1">hunger</span>. 
-          His golden touch transformed grapes into useless geometry and bread into the weight of his own greed.
+          <GoldenText>
+            King Midas starved in a palace made of hunger. His golden touch transformed grapes into useless geometry and bread into the weight of his own greed.
+          </GoldenText>
         </FloatingText>
 
-        {/* Block 2: The Lesson (Center) */}
-        <FloatingText align="center" delay={200}>
+        {/* Block 2: The Lesson (Right) */}
+        <FloatingText align="right">
           The lesson lives in the myth every third grader reads.
         </FloatingText>
 
-        {/* Block 3: Rituals (Right) */}
-        <FloatingText align="right">
+        {/* Block 3: Rituals (Left) */}
+        <FloatingText align="left">
           Across oceans, Hindu families treat survival as ceremony. In Wisconsin, a man celebrates his 35,000th Big Mac. 
-          A record between devotion and <span className="font-bold">madness</span>.
+          A record between devotion and <span className="italic">madness</span>.
         </FloatingText>
 
-        {/* Block 4: JFK Quote (Center - Wide) */}
-        <FloatingText align="center">
-          "Food is strength, and food is <span className="italic">peace</span>, and food is freedom."
+        {/* Block 4: JFK Quote (Right) */}
+        <FloatingText align="right">
+          "Food is strength, and food is peace, and food is freedom."
         </FloatingText>
 
         {/* Block 5: The Diplomat (Left) */}
@@ -104,24 +130,24 @@ const FloatingContext = () => {
         <FloatingText align="right">
           From kitchen to camera to code, this project brought together two of humanity's most primitive loves: 
           <br /><br />
-          <span className="font-bold text-4xl">Food & Mothers.</span>
+          <span className="italic underline decoration-1 underline-offset-8">Food & Mothers.</span>
         </FloatingText>
 
-        {/* Block 7: The Questions (Scattered) */}
-        <div className="space-y-32 pt-20">
-            <FloatingText align="center">
+        {/* Block 7: The Questions (Alternating Left/Right) */}
+        <div className="space-y-48 pt-20">
+            <FloatingText align="left">
                 What follows is Tony's story.
             </FloatingText>
             
-            <FloatingText align="left">
-                When was the last time you actually <span className="border-b border-white pb-1">tasted</span> your food instead of scrolling through it?
+            <FloatingText align="right">
+                When was the last time you actually <span className="italic">tasted</span> your food instead of scrolling through it?
             </FloatingText>
 
-            <FloatingText align="right">
+            <FloatingText align="left">
                 Who taught you to cook the dish that feels like home?
             </FloatingText>
 
-            <FloatingText align="center">
+            <FloatingText align="right">
                 And when they're gone, will you remember how they made it?
             </FloatingText>
         </div>
@@ -235,7 +261,7 @@ const ShrimpCookingGame = () => {
     <div className="w-full h-[700px] border-2 border-black bg-white relative select-none flex flex-col overflow-hidden brutal-shadow">
       
       {/* HUD */}
-      <div className="h-12 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20">
+      <div className="h-12 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20 font-sans">
         <div className="flex items-center gap-4 text-sm font-bold tracking-wider">
            <span>STATION: {gameState.toUpperCase()}</span>
            <span>SCORE: {score.toString().padStart(4, '0')}</span>
@@ -249,7 +275,7 @@ const ShrimpCookingGame = () => {
 
       {feedback && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none w-full text-center">
-          <span className="text-6xl font-black bg-yellow-400 text-black px-4 py-2 border-2 border-black shadow-lg animate-bounce inline-block tracking-tighter">
+          <span className="text-6xl font-black bg-yellow-400 text-black px-4 py-2 border-2 border-black shadow-lg animate-bounce inline-block tracking-tighter font-sans">
             {feedback}
           </span>
         </div>
@@ -257,7 +283,7 @@ const ShrimpCookingGame = () => {
 
       {/* MENU */}
       {gameState === 'menu' && (
-        <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative">
+        <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative font-sans">
           <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter">SHRIMP.EXE</h1>
           <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Interactive Cooking Module v2.0</p>
           <button onClick={startGame} className="brutal-btn text-xl">
@@ -268,7 +294,7 @@ const ShrimpCookingGame = () => {
 
       {/* STATIONS */}
       {gameState !== 'menu' && gameState !== 'final' && (
-        <div className="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]">
+        <div className="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] font-sans">
           
           {/* 1. PREP STATION */}
           {gameState === 'prep' && (
@@ -403,7 +429,7 @@ const ShrimpCookingGame = () => {
 
       {/* FINAL PRODUCT SCREEN */}
       {gameState === 'final' && (
-        <div className="flex-1 flex flex-col items-center justify-center bg-white p-8">
+        <div className="flex-1 flex flex-col items-center justify-center bg-white p-8 font-sans">
           <div className="border-4 border-black p-8 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-gray-50">
             <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Order Complete</h1>
             
@@ -483,7 +509,7 @@ function App() {
         </div>
       </Section>
 
-      {/* 3. FLOATING CONTEXT */}
+      {/* 3. FLOATING CONTEXT (UPDATED: SERIF, GOLD TOUCH, L/R ALIGNMENT) */}
       <FloatingContext />
 
       {/* 4. THE GAME */}
