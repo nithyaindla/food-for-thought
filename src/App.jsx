@@ -64,16 +64,21 @@ const FloatingContext = () => {
       </div>
 
       {/* FLOATING TEXT STREAM - LARGE SERIF, ALL LEFT ALIGNED */}
-      <div className="relative z-10 px-6 md:px-12 space-y-48 text-4xl md:text-6xl leading-tight">
+      <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-6xl leading-tight">
         
         {/* Paragraph 1: Midas (Gold Effect Removed) */}
         <FloatingText>
-          King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in the myth every third grader reads.
+          King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed. The lesson lives in a myth every third grader reads.
         </FloatingText>
 
         {/* Paragraph 2: Oceans & Big Macs */}
         <FloatingText>
-          Across oceans and centuries, Hindu families gather to celebrate a child's first taste of solid food, treating survival itself as worthy of ceremony. In Wisconsin, a man named Donald Gorske marks time differently. At 71, he celebrated his 35,000th Big Mac, a world record that exists somewhere between devotion and madness.
+          Across oceans and centuries, Hindu families gather to celebrate a child's first taste of solid food, treating survival itself as worthy of ceremony. 
+        </FloatingText>
+
+        {/* Paragraph 2: Oceans & Big Macs */}
+        <FloatingText>
+          In Wisconsin, a man named Donald Gorske marks time differently. At 71, he celebrated his 35,000th Big Mac, a world record that exists somewhere between devotion and madness.
         </FloatingText>
 
         {/* Paragraph 3: JFK */}
@@ -88,7 +93,7 @@ const FloatingContext = () => {
 
         {/* Paragraph 4: Mothers */}
         <FloatingText>
-          But beyond keeping our organs operational, food is culture and friendship and tradition and community and conversation. From kitchen to camera to code, this project brought together two of humanity's most primitive and prominent loves: food and mothers.
+          Beyond keeping our organs operational, food is culture and friendship and tradition and community and conversation. From kitchen to camera to code, this project brought together two of humanity's most primitive and prominent loves: food and mothers.
         </FloatingText>
 
         {/* Paragraph 5: Questions */}
@@ -233,10 +238,10 @@ const ShrimpCookingGame = () => {
       {/* MENU */}
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative font-sans">
-          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter">SHRIMP.EXE</h1>
+          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter">SHRIMP  with LOBSTER SAUCE</h1>
           <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Interactive Cooking Module v2.0</p>
           <button onClick={startGame} className="brutal-btn text-xl">
-            INITIALIZE SEQUENCE
+            START COOKING
           </button>
         </div>
       )}
@@ -428,7 +433,7 @@ function App() {
         
         <div className="text-center md:text-left">
           <h1 className="text-[12vw] leading-[0.8] font-black tracking-tighter uppercase mix-blend-difference">
-            TONY'S<br/>KITCHEN LAB
+            TONY'S <br/>KITCHEN LAB
           </h1>
         </div>
 
@@ -453,8 +458,8 @@ function App() {
               ></iframe>
         </div>
         <div className="mt-4 flex justify-between text-xs font-bold tracking-widest border-t border-black pt-2 uppercase">
-          <span>BY NITHYA SUNKARA INDLAMURI</span>
           <span>FEATURING TONY LOW</span>
+          <span>BY NITHYA SUNKARA INDLAMURI</span>
         </div>
       </Section>
 
@@ -464,7 +469,7 @@ function App() {
       {/* 4. THE GAME */}
       <Section title="(02) INTERACTIVE">
         <div className="mb-8">
-          <h3 className="text-4xl font-bold mb-2 tracking-tight">\TONY'S KITCHEN LAB</h3>
+          <h3 className="text-4xl font-bold mb-2 tracking-tight">TONY'S KITCHEN LAB</h3>
           <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Experience.</p>
         </div>
         
