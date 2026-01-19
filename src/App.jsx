@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe } from 'lucide-react'; // Removed 'Knife' from here
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw } from 'lucide-react';
 
 // --- THE GAME COMPONENT (Internal) ---
 const ShrimpCookingGame = () => {
   // Assets
   const assets = {
+    // Ensure these match your actual file names in the public folder
     tony: "/tony.png",
     wok: "/wok.png",
     stove: "/stove.png",
-    shrimp: "/shrimp.png",
+    shrimp: "/shrimp.png",         // Generic shrimp for icons
+    oneShrimp: "/one-shrimp.png", // Specific for deveining step
+    finalShrimp: "/final-shrimp.png", // The final product
     seasonings: "/seasonings.png",
     beans: "/beans.png",
     garlic: "/garlic.png",
     wine: "/wine.png",
     egg: "/egg.png",
-    scallions: "/scallions.png",
-    knife: "/knife.png", // Ensure this file exists in your public folder
+    knife: "/knife.png", 
   };
 
   // State
@@ -23,15 +25,20 @@ const ShrimpCookingGame = () => {
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [draggedItem, setDraggedItem] = useState(null);
+  
+  // PREP STATE
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
+  
+  // SAUCE STATE
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
   const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
+  
+  // COOKING STATE
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
-  const [scallionsSprinkled, setScallionsSprinkled] = useState(0);
 
-  // Timer
+  // Timer for cooking simulation
   useEffect(() => {
     let timer;
     if (gameState === 'cooking' && cookingStep === 'shrimp_cooking') {
@@ -39,7 +46,7 @@ const ShrimpCookingGame = () => {
         setCookProgress(prev => {
           if (prev >= 100) {
             setCookingStep('shrimp_cooked');
-            triggerFeedback("READY");
+            triggerFeedback("READY FOR SAUCE");
             return 100;
           }
           return prev + 1; 
@@ -61,7 +68,7 @@ const ShrimpCookingGame = () => {
     e.preventDefault();
     if (draggedItem === 'knife' && index === shrimpPrepped) {
       setShrimpPrepped(prev => prev + 1);
-      triggerFeedback("CLEANED");
+      triggerFeedback("DEVEINED");
     }
   };
 
@@ -85,21 +92,10 @@ const ShrimpCookingGame = () => {
     }
     if (draggedItem === 'egg' && cookingStep === 'sauce_added') {
       setCookingStep('egg_added');
-      setScore(prev => prev + 500);
-      triggerFeedback("EMULSION");
-      setTimeout(() => setGameState('plating'), 2000);
-    }
-  };
-
-  const handlePlatingDrop = (e) => {
-    e.preventDefault();
-    if (draggedItem === 'scallions') {
-      const newCount = scallionsSprinkled + 1;
-      setScallionsSprinkled(newCount);
-      triggerFeedback("GARNISH");
-      if (newCount >= 3) {
-        setTimeout(() => setGameState('gameOver'), 1000);
-      }
+      setScore(prev => prev + 1000);
+      triggerFeedback("PERFECTO");
+      // Skip plating, go straight to Final Product
+      setTimeout(() => setGameState('final'), 2000);
     }
   };
 
@@ -110,16 +106,15 @@ const ShrimpCookingGame = () => {
     setSauceIngredientsAdded([]);
     setCookingStep('empty');
     setCookProgress(0);
-    setScallionsSprinkled(0);
   };
 
   return (
     <div className="w-full h-[700px] border-2 border-black bg-white relative font-mono select-none flex flex-col overflow-hidden brutal-shadow">
       
       {/* HUD */}
-      <div className="h-12 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50">
+      <div className="h-12 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20">
         <div className="flex items-center gap-4 text-sm font-bold">
-           <span>STATUS: {gameState.toUpperCase()}</span>
+           <span>STATION: {gameState.toUpperCase()}</span>
            <span>SCORE: {score.toString().padStart(4, '0')}</span>
         </div>
         <div className="flex gap-1">
@@ -130,8 +125,10 @@ const ShrimpCookingGame = () => {
       </div>
 
       {feedback && (
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none">
-          <span className="text-6xl font-black bg-black text-white px-4 py-2">{feedback}</span>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none w-full text-center">
+          <span className="text-6xl font-black bg-yellow-400 text-black px-4 py-2 border-2 border-black shadow-lg animate-bounce inline-block">
+            {feedback}
+          </span>
         </div>
       )}
 
@@ -139,7 +136,7 @@ const ShrimpCookingGame = () => {
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative">
           <h1 className="text-5xl md:text-7xl font-black mb-2 tracking-tighter">SHRIMP.EXE</h1>
-          <p className="font-mono text-sm mb-8 text-gray-500">INTERACTIVE COOKING MODULE v1.0</p>
+          <p className="font-mono text-sm mb-8 text-gray-500">INTERACTIVE COOKING MODULE v2.0</p>
           <button onClick={startGame} className="brutal-btn text-xl">
             INITIALIZE SEQUENCE
           </button>
@@ -147,134 +144,168 @@ const ShrimpCookingGame = () => {
       )}
 
       {/* STATIONS */}
-      {gameState !== 'menu' && gameState !== 'gameOver' && (
+      {gameState !== 'menu' && gameState !== 'final' && (
         <div className="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]">
           
-          {/* PREP */}
+          {/* 1. PREP STATION */}
           {gameState === 'prep' && (
             <div className="h-full flex flex-col p-8 items-center">
-              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8">
+              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8 bg-white/80 backdrop-blur-sm p-2">
                 <h2 className="text-2xl font-bold">01 / DEVEIN</h2>
-                <span className="text-xs">TOOL: KNIFE</span>
+                <span className="text-xs">DRAG KNIFE TO SHRIMP</span>
               </div>
               
               <div className="grid grid-cols-3 gap-8">
                  {[...Array(targetShrimpCount)].map((_, i) => (
                    <div key={i} onDragOver={(e) => e.preventDefault()} onDrop={(e) => handlePrepDrop(e, i)}
-                     className={`w-24 h-24 border-2 border-black rounded-full flex items-center justify-center transition-all bg-white
-                       ${i < shrimpPrepped ? 'bg-black text-white' : 'hover:bg-gray-100'}
+                     className={`w-32 h-32 flex items-center justify-center transition-all relative
+                       ${i === shrimpPrepped ? 'scale-110 drop-shadow-2xl' : ''}
                      `}>
-                     {i < shrimpPrepped ? <CheckCircle /> : <img src={assets.shrimp} className="w-16 grayscale" alt="Shrimp" />}
+                     {i < shrimpPrepped ? (
+                        <CheckCircle className="w-24 h-24 text-green-500" />
+                     ) : (
+                        // Using the specific 'one-shrimp' image for cleaning step
+                        <img src={assets.oneShrimp} className={`w-full h-full object-contain drop-shadow-lg ${i === shrimpPrepped ? 'animate-pulse' : ''}`} alt="Shrimp to Clean" />
+                     )}
                    </div>
                  ))}
               </div>
 
-              <div className="mt-auto">
-                 {/* FIXED: Replaced <Knife /> component with <img> tag */}
-                 <div draggable onDragStart={(e) => handleDragStart(e, 'knife')} className="border-2 border-black bg-white p-4 cursor-grab active:cursor-grabbing hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-shadow">
-                   <img src={assets.knife} className="w-8 h-8 object-contain" alt="Knife Tool" />
+              <div className="mt-auto relative">
+                 <div draggable onDragStart={(e) => handleDragStart(e, 'knife')} className="cursor-grab active:cursor-grabbing hover:scale-110 transition-transform">
+                   <img src={assets.knife} className="w-24 h-24 object-contain drop-shadow-xl" alt="Knife Tool" />
+                   <div className="bg-black text-white text-xs px-2 py-1 absolute -bottom-2 left-1/2 transform -translate-x-1/2">TOOL</div>
                  </div>
               </div>
               
               {shrimpPrepped === targetShrimpCount && (
-                <button onClick={() => setGameState('sauce')} className="absolute bottom-8 right-8 brutal-btn">NEXT &rarr;</button>
+                <button onClick={() => setGameState('sauce')} className="absolute bottom-8 right-8 brutal-btn bg-yellow-400">NEXT &rarr;</button>
               )}
             </div>
           )}
 
-          {/* SAUCE */}
+          {/* 2. SAUCE STATION */}
           {gameState === 'sauce' && (
             <div className="h-full flex flex-col p-8 items-center">
-              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8">
+              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8 bg-white/80 backdrop-blur-sm p-2">
                 <h2 className="text-2xl font-bold">02 / COMPOUND</h2>
-                <span className="text-xs">DROP IN BOWL</span>
+                <span className="text-xs">DRAG INGREDIENTS TO BOWL</span>
               </div>
 
-              <div className="flex w-full justify-between items-center max-w-4xl">
-                <div className="grid grid-cols-2 gap-4">
+              <div className="flex flex-col md:flex-row w-full justify-between items-center max-w-5xl gap-12">
+                {/* Ingredients Grid - Made bigger and more graphical */}
+                <div className="grid grid-cols-2 gap-8">
                   {requiredSauceIngredients.map((item) => (
                     <div key={item} draggable={!sauceIngredientsAdded.includes(item)} onDragStart={(e) => handleDragStart(e, item)}
-                      className={`border-2 border-black bg-white p-3 w-32 flex flex-col items-center cursor-grab ${sauceIngredientsAdded.includes(item) ? 'opacity-20 pointer-events-none' : 'hover:bg-gray-50'}`}>
-                      <span className="font-bold text-xs uppercase">{item}</span>
+                      className={`w-32 h-32 flex flex-col items-center justify-center cursor-grab transition-transform 
+                        ${sauceIngredientsAdded.includes(item) ? 'opacity-20 grayscale pointer-events-none' : 'hover:scale-110'}`}>
+                      <img src={assets[item]} className="w-24 h-24 object-contain drop-shadow-md" alt={item} />
+                      <span className="font-bold text-xs uppercase bg-white px-1 mt-1 border border-black">{item}</span>
                     </div>
                   ))}
                 </div>
                 
-                <div onDragOver={(e) => e.preventDefault()} onDrop={handleSauceDrop} className="w-64 h-64 border-2 border-black rounded-full flex items-center justify-center relative bg-white">
-                  <div className="absolute inset-2 border border-dashed border-gray-300 rounded-full"></div>
-                  <span className="text-xs font-bold z-10">MIXING BOWL</span>
-                  <div className="absolute bottom-0 w-full bg-black transition-all duration-300 opacity-10" style={{height: `${sauceIngredientsAdded.length * 25}%`}}></div>
+                {/* Mixing Bowl */}
+                <div onDragOver={(e) => e.preventDefault()} onDrop={handleSauceDrop} className="w-80 h-80 border-4 border-black rounded-full flex items-center justify-center relative bg-white shadow-xl overflow-hidden group">
+                  <div className="absolute inset-4 border-2 border-dashed border-gray-300 rounded-full"></div>
+                  <span className="text-xs font-bold z-10 bg-black text-white px-2 py-1">MIXING BOWL</span>
+                  {/* Liquid fill animation */}
+                  <div className="absolute bottom-0 w-full bg-amber-600 transition-all duration-500 opacity-80" style={{height: `${sauceIngredientsAdded.length * 25}%`}}></div>
+                  {/* Floating ingredients inside bowl */}
+                  {sauceIngredientsAdded.map((item, idx) => (
+                     <img key={idx} src={assets[item]} className="absolute w-12 h-12 animate-bounce" style={{left: `${20 + idx*15}%`, bottom: `${10 + idx*10}%`}} />
+                  ))}
                 </div>
               </div>
 
               {sauceIngredientsAdded.length === 4 && (
-                <button onClick={() => setGameState('cooking')} className="absolute bottom-8 right-8 brutal-btn">HEAT &rarr;</button>
+                <button onClick={() => setGameState('cooking')} className="absolute bottom-8 right-8 brutal-btn bg-yellow-400">HEAT &rarr;</button>
               )}
             </div>
           )}
 
-          {/* COOKING */}
+          {/* 3. COOKING STATION */}
           {gameState === 'cooking' && (
             <div className="h-full flex flex-col p-8 items-center relative">
-               <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-4">
+               <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-4 bg-white/80 backdrop-blur-sm p-2">
                 <h2 className="text-2xl font-bold">03 / THERMAL</h2>
-                <span className="text-xs">{cookingStep.toUpperCase().replace('_', ' ')}</span>
+                <span className="text-xs text-red-600 font-bold">{cookingStep.toUpperCase().replace('_', ' ')}</span>
               </div>
 
               <div className="relative flex-1 w-full flex items-center justify-center">
-                 <div onDragOver={(e) => e.preventDefault()} onDrop={handleWokDrop} className="w-96 h-96 border-2 border-black rounded-full flex items-center justify-center relative bg-white">
-                    <span className="absolute -top-6 text-xs bg-black text-white px-2">WOK STATION</span>
-                    {/* Visuals */}
-                    {cookingStep !== 'empty' && <img src={assets.shrimp} className={`w-32 transition-all ${cookingStep === 'shrimp_cooking' ? 'animate-pulse' : ''}`} alt="Cooking Shrimp" />}
-                    {cookingStep === 'egg_added' && <div className="absolute inset-0 bg-yellow-100 opacity-50 rounded-full mix-blend-multiply"></div>}
+                 <div onDragOver={(e) => e.preventDefault()} onDrop={handleWokDrop} className="w-[500px] h-[400px] flex items-center justify-center relative transition-transform">
+                    {/* Stove BG */}
+                    <div className="absolute bottom-0 w-64 h-12 bg-black opacity-20 blur-xl rounded-full"></div>
+                    
+                    {/* Wok Image */}
+                    <img src={assets.wok} className="w-full h-full object-contain drop-shadow-2xl z-10" alt="Wok" />
+                    
+                    {/* Cooking Contents Area */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 flex items-center justify-center z-20">
+                        {cookingStep !== 'empty' && (
+                            <img src={assets.shrimp} className={`w-40 object-contain transition-all duration-500 ${cookingStep === 'shrimp_cooking' ? 'animate-shake saturate-150' : ''}`} alt="Cooking" />
+                        )}
+                        {cookingStep === 'egg_added' && (
+                             <img src={assets.egg} className="absolute top-0 right-0 w-24 animate-bounce" alt="Egg" />
+                        )}
+                    </div>
+
+                    {/* Smoke/Steam Effects */}
+                    {cookingStep !== 'empty' && (
+                        <div className="absolute -top-10 left-1/2 w-20 h-40 bg-gray-200 blur-2xl opacity-40 animate-pulse transform -translate-x-1/2"></div>
+                    )}
                  </div>
               </div>
 
-              {/* DOCK */}
-              <div className="h-24 w-full border-t-2 border-black flex items-center justify-center gap-4 bg-gray-50">
+              {/* Ingredient Dock */}
+              <div className="h-32 w-full border-t-2 border-black flex items-center justify-center gap-12 bg-gray-100 z-30">
                 {cookingStep === 'empty' && (
-                  <div draggable onDragStart={(e) => handleDragStart(e, 'prepped_shrimp')} className="border border-black px-4 py-2 bg-white cursor-move">PREPPED SHRIMP</div>
+                  <div draggable onDragStart={(e) => handleDragStart(e, 'prepped_shrimp')} className="cursor-move hover:scale-110 transition text-center group">
+                     <div className="w-24 h-24 bg-white border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
+                        <img src={assets.shrimp} className="w-16" alt="Prepped" />
+                     </div>
+                     <span className="font-bold text-xs bg-black text-white px-2">PREPPED SHRIMP</span>
+                  </div>
                 )}
                 {cookingStep === 'shrimp_cooked' && (
-                   <div draggable onDragStart={(e) => handleDragStart(e, 'mixed_sauce')} className="border border-black px-4 py-2 bg-white cursor-move">SAUCE MIX</div>
+                   <div draggable onDragStart={(e) => handleDragStart(e, 'mixed_sauce')} className="cursor-move hover:scale-110 transition text-center group">
+                      <div className="w-24 h-24 bg-amber-100 border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
+                        <span className="text-4xl">🥣</span>
+                      </div>
+                      <span className="font-bold text-xs bg-black text-white px-2">SAUCE MIX</span>
+                   </div>
                 )}
                  {cookingStep === 'sauce_added' && (
-                   <div draggable onDragStart={(e) => handleDragStart(e, 'egg')} className="border border-black px-4 py-2 bg-white cursor-move">FARM EGG</div>
+                   <div draggable onDragStart={(e) => handleDragStart(e, 'egg')} className="cursor-move hover:scale-110 transition text-center group">
+                      <div className="w-24 h-24 bg-white border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
+                        <img src={assets.egg} className="w-16" alt="Egg" />
+                      </div>
+                      <span className="font-bold text-xs bg-black text-white px-2">FARM EGG</span>
+                   </div>
                 )}
               </div>
             </div>
           )}
-
-          {/* PLATING */}
-          {gameState === 'plating' && (
-            <div className="h-full flex flex-col p-8 items-center">
-              <h2 className="text-2xl font-bold mb-8">04 / FINISH</h2>
-              <div onDragOver={(e) => e.preventDefault()} onDrop={handlePlatingDrop} className="w-80 h-80 border-2 border-black rounded-full bg-white relative flex items-center justify-center">
-                 <img src={assets.shrimp} className="w-48 grayscale opacity-50" alt="Plated Shrimp" />
-                 {[...Array(scallionsSprinkled)].map((_,i) => (
-                    <div key={i} className="absolute w-4 h-1 bg-green-600" style={{top: `${30+Math.random()*40}%`, left: `${30+Math.random()*40}%`, transform: `rotate(${Math.random()*360}deg)`}}></div>
-                 ))}
-              </div>
-              <div className="mt-8">
-                 <div draggable onDragStart={(e) => handleDragStart(e, 'scallions')} className="border border-black px-6 py-3 bg-white cursor-move hover:bg-black hover:text-white transition">
-                    DRAG SCALLIONS
-                 </div>
-              </div>
-            </div>
-          )}
-
         </div>
       )}
 
-      {/* GAME OVER */}
-      {gameState === 'gameOver' && (
-        <div className="flex-1 flex flex-col items-center justify-center bg-white">
-          <div className="border-4 border-black p-8 max-w-md text-center">
-            <h1 className="text-6xl font-black mb-4">DONE.</h1>
-            <p className="font-mono text-sm mb-6 border-b border-black pb-4">FINAL SCORE: {score}</p>
-            <p className="italic text-gray-500 mb-8">"Minimalist perfection."</p>
-            <button onClick={startGame} className="bg-black text-white px-8 py-3 font-bold hover:bg-gray-800 w-full">
-              RESTART
+      {/* FINAL PRODUCT SCREEN */}
+      {gameState === 'final' && (
+        <div className="flex-1 flex flex-col items-center justify-center bg-white p-8">
+          <div className="border-4 border-black p-8 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-gray-50">
+            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Order Complete</h1>
+            
+            {/* The Final Product Image */}
+            <div className="my-8 relative group">
+                <div className="absolute inset-0 bg-yellow-400 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
+                <img src={assets.finalShrimp} alt="Final Dish" className="w-96 h-auto mx-auto drop-shadow-2xl transform transition hover:scale-105 duration-500" />
+            </div>
+
+            <p className="font-mono text-sm mb-6 border-b-2 border-black pb-4 inline-block">FINAL SCORE: {score}</p>
+            <p className="italic text-gray-500 mb-8 font-serif text-lg">"A perfect harmony of wok hei and texture."</p>
+            
+            <button onClick={startGame} className="bg-black text-white px-8 py-4 font-bold hover:bg-yellow-400 hover:text-black transition-colors w-full flex items-center justify-center gap-2">
+              <RotateCcw size={20}/> RESTART SHIFT
             </button>
           </div>
         </div>
@@ -345,15 +376,20 @@ function App() {
       <Section title="(02) INTERACTIVE">
         <div className="mb-8">
           <h3 className="text-4xl font-bold mb-2">WOK SIMULATOR</h3>
-          <p className="font-mono text-sm text-gray-600">Drag, drop, and sear. Experience the pressure of the line.</p>
+          <p className="font-mono text-sm text-gray-600">Drag ingredients to interact. Experience the pressure of the line.</p>
         </div>
         
         {/* The Game Component */}
         <ShrimpCookingGame />
         
-        <div className="grid grid-cols-2 mt-4 font-mono text-xs gap-4">
+        {/* DISCLAIMER */}
+        <p className="mt-6 font-mono text-[10px] text-gray-400 text-center uppercase tracking-widest">
+          Disclaimer: The graphics in this game were created by Google Gemini and are AI generated.
+        </p>
+
+        <div className="grid grid-cols-2 mt-8 font-mono text-xs gap-4">
            <div className="border border-black p-2 text-center">WASD: N/A</div>
-           <div className="border border-black p-2 text-center">MOUSE: DRAG</div>
+           <div className="border border-black p-2 text-center">MOUSE: DRAG & DROP</div>
         </div>
       </Section>
 
