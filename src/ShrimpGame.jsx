@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Knife, RotateCcw, CheckCircle, ArrowRight } from 'lucide-react';
+import { RotateCcw, CheckCircle, ArrowRight } from 'lucide-react';
 
 const ShrimpCookingGame = () => {
   // --- ASSETS (Using placeholders if specific assets miss, but keeping your keys) ---
