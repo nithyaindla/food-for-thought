@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Volume2, VolumeX, Play } from 'lucide-react';
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Volume2, VolumeX, Play, Linkedin } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
 const FloatingText = ({ children, delay = 0 }) => {
@@ -230,7 +230,7 @@ const ShrimpCookingGame = () => {
       {/* MENU */}
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative font-sans">
-          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter">SHRIMP  with LOBSTER SAUCE</h1>
+          <h1 className="text-5xl md:text-6xl font-black mb-2 tracking-tighter">SHRIMP  with LOBSTER SAUCE</h1>
           <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Interactive Cooking Module v2.0</p>
           <button onClick={startGame} className="brutal-btn text-xl">
             START COOKING
@@ -484,13 +484,13 @@ const ProfileSection = () => {
         <div className="md:col-span-9">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             <div className="relative">
-              <img src="/headshot" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
+              <img src="/headshot.jpg" alt="Profile" className="w-full aspect-square object-cover border-2 border-white filter contrast-125" />
               <div className="absolute -bottom-4 -right-4 bg-white text-black px-4 py-1 text-sm font-black uppercase tracking-widest">
                  n
               </div>
             </div>
             <div>
-              <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M [NAME]</h3>
+              <h3 className="text-4xl font-black mb-6 uppercase tracking-tight">HI, I'M NITHYA</h3>
               <div className="mb-6 text-gray-400 leading-relaxed font-light text-lg space-y-4">
                 <p>
                   She was walking in the street, looked up and noticed<br/>
@@ -519,9 +519,9 @@ const ProfileSection = () => {
               </div>
 
               <div className="flex gap-4 font-bold text-xs uppercase tracking-widest">
-                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Instagram size={16}/> INSTAGRAM</a>
-                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
-                <a href="#" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
+                <a href="nithya.indla8@gmail.com" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Mail size={16}/> EMAIL</a>
+                <a href="https://bynithya.com/portfolio/" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Globe size={16}/> PORTFOLIO</a>
+                <a href="https://www.linkedin.com/in/nithya-ind/" className="flex items-center gap-2 border border-white px-4 py-3 hover:bg-white hover:text-black transition"><Linkedin size={16}/> LINKEDIN</a>
               </div>
             </div>
           </div>
@@ -569,7 +569,7 @@ function App() {
         <div className="text-center md:text-left relative z-10">
           {/* mix-blend-difference creates that cool inverted color effect against the image */}
           <h1 className="text-[12vw] leading-[0.8] font-black tracking-tighter uppercase mix-blend-difference text-black">
-            TONY'S <br/>KITCHEN LAB
+            TONY'S KITCHEN LAB
           </h1>
         </div>
 
