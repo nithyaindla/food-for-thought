@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
-const FloatingText = ({ children, align = "left", delay = 0 }) => {
+const FloatingText = ({ children, delay = 0 }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
 
@@ -20,13 +20,10 @@ const FloatingText = ({ children, align = "left", delay = 0 }) => {
     };
   }, []);
 
-  // Strict Left/Right alignment, taking up more width
-  const alignClass = align === "right" ? "ml-auto text-right" : "mr-auto text-left";
-
   return (
     <div
       ref={domRef}
-      className={`max-w-4xl transition-all duration-[1500ms] ease-out transform ${alignClass} ${
+      className={`max-w-5xl mr-auto text-left transition-all duration-[1500ms] ease-out transform ${
         isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-24 blur-sm'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -95,62 +92,36 @@ const FloatingContext = () => {
              style={{ transform: `translateY(${scrollProgress * -150}px)` }} />
       </div>
 
-      {/* FLOATING TEXT STREAM - LARGE SERIF */}
-      <div className="relative z-10 px-6 md:px-12 space-y-64 text-4xl md:text-6xl leading-tight">
+      {/* FLOATING TEXT STREAM - LARGE SERIF, ALL LEFT ALIGNED */}
+      <div className="relative z-10 px-6 md:px-12 space-y-48 text-4xl md:text-6xl leading-tight">
         
-        {/* Block 1: Midas (Left) - GOLD INTERACTION */}
-        <FloatingText align="left">
+        {/* Paragraph 1: Midas (With Gold Effect) */}
+        <FloatingText>
           <GoldenText>
-            King Midas starved in a palace made of hunger. His golden touch transformed grapes into useless geometry and bread into the weight of his own greed.
-          </GoldenText>
+            King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed grapes into useless geometry and bread into the weight of his own greed.
+          </GoldenText> 
+          {' '}The lesson lives in the myth every third grader reads.
         </FloatingText>
 
-        {/* Block 2: The Lesson (Right) */}
-        <FloatingText align="right">
-          The lesson lives in the myth every third grader reads.
+        {/* Paragraph 2: Oceans & Big Macs */}
+        <FloatingText>
+          Across oceans and centuries, Hindu families gather to celebrate a child's first taste of solid food, treating survival itself as worthy of ceremony. In Wisconsin, a man named Donald Gorske marks time differently. At 71, he celebrated his 35,000th Big Mac, a world record that exists somewhere between devotion and madness.
         </FloatingText>
 
-        {/* Block 3: Rituals (Left) */}
-        <FloatingText align="left">
-          Across oceans, Hindu families treat survival as ceremony. In Wisconsin, a man celebrates his 35,000th Big Mac. 
-          A record between devotion and <span className="italic">madness</span>.
+        {/* Paragraph 3: JFK */}
+        <FloatingText>
+          "Food is strength, and food is peace, and food is freedom, and food is a helping hand to people around the world whose good will and friendship we want," proclaimed President John F. Kennedy. He wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
         </FloatingText>
 
-        {/* Block 4: JFK Quote (Right) */}
-        <FloatingText align="right">
-          "Food is strength, and food is peace, and food is freedom."
+        {/* Paragraph 4: Mothers */}
+        <FloatingText>
+          But beyond keeping our organs operational, food is culture and friendship and tradition and community and conversation. From kitchen to camera to code, this project brought together two of humanity's most primitive and prominent loves: food and mothers.
         </FloatingText>
 
-        {/* Block 5: The Diplomat (Left) */}
-        <FloatingText align="left">
-          It is the original diplomat. The thing that makes people put down their weapons long enough to argue about pineapple on pizza.
+        {/* Paragraph 5: Questions */}
+        <FloatingText>
+          What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person, because here's what matters: When was the last time you actually tasted your food instead of scrolling through it? Who taught you to cook the dish that feels like home? And when they're gone, will you remember how they made it, or will you wish you'd paid attention?
         </FloatingText>
-
-        {/* Block 6: Connection (Right) */}
-        <FloatingText align="right">
-          From kitchen to camera to code, this project brought together two of humanity's most primitive loves: 
-          <br /><br />
-          <span className="italic underline decoration-1 underline-offset-8">Food & Mothers.</span>
-        </FloatingText>
-
-        {/* Block 7: The Questions (Alternating Left/Right) */}
-        <div className="space-y-48 pt-20">
-            <FloatingText align="left">
-                What follows is Tony's story.
-            </FloatingText>
-            
-            <FloatingText align="right">
-                When was the last time you actually <span className="italic">tasted</span> your food instead of scrolling through it?
-            </FloatingText>
-
-            <FloatingText align="left">
-                Who taught you to cook the dish that feels like home?
-            </FloatingText>
-
-            <FloatingText align="right">
-                And when they're gone, will you remember how they made it?
-            </FloatingText>
-        </div>
 
       </div>
     </div>
@@ -509,7 +480,7 @@ function App() {
         </div>
       </Section>
 
-      {/* 3. FLOATING CONTEXT (UPDATED: SERIF, GOLD TOUCH, L/R ALIGNMENT) */}
+      {/* 3. FLOATING CONTEXT (FULL ESSAY LEFT ALIGNED) */}
       <FloatingContext />
 
       {/* 4. THE GAME */}
