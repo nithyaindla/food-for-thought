@@ -64,7 +64,7 @@ const FloatingContext = () => {
       </div>
 
       {/* FLOATING TEXT STREAM - LARGE SERIF, ALL LEFT ALIGNED */}
-      <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-3xl leading-tight">
+      <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-4.3xl leading-tight">
         
         {/* Paragraph 1: Midas (Gold Effect Removed) */}
         <FloatingText>
