@@ -551,19 +551,29 @@ function App() {
     <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
       
       {/* 1. ENTRY / TITLE PAGE */}
-      <header className="h-screen flex flex-col justify-between p-6 md:p-12 border-b-2 border-black relative">
-        <div className="flex justify-between items-start font-bold text-xs tracking-widest uppercase">
+      <header 
+        className="h-screen flex flex-col justify-between p-6 md:p-12 border-b-2 border-black relative bg-cover bg-center"
+        // CHANGE '/landing.png' TO YOUR ACTUAL FILE NAME
+        style={{ backgroundImage: "url('/intro-tony.gif')" }}
+      >
+        {/* OPTIONAL: White Overlay - opacity 30% to make text pop. 
+            Change to bg-black/30 if you want it darker, or remove entirely. */}
+        <div className="absolute inset-0 bg-white/30 pointer-events-none"></div>
+
+        {/* CONTENT (Added relative z-10 so it sits ON TOP of the overlay) */}
+        <div className="flex justify-between items-start font-bold text-xs tracking-widest uppercase relative z-10">
           <span>FOOD FOR THOUGHT</span>
           <span className="text-right">BY NITHYA SUNKARA INDLAMURI<br/>2025</span>
         </div>
         
-        <div className="text-center md:text-left">
-          <h1 className="text-[12vw] leading-[0.8] font-black tracking-tighter uppercase mix-blend-difference">
+        <div className="text-center md:text-left relative z-10">
+          {/* mix-blend-difference creates that cool inverted color effect against the image */}
+          <h1 className="text-[12vw] leading-[0.8] font-black tracking-tighter uppercase mix-blend-difference text-black">
             TONY'S <br/>KITCHEN LAB
           </h1>
         </div>
 
-        <div className="flex justify-between items-end">
+        <div className="flex justify-between items-end relative z-10">
           <div className="hidden md:block font-bold text-xs max-w-xs tracking-wide leading-relaxed">
             A digital exploration of an evolving family recipe Shrimp with Lobster Sauce that transcended countries and generations.
           </div>
