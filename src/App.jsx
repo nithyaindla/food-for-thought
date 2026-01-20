@@ -130,9 +130,9 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    beans: "/beans.png",
+    salted_black_soy_beans: "/beans.png",
     garlic: "/garlic.png",
-    wine: "/wine.png",
+    shaoxing_wine: "/wine.png",
     egg: "/egg.png",
     knife: "/knife.png", 
   };
@@ -145,7 +145,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
+  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
@@ -453,7 +453,7 @@ function App() {
         style={{ backgroundImage: "url('/intro-tony.gif')" }}
       >
         {/* Dark overlay for cinema effect */}
-        <div className="absolute inset-0 bg-black/50 pointer-events-none backdrop-blur-[1px]"></div>
+        <div className="absolute inset-0 bg-black/40 pointer-events-none backdrop-blur-[1px]"></div>
 
         <div className="flex justify-between items-start font-bold text-xs tracking-widest uppercase relative z-10 text-white/80">
           <span>FOOD FOR THOUGHT</span>
@@ -487,9 +487,8 @@ function App() {
       {/* 4. STORY: RECIPE */}
       <StoryBlock label="02. THE RECIPE" align="right">
         <p>His dad brought home the recipe for <span className="underline decoration-2 underline-offset-8 decoration-orange-500 text-white">Shrimp with Lobster Sauce</span> from the restaurant where he worked.</p>
-        <p>It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. Getting Chinese ingredients meant driving a hundred miles to Chicago for these amazing dinners at authentic provincial restaurants.</p>
-        <p className="italic text-zinc-500 font-bold text-2xl">"Hey Jack," they'd call out at the fish markets, giving him the best pick.</p>
-      </StoryBlock>
+        <p>It became a staple, reserved for celebrations.</p>
+        </StoryBlock>
 
       {/* 5. THE FILM COMPONENT */}
       <div className="py-24 bg-black relative border-y border-zinc-800">
@@ -498,7 +497,7 @@ function App() {
            <div className="flex justify-between items-end mb-6 border-b border-zinc-800 pb-4">
              <h2 className="text-xs font-bold uppercase tracking-widest text-orange-500 flex items-center gap-2"><Play size={12}/> FILM ARCHIVE</h2>
              <div className="text-xs font-bold tracking-widest uppercase text-right text-zinc-500">
-                <span>To The Mothers</span>
+                <span>BY NITHYA SUNKARA INDLAMURI</span>
              </div>
           </div>
           <div className="w-full aspect-video bg-zinc-900 border border-zinc-800 relative shadow-[0_0_50px_rgba(0,0,0,0.5)]">
@@ -573,7 +572,7 @@ function App() {
 
       {/* 10. STORY: MAGIC DUST */}
       <StoryBlock label="06. MAGIC DUST">
-        <p>She never measured anything, never wrote anything down. She just sprinkled <span className="text-purple-400 font-bold">magic dust</span> on her food and it tasted better than anything Tony can make.</p>
+        <p>She never measured anything, never wrote anything down. She just sprinkled <span className="text-purple-400 font-bold">"magic dust"</span> on her food and it tasted better than anything Tony can make.</p>
         <p className="text-zinc-400">He wants to glean more of her recipes before it's too late.</p>
       </StoryBlock>
 
