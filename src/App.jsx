@@ -93,7 +93,7 @@ const FloatingContext = () => {
         {/* BLOCK 3: THE RECIPE */}
         <FloatingText className="max-w-5xl mx-auto text-center">
            <h2 className="text-[5rem] md:text-[8rem] leading-[0.8] font-black text-orange-600 opacity-90 mix-blend-multiply">
-             LOBSTER<br/>SAUCE
+             SHRIMP WITH<br/>LOBSTER SAUCE
            </h2>
            <p className="text-xl md:text-2xl mt-8 font-sans max-w-2xl mx-auto">
              His dad brought the recipe home from the restaurant. It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. 
@@ -176,9 +176,9 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    beans: "/beans.png",
+    salted_black_soy_beans: "/beans.png",
     garlic: "/garlic.png",
-    wine: "/wine.png",
+    shaoxing_wine: "/wine.png",
     egg: "/egg.png",
     knife: "/knife.png", 
   };
@@ -196,7 +196,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
+  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
@@ -324,10 +324,10 @@ const ShrimpCookingGame = () => {
       {/* MENU */}
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative font-sans">
-          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter text-center">SHRIMP<br/>WOK RUSH</h1>
+          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter text-center">TONY'<br/>TUTORIAL</h1>
           <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Beat the Clock: 60 Seconds</p>
           <button onClick={startGame} className="brutal-btn text-xl">
-            START SHIFT
+            START COOKING
           </button>
         </div>
       )}
