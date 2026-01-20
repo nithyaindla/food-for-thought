@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Linkedin, Play } from 'lucide-react';
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Clock, AlertCircle } from 'lucide-react';
 
 // --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
-const FloatingText = ({ children, delay = 0 }) => {
+const FloatingText = ({ children, delay = 0, className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
 
@@ -23,7 +23,7 @@ const FloatingText = ({ children, delay = 0 }) => {
   return (
     <div
       ref={domRef}
-      className={`max-w-5xl mr-auto text-left transition-all duration-[1500ms] ease-out transform ${
+      className={`transition-all duration-[1500ms] ease-out transform ${className} ${
         isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-24 blur-sm'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
@@ -33,7 +33,7 @@ const FloatingText = ({ children, delay = 0 }) => {
   );
 };
 
-// --- NEW: FLOATING CONTEXT SECTION ---
+// --- NEW: FLOATING CONTEXT SECTION (DESIGN AS TEXT) ---
 const FloatingContext = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const containerRef = useRef(null);
@@ -53,50 +53,111 @@ const FloatingContext = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative bg-black text-white py-40 overflow-hidden font-serif tracking-wide">
+    <div ref={containerRef} className="relative bg-stone-100 text-black py-40 overflow-hidden font-serif tracking-wide">
       
-      {/* BACKGROUND PARTICLES (Subtle Drift) */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-20">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-blue-900/20 rounded-full blur-[100px]" 
-             style={{ transform: `translateY(${scrollProgress * 100}px)` }} />
-        <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-yellow-900/10 rounded-full blur-[120px]" 
-             style={{ transform: `translateY(${scrollProgress * -150}px)` }} />
+      {/* BACKGROUND ELEMENTS */}
+      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
+         {/* Dynamic Red Circle for "China/Heritage" */}
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-600 rounded-full blur-[120px]" 
+             style={{ transform: `translateY(${scrollProgress * 200}px) scale(${1 + scrollProgress * 0.5})` }} />
+         {/* Dynamic Orange for "Cooking" */}
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-500 rounded-full blur-[100px]" 
+             style={{ transform: `translateY(${scrollProgress * -100}px)` }} />
       </div>
 
-      {/* FLOATING TEXT STREAM - LARGE SERIF, ALL LEFT ALIGNED */}
-      <div className="relative z-10 px-6 md:px-12 space-y-48 text-2xl md:text-4xl leading-tight">
+      <div className="relative z-10 px-6 md:px-20 max-w-7xl mx-auto space-y-48">
         
-        <FloatingText>
-          King Midas starved in a palace made of hunger. His golden touch, a glittering curse, transformed bread into the weight of his own greed. The lesson lives in a myth every third grader reads.
+        {/* BLOCK 1: ARRIVAL */}
+        <FloatingText className="max-w-4xl mr-auto">
+          <p className="text-xl md:text-2xl text-stone-500 font-sans font-bold uppercase tracking-widest mb-4">The Arrival</p>
+          <p className="text-4xl md:text-6xl leading-tight font-black text-gray-900">
+            Tony Low's father arrived in America at <span className="text-red-700">five foot eleven, 125 pounds</span>. 
+          </p>
+          <p className="text-2xl md:text-3xl mt-8 text-gray-600 font-light leading-relaxed">
+            You could count his ribs. He'd fled communist China where he got two bowls of rice a day, crossed an ocean to a country where he didn't know the language.
+          </p>
         </FloatingText>
 
-        <FloatingText>
-          Across oceans and centuries, Hindu families gather to celebrate a child's first taste of solid food, treating survival itself as worthy of ceremony. 
+        {/* BLOCK 2: SURVIVAL */}
+        <FloatingText className="max-w-3xl ml-auto text-right">
+           <div className="border-r-4 border-black pr-8">
+              <p className="text-lg md:text-xl text-stone-800 italic mb-6">
+                "Waiter, waitress, bartender, whatever paid rent."
+              </p>
+              <p className="text-2xl md:text-4xl font-bold text-gray-900">
+                The oldest son in a Chinese immigrant family, Tony watched his parents take any work that would have them. They put food on the table for three kids who knew they were poor but were <span className="underline decoration-orange-500 decoration-4 underline-offset-4">happy anyway</span>.
+              </p>
+           </div>
         </FloatingText>
 
-        <FloatingText>
-          In Wisconsin, a man named Donald Gorske marks time differently. At 71, he celebrated his 35,000th Big Mac, a world record that exists somewhere between devotion and madness.
+        {/* BLOCK 3: THE RECIPE */}
+        <FloatingText className="max-w-5xl mx-auto text-center">
+           <h2 className="text-[5rem] md:text-[8rem] leading-[0.8] font-black text-orange-600 opacity-90 mix-blend-multiply">
+             LOBSTER<br/>SAUCE
+           </h2>
+           <p className="text-xl md:text-2xl mt-8 font-sans max-w-2xl mx-auto">
+             His dad brought the recipe home from the restaurant. It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. 
+           </p>
         </FloatingText>
 
-        <FloatingText>
-          "Food is strength, and food is peace, and food is freedom, and food is a helping hand to people around the world whose good will and friendship we want," proclaimed President John F. Kennedy.
+        {/* BLOCK 4: THE MARKET */}
+        <FloatingText className="max-w-4xl mr-auto">
+           <p className="text-3xl md:text-5xl font-serif text-gray-800 leading-snug">
+             <span className="text-red-600 font-bold">"Hey Jack!"</span> Everyone at the fish market knew Tony's dad.
+           </p>
+           <p className="text-lg md:text-xl mt-6 text-stone-600 border-l-2 border-stone-300 pl-6">
+             Getting authentic ingredients meant driving a hundred miles to Chicago. Otherwise, they recreated what they could from memory and whatever Milwaukee, Wisconsin had to offer.
+           </p>
         </FloatingText>
 
-        <FloatingText>
-          He wasn't wrong. Food is the original diplomat, the universal language, the thing that makes people put down their weapons long enough to argue about whether pineapple belongs on pizza.
+        {/* BLOCK 5: MOTHER'S LOVE */}
+        <FloatingText className="max-w-4xl ml-auto bg-white p-8 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] border-2 border-black">
+           <p className="font-mono text-xs uppercase tracking-widest text-gray-400 mb-4">DATA: AFFECTION</p>
+           <p className="text-xl md:text-2xl leading-relaxed mb-6">
+             In the Low house, meals weren't conversational. You sat down, ate what was in front of you, cleaned your plate. <span className="font-bold">That's how his mother showed love.</span>
+           </p>
+           <p className="text-lg text-gray-600 italic">
+             "The best piece of fish always went to the kids, her bowl was always smallest, and 'I already ate' was her most reliable lie."
+           </p>
         </FloatingText>
 
-        <FloatingText>
-          Beyond keeping our organs operational, food is culture and friendship and tradition and community and conversation. From kitchen to camera to code, this project brought together two of humanity's most primitive and prominent loves: food and mothers.
+        {/* BLOCK 6: MAGIC DUST */}
+        <FloatingText className="max-w-5xl mx-auto">
+           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+              <div className="text-5xl md:text-7xl font-black text-stone-200 text-right leading-none select-none">
+                MAGIC<br/>DUST
+              </div>
+              <div className="text-lg md:text-xl text-gray-800">
+                <p className="mb-6">
+                  She never measured anything. She just sprinkled magic dust on her food and it tasted better than anything Tony can make.
+                </p>
+                <p className="font-bold text-red-700">
+                  Where his mother used her hands and one cleaver, Tony collects Japanese knives. He calls his happy place the Kitchen Lab.
+                </p>
+              </div>
+           </div>
         </FloatingText>
 
-        <FloatingText>
-          What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person, because here's what matters: 
-        </FloatingText>
-
-        <FloatingText>
-          When was the last time you actually tasted your food instead of scrolling through it? Who taught you to cook the dish that feels like home? And when they're gone, will you remember how they made it, or will you wish you'd paid attention?
-        </FloatingText>
+        {/* BLOCK 7: CONCLUSION */}
+        <div className="space-y-32 pt-20">
+            <FloatingText className="max-w-3xl mx-auto text-center">
+                <p className="text-2xl md:text-4xl font-light text-stone-600 mb-4">
+                  Tony's love language is food.
+                </p>
+                <p className="text-3xl md:text-5xl font-bold text-gray-900">
+                  You feed him, you're expressing your love. He cooks for you, he's giving it back.
+                </p>
+            </FloatingText>
+            
+            <FloatingText className="max-w-2xl mx-auto text-left border-t-2 border-black pt-8">
+                <p className="text-lg font-mono mb-4">WHAT MATTERS:</p>
+                <ul className="space-y-6 text-xl md:text-2xl font-serif list-disc pl-5">
+                  <li>When was the last time you actually tasted your food instead of scrolling through it?</li>
+                  <li>Who taught you to cook the dish that feels like home?</li>
+                  <li className="font-bold text-red-600">And when they're gone, will you remember how they made it?</li>
+                </ul>
+            </FloatingText>
+        </div>
 
       </div>
     </div>
@@ -115,26 +176,48 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    salted_black_soy_beans: "/beans.png",
+    beans: "/beans.png",
     garlic: "/garlic.png",
-    shaoxing_wine: "/wine.png",
+    wine: "/wine.png",
     egg: "/egg.png",
     knife: "/knife.png", 
   };
 
   // State
-  const [gameState, setGameState] = useState('menu'); 
+  const [gameState, setGameState] = useState('menu'); // menu, prep, sauce, cooking, plating, gameOver, lost
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [draggedItem, setDraggedItem] = useState(null);
+  
+  // Timer State
+  const [timeLeft, setTimeLeft] = useState(60); // 60 seconds to win
+  
+  // Game Logic States
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
+  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
-  // Timer
+  // --- GAME TIMER ---
+  useEffect(() => {
+    let interval;
+    if (gameState !== 'menu' && gameState !== 'gameOver' && gameState !== 'lost' && gameState !== 'final') {
+      interval = setInterval(() => {
+        setTimeLeft((prev) => {
+          if (prev <= 1) {
+            setGameState('lost');
+            return 0;
+          }
+          return prev - 1;
+        });
+      }, 1000);
+    }
+    return () => clearInterval(interval);
+  }, [gameState]);
+
+  // --- COOKING PROGRESS TIMER ---
   useEffect(() => {
     let timer;
     if (gameState === 'cooking' && cookingStep === 'shrimp_cooking') {
@@ -188,7 +271,7 @@ const ShrimpCookingGame = () => {
     }
     if (draggedItem === 'egg' && cookingStep === 'sauce_added') {
       setCookingStep('egg_added');
-      setScore(prev => prev + 1000);
+      setScore(prev => prev + (timeLeft * 10)); // Bonus points for time left
       triggerFeedback("PERFECTO");
       setTimeout(() => setGameState('final'), 2000);
     }
@@ -197,6 +280,7 @@ const ShrimpCookingGame = () => {
   const startGame = () => {
     setGameState('prep');
     setScore(0);
+    setTimeLeft(60);
     setShrimpPrepped(0);
     setSauceIngredientsAdded([]);
     setCookingStep('empty');
@@ -207,15 +291,25 @@ const ShrimpCookingGame = () => {
     <div className="w-full h-[700px] border-2 border-black bg-white relative select-none flex flex-col overflow-hidden brutal-shadow">
       
       {/* HUD */}
-      <div className="h-12 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20 font-sans">
-        <div className="flex items-center gap-4 text-sm font-bold tracking-wider">
-           <span>STATION: {gameState.toUpperCase()}</span>
-           <span>SCORE: {score.toString().padStart(4, '0')}</span>
+      <div className="h-14 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20 font-sans">
+        <div className="flex items-center gap-6">
+           <div className="flex flex-col">
+             <span className="text-[10px] font-bold uppercase text-gray-500">Station</span>
+             <span className="font-bold text-sm">{gameState.toUpperCase()}</span>
+           </div>
+           
+           {/* TIMER DISPLAY */}
+           {gameState !== 'menu' && gameState !== 'final' && gameState !== 'lost' && (
+             <div className={`flex items-center gap-2 font-mono text-xl font-bold ${timeLeft < 15 ? 'text-red-600 animate-pulse' : 'text-black'}`}>
+               <Clock size={20} />
+               <span>00:{timeLeft.toString().padStart(2, '0')}</span>
+             </div>
+           )}
         </div>
-        <div className="flex gap-1">
-          <div className="w-3 h-3 rounded-full bg-red-500 border border-black"></div>
-          <div className="w-3 h-3 rounded-full bg-yellow-500 border border-black"></div>
-          <div className="w-3 h-3 rounded-full bg-green-500 border border-black"></div>
+
+        <div className="flex items-center gap-2">
+           <span className="text-[10px] font-bold uppercase text-gray-500 text-right">Score</span>
+           <span className="font-mono font-bold text-xl">{score.toString().padStart(4, '0')}</span>
         </div>
       </div>
 
@@ -230,16 +324,16 @@ const ShrimpCookingGame = () => {
       {/* MENU */}
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative font-sans">
-          <h1 className="text-5xl md:text-6xl font-black mb-2 tracking-tighter">SHRIMP  with LOBSTER SAUCE</h1>
-          <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Interactive Cooking Module v2.0</p>
+          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter text-center">SHRIMP<br/>WOK RUSH</h1>
+          <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Beat the Clock: 60 Seconds</p>
           <button onClick={startGame} className="brutal-btn text-xl">
-            START COOKING
+            START SHIFT
           </button>
         </div>
       )}
 
       {/* STATIONS */}
-      {gameState !== 'menu' && gameState !== 'final' && (
+      {gameState !== 'menu' && gameState !== 'final' && gameState !== 'lost' && (
         <div className="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] font-sans">
           
           {/* 1. PREP STATION */}
@@ -373,11 +467,12 @@ const ShrimpCookingGame = () => {
         </div>
       )}
 
-      {/* FINAL PRODUCT SCREEN */}
+      {/* WIN SCREEN */}
       {gameState === 'final' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-white p-8 font-sans">
           <div className="border-4 border-black p-8 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-gray-50">
             <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Order Complete</h1>
+            <p className="text-xl font-bold text-green-600 mb-4">TIME BONUS: {timeLeft}s</p>
             
             <div className="my-8 relative group">
                 <div className="absolute inset-0 bg-yellow-400 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
@@ -394,100 +489,22 @@ const ShrimpCookingGame = () => {
         </div>
       )}
 
-    </div>
-  );
-};
-
-// --- PROFILE SECTION (CLEAN) ---
-const ProfileSection = () => {
-  return (
-    <section className="bg-black text-white border-b-0 py-20 px-6 md:px-12 relative overflow-hidden">
-      
-      <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8 relative z-10">
-        
-        {/* LEFT COLUMN: TITLE */}
-        <div className="md:col-span-3">
-          <h2 className="text-xs font-bold uppercase tracking-widest sticky top-8 text-gray-400">(04) PROFILE</h2>
-        </div>
-        
-        {/* RIGHT COLUMN: CONTENT */}
-        <div className="md:col-span-9">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-start">
+      {/* LOSE SCREEN */}
+      {gameState === 'lost' && (
+        <div className="flex-1 flex flex-col items-center justify-center bg-red-50 p-8 font-sans">
+          <div className="border-4 border-red-600 p-8 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(200,0,0,1)] bg-white">
+            <AlertCircle size={64} className="text-red-600 mx-auto mb-4" />
+            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase text-red-600">TOO SLOW!</h1>
+            <p className="text-xl font-bold mb-8">The customer walked out.</p>
             
-            {/* IMAGE */}
-            <div className="relative group">
-              <div className="border-2 border-white p-2">
-                <img 
-                  src="/headshot.jpeg" 
-                  alt="Nithya" 
-                  className="w-full aspect-[4/5] object-cover filter grayscale group-hover:grayscale-0 transition duration-700 ease-in-out" 
-                />
-              </div>
-              <div className="absolute -bottom-3 -right-3 bg-white text-black px-3 py-1 text-[10px] font-black uppercase tracking-widest border border-black">
-                DEVELOPER
-              </div>
-            </div>
-
-            {/* TEXT CONTENT */}
-            <div className="flex flex-col justify-center h-full">
-              <h3 className="text-5xl font-black mb-8 uppercase tracking-tighter leading-none">
-                Hi, I'm <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-gray-200 to-gray-500">Nithya</span>
-              </h3>
-              
-              <div className="mb-10 text-gray-400 leading-relaxed font-light text-lg space-y-6">
-                <div className="pl-4 border-l-2 border-gray-700 italic text-gray-500 text-sm">
-                  <p>
-                    "She was walking in the street, looked up and noticed<br/>
-                    He was nameless, he was homeless...<br/>
-                    The things that change us if we notice<br/>
-                    When we look up sometimes"
-                  </p>
-                  <span className="block mt-2 text-xs font-bold not-italic text-gray-600">— Alicia Keys, Underdog</span>
-                </div>
-
-                <p>
-                  When I tell people that I am a <span className="text-white font-medium">Media and Journalism</span> and <span className="text-white font-medium">Computer Science</span> double-major, people are often confused or amused. 
-                </p>
-                <p>
-                  However, in the whirlwind of the pandemic and high school, this song may have been the catalyst for every strange, insightful, memorable conversation I've started. This song inspired me to listen: to my grandparents' stories, my mom's tales of immigration, and even my neighbors like Tony.
-                </p>
-                <p>
-                  This would not be possible without the people who shape me, challenge me, and believe in me.
-                </p>
-              </div>
-              
-              {/* LINKS */}
-              <div className="flex flex-wrap gap-4 font-bold text-xs uppercase tracking-widest">
-                <a 
-                  href="mailto:nithya.indla8@gmail.com" 
-                  className="flex items-center gap-2 border border-gray-600 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition duration-300"
-                >
-                  <Mail size={14}/> Email
-                </a>
-                <a 
-                  href="https://bynithya.com/portfolio/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-2 border border-gray-600 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition duration-300"
-                >
-                  <Globe size={14}/> Portfolio
-                </a>
-                <a 
-                  href="https://www.linkedin.com/in/nithya-ind/" 
-                  target="_blank" 
-                  rel="noopener noreferrer" 
-                  className="flex items-center gap-2 border border-gray-600 px-6 py-3 hover:bg-white hover:text-black hover:border-white transition duration-300"
-                >
-                  <Linkedin size={14}/> LinkedIn
-                </a>
-              </div>
-
-            </div>
+            <button onClick={startGame} className="bg-red-600 text-white px-8 py-4 font-bold hover:bg-black transition-colors w-full flex items-center justify-center gap-2 tracking-wide uppercase">
+              <RotateCcw size={20}/> Try Again
+            </button>
           </div>
         </div>
-      </div>
-    </section>
+      )}
+
+    </div>
   );
 };
 
@@ -513,21 +530,16 @@ function App() {
       {/* 1. ENTRY / TITLE PAGE */}
       <header 
         className="h-screen flex flex-col justify-between p-6 md:p-12 border-b-2 border-black relative bg-cover bg-center"
-        // CHANGE '/landing.png' TO YOUR ACTUAL FILE NAME
         style={{ backgroundImage: "url('/intro-tony.gif')" }}
       >
-        {/* OPTIONAL: White Overlay - opacity 30% to make text pop. 
-            Change to bg-black/30 if you want it darker, or remove entirely. */}
         <div className="absolute inset-0 bg-white/30 pointer-events-none"></div>
 
-        {/* CONTENT (Added relative z-10 so it sits ON TOP of the overlay) */}
         <div className="flex justify-between items-start font-bold text-xs tracking-widest uppercase relative z-10">
           <span>FOOD FOR THOUGHT</span>
           <span className="text-right">BY NITHYA SUNKARA INDLAMURI<br/>2025</span>
         </div>
         
         <div className="text-center md:text-left relative z-10">
-          {/* mix-blend-difference creates that cool inverted color effect against the image */}
           <h1 className="text-[12vw] leading-[0.8] top-10 font-black tracking-tighter uppercase mix-blend-difference text-black mt-[15px]">
             TONY'S KITCHEN LAB
           </h1>
@@ -535,38 +547,44 @@ function App() {
 
         <div className="flex justify-between items-end relative z-10">
           <div className="hidden md:block font-bold text-xs max-w-xs tracking-wide leading-relaxed">
-            A digital exploration of an evolving family recipe Shrimp with Lobster Sauce that transcended countries and generations.
+            From kitchen to camera to code, this is a digital exploration of humanity's most primitive and prominent loves: food and mothers.
           </div>
           <ArrowDown className="animate-bounce w-8 h-8" />
         </div>
       </header>
 
-      {/* 2. THE FILM */}
-      <Section title="(01) THE FILM">
-        <div className="w-full aspect-video bg-black border-2 border-black relative">
-             <iframe 
-                src="https://player.vimeo.com/video/1132358106?badge=0&autopause=0&player_id=0&app_id=58479" 
-                className="w-full h-full" 
-                frameBorder="0" 
-                allow="autoplay; fullscreen; picture-in-picture" 
-                allowFullScreen
-                title="To the Mothers"
-              ></iframe>
+      {/* 2. THE FILM (UPDATED: FULL WIDTH) */}
+      <section className="border-b-2 border-black py-20 px-6 md:px-12">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex justify-between items-end mb-4">
+             <h2 className="text-xs font-bold uppercase tracking-widest">(01) THE FILM</h2>
+             <div className="text-xs font-bold tracking-widest uppercase text-right">
+                <span>FEATURING TONY LOW</span><br/>
+                <span>BY NITHYA SUNKARA INDLAMURI</span>
+             </div>
+          </div>
+          {/* Video Container - Expanded */}
+          <div className="w-full aspect-video bg-black border-2 border-black relative shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
+               <iframe 
+                  src="https://player.vimeo.com/video/1132358106?badge=0&autopause=0&player_id=0&app_id=58479" 
+                  className="w-full h-full" 
+                  frameBorder="0" 
+                  allow="autoplay; fullscreen; picture-in-picture" 
+                  allowFullScreen
+                  title="To the Mothers"
+                ></iframe>
+          </div>
         </div>
-        <div className="mt-4 flex justify-between text-xs font-bold tracking-widest border-t border-black pt-2 uppercase">
-          <span>FEATURING TONY LOW</span>
-          <span>BY NITHYA SUNKARA INDLAMURI</span>
-        </div>
-      </Section>
+      </section>
 
-      {/* 3. FLOATING CONTEXT (FULL ESSAY LEFT ALIGNED) */}
+      {/* 3. FLOATING CONTEXT (UPDATED: TONY'S STORY, COLOR DESIGN) */}
       <FloatingContext />
 
       {/* 4. THE GAME */}
       <Section title="(02) INTERACTIVE">
         <div className="mb-8">
-          <h3 className="text-4xl font-bold mb-2 tracking-tight">TONY'S KITCHEN LAB</h3>
-          <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Experience.</p>
+          <h3 className="text-4xl font-bold mb-2 tracking-tight">KITCHEN LAB SIMULATOR</h3>
+          <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Beat the timer.</p>
         </div>
         
         {/* The Game Component */}
@@ -576,15 +594,12 @@ function App() {
         <p className="mt-6 text-[10px] text-gray-400 text-center uppercase tracking-widest font-bold">
           Disclaimer: The graphics in this game were created by Google Gemini and are AI generated.
         </p>
-        
       </Section>
 
-      {/* 5. NEW GALLERY SECTION (BENTO CONTACT SHEET) */}
+      {/* 5. ARCHIVE SECTION */}
       <Section title="(03) ARCHIVE">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-2 border-black bg-black gap-0.5">
-          {/* gap-0.5 with bg-black creates the "border" effect between items */}
           
-          {/* 1. Video: Preparation (Focus) */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <video 
                   src="/mom6.mp4" 
@@ -596,7 +611,6 @@ function App() {
               </div>
           </div>
 
-          {/* 2. Photo: Raw Materials */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
                   src="/mom1.png" 
@@ -608,7 +622,6 @@ function App() {
               </div>
           </div>
 
-          {/* 3. Photo: Process/Reduction */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
                   src="/mom5.png" 
@@ -620,7 +633,6 @@ function App() {
               </div>
           </div>
 
-          {/* 4. Photo: Assembly 1 */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
                   src="/mom3.png" 
@@ -632,7 +644,6 @@ function App() {
               </div>
           </div>
 
-          {/* 5. Photo: Assembly 2 (Shared Labor) */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
                   src="/mom2.png" 
@@ -644,7 +655,6 @@ function App() {
               </div>
           </div>
 
-          {/* 6. Photo: Result (Joy) */}
           <div className="relative aspect-[3/4] bg-white group overflow-hidden">
               <img 
                   src="/mom4.png" 
@@ -658,9 +668,6 @@ function App() {
 
         </div>
       </Section>
-
-      {/* 6. PROFILE SECTION (NOW WITH AUDIO) */}
-      <ProfileSection />
 
       <footer className="py-8 px-12 border-t border-white bg-black text-white flex justify-between text-xs font-bold tracking-widest uppercase">
         <div>© 2025 ALL RIGHTS RESERVED</div>
