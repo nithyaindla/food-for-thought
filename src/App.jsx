@@ -411,7 +411,7 @@ function App() {
         className="h-screen flex flex-col justify-between p-6 md:p-12 border-b border-zinc-800 relative bg-cover bg-center"
         style={{ backgroundImage: "url('/intro-tony.gif')" }}
       >
-        <div className="absolute inset-0 bg-black/60 pointer-events-none backdrop-blur-[1px]"></div>
+        <div className="absolute inset-0 bg-black/20 pointer-events-none backdrop-blur-[1px]"></div>
 
         <div className="flex justify-between items-start font-space font-bold text-xs tracking-[0.2em] uppercase relative z-10 text-white/80">
           <span>FOOD FOR THOUGHT</span>
@@ -419,7 +419,7 @@ function App() {
         </div>
         
         {/* Title moved to Bottom Right to avoid face */}
-        <div className="absolute bottom-15 right-6 md:right-12 relative z-10 text-left">
+        <div className="absolute bottom-10 right-6 md:right-12 relative z-10 text-left">
           <h1 className="text-[8vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
             TONY'S<br/>KITCHEN<br/>LAB
           </h1>
