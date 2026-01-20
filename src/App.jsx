@@ -126,9 +126,9 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    beans: "/beans.png",
+    salted_black_soy_beans: "/beans.png",
     garlic: "/garlic.png",
-    wine: "/wine.png",
+    shaoxing_wine: "/wine.png",
     egg: "/egg.png",
     knife: "/knife.png", 
   };
@@ -142,7 +142,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
+  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
@@ -509,7 +509,7 @@ function App() {
       </div>
 
       {/* 6. STORY: MOTHER'S LOVE */}
-      <StoryBlock title="03. Affection" align="center">
+      <StoryBlock title="03. Affection" align="right">
         <p>In the Low house, meals weren't conversational. You sat down, ate what was in front of you, cleaned your plate. <span className="font-bold text-slate-900">That's how his mother showed love.</span></p>
         <p className="text-xl text-slate-500">She'd stand at the stove for hours with one knife and a cleaver. The best piece of fish always went to the kids, her bowl was always smallest, and "I already ate" was her most reliable lie.</p>
       </StoryBlock>
