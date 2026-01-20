@@ -273,13 +273,19 @@ const ShrimpCookingGame = () => {
         </div>
       )}
 
-      {/* MENU */}
+      {/* MENU (FIXED INSTRUCTIONS) */}
       {gameState === 'menu' && (
         <div className="flex-1 flex flex-col items-center justify-center bg-zinc-950 relative">
           <div className="border border-zinc-800 p-12 bg-black/80 text-center shadow-2xl backdrop-blur-sm max-w-md">
-            <h1 className="text-5xl font-syne font-black mb-4 tracking-tighter text-white">KITCHEN<br/>LAB</h1>
-            <p className="text-xs font-bold mb-8 text-orange-500 tracking-widest uppercase border-t border-b border-zinc-800 py-4">Protocol: Complete Service in 60s</p>
-            <button onClick={startGame} className="bg-orange-600 text-white text-xl font-bold py-4 px-12 hover:bg-white hover:text-black transition-all w-full">INITIALIZE</button>
+            <h1 className="text-5xl font-syne font-black mb-6 tracking-tighter text-white">KITCHEN<br/>LAB</h1>
+            
+            <div className="mb-8 text-left text-xs font-space font-bold text-zinc-400 tracking-widest uppercase border-t border-b border-zinc-800 py-6 space-y-3">
+              <p><span className="text-orange-500">01.</span> DEVEIN SHRIMP WITH KNIFE</p>
+              <p><span className="text-orange-500">02.</span> COMBINE 4 SAUCE ITEMS</p>
+              <p><span className="text-orange-500">03.</span> WOK COOK: SHRIMP → SAUCE → EGG</p>
+            </div>
+            
+            <button onClick={startGame} className="bg-orange-600 text-white text-xl font-bold py-4 px-12 hover:bg-white hover:text-black transition-all w-full tracking-widest">INITIALIZE</button>
           </div>
         </div>
       )}
@@ -400,7 +406,7 @@ function App() {
     <div className="min-h-screen bg-zinc-950 text-zinc-200 selection:bg-orange-500 selection:text-white font-space">
       <FontStyles />
       
-      {/* 1. ENTRY / TITLE PAGE */}
+      {/* 1. ENTRY / TITLE PAGE (FIXED POSITIONS) */}
       <header 
         className="h-screen flex flex-col justify-between p-6 md:p-12 border-b border-zinc-800 relative bg-cover bg-center"
         style={{ backgroundImage: "url('/intro-tony.gif')" }}
@@ -412,14 +418,15 @@ function App() {
           <span className="text-right">BY NITHYA SUNKARA INDLAMURI<br/>2025</span>
         </div>
         
-        {/* Title Centered Bottom - Arrows removed */}
-        <div className="absolute bottom-12 left-6 md:left-12 relative z-10">
-          <h1 className="text-[12vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
+        {/* Title moved to Bottom Right to avoid face */}
+        <div className="absolute bottom-20 right-6 md:right-12 relative z-10 text-right">
+          <h1 className="text-[10vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
             TONY'S<br/>KITCHEN LAB
           </h1>
         </div>
 
-        <div className="absolute bottom-14 right-6 md:right-12 relative z-10 flex flex-col items-center gap-2">
+        {/* Scroll Indicator moved to Bottom Left */}
+        <div className="absolute bottom-14 left-6 md:left-12 relative z-10 flex flex-col items-center gap-2">
           <span className="text-[10px] font-space tracking-widest uppercase text-white/50">Scroll</span>
           <ArrowDown className="animate-bounce w-6 h-6 text-white" />
         </div>
