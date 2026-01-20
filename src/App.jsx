@@ -418,8 +418,8 @@ function App() {
           <span className="text-right">BY NITHYA SUNKARA INDLAMURI<br/>2025</span>
         </div>
         
-        {/* Title moved to Bottom Right to avoid face */}
-        <div className="absolute bottom-2 right-6 md:right-12 relative z-10 text-left">
+        {/* Title moved to Bottom Right */}
+        <div className="absolute -bottom-10 right-6 md:right-12 relative z-10 text-left">
           <h1 className="text-[8vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
             TONY'S<br/>KITCHEN<br/>LAB
           </h1>
