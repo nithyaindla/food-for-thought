@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Clock, AlertTriangle, Play, ChevronRight, MousePointer } from 'lucide-react';
 
-// --- HELPER: CINEMATIC REVEAL COMPONENT ---
-const Reveal = ({ children, delay = 0, className = "" }) => {
+// --- HELPER: FADE IN COMPONENT ---
+// This must be defined before it is used in other components
+const FadeIn = ({ children, delay = 0, className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
 
@@ -11,7 +12,7 @@ const Reveal = ({ children, delay = 0, className = "" }) => {
       entries => {
         entries.forEach(entry => setIsVisible(entry.isIntersecting));
       },
-      { threshold: 0.15 } // Trigger when 15% visible
+      { threshold: 0.1 }
     );
     const current = domRef.current;
     if (current) observer.observe(current);
@@ -23,8 +24,8 @@ const Reveal = ({ children, delay = 0, className = "" }) => {
   return (
     <div
       ref={domRef}
-      className={`transition-all duration-[1200ms] ease-out transform ${className} ${
-        isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-16 blur-sm'
+      className={`transition-all duration-1000 ease-out transform ${className} ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -33,34 +34,35 @@ const Reveal = ({ children, delay = 0, className = "" }) => {
   );
 };
 
-// --- STORY TEXT COMPONENT (Cinematic) ---
-const StoryBlock = ({ label, children, align = "left" }) => {
-  const alignment = {
+// --- STORY TEXT COMPONENT ---
+const StoryBlock = ({ title, children, align = "left", className = "" }) => {
+  const alignmentClasses = {
     left: "mr-auto text-left",
     center: "mx-auto text-center",
-    right: "ml-auto text-right items-end"
+    right: "ml-auto text-right"
   };
 
   return (
-    <div className="py-32 px-6 md:px-12 max-w-7xl mx-auto flex flex-col">
-      <Reveal className={`max-w-3xl flex flex-col ${alignment[align]}`}>
-        {label && (
-          <div className={`flex items-center gap-3 mb-6 text-orange-500 ${align === 'right' ? 'flex-row-reverse' : ''} ${align === 'center' ? 'justify-center' : ''}`}>
-             <div className="w-2 h-2 bg-orange-500 rounded-full animate-pulse"></div>
-             <p className="font-mono text-xs font-bold uppercase tracking-[0.2em]">
-              {label}
+    <div className={`py-32 px-6 md:px-20 max-w-7xl mx-auto ${className}`}>
+      <FadeIn className={`max-w-4xl ${alignmentClasses[align]}`}>
+        {title && (
+          <div className={`flex items-center gap-4 mb-6 ${align === 'right' ? 'justify-end' : ''} ${align === 'center' ? 'justify-center' : ''}`}>
+             {align !== 'right' && <div className="h-[1px] bg-orange-500 w-12"></div>}
+             <p className="font-mono text-xs font-bold uppercase tracking-widest text-orange-500">
+              {title}
             </p>
+             {align === 'right' && <div className="h-[1px] bg-orange-500 w-12"></div>}
           </div>
         )}
-        <div className="text-2xl md:text-4xl font-serif leading-relaxed text-zinc-200 space-y-8">
+        <div className="text-2xl md:text-4xl font-serif leading-relaxed text-stone-200 space-y-8">
           {children}
         </div>
-      </Reveal>
+      </FadeIn>
     </div>
   );
 };
 
-// --- MEET TONY SECTION (Lab Style) ---
+// --- MEET TONY SECTION ---
 const MeetTony = () => {
   const scrollToGame = () => {
     const gameSection = document.getElementById('game-section');
@@ -70,54 +72,48 @@ const MeetTony = () => {
   };
 
   return (
-    <section className="py-32 px-6 md:px-12 border-b border-zinc-800 relative overflow-hidden">
-      {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-orange-600/5 rounded-full blur-[120px] pointer-events-none"></div>
+    <section className="py-32 px-6 md:px-12 bg-stone-900 border-b border-stone-800 relative overflow-hidden">
+      {/* Background decoration */}
+      <div className="absolute top-0 right-0 w-1/3 h-full bg-orange-900/10 blur-3xl"></div>
 
-      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10">
+      <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center relative z-10">
         
         {/* GRAPHIC SIDE */}
-        <Reveal>
+        <FadeIn>
           <div className="relative group flex justify-center">
-            <div className="absolute inset-0 bg-gradient-to-tr from-orange-500/20 to-transparent rounded-full blur-3xl opacity-0 group-hover:opacity-50 transition-opacity duration-700"></div>
+            <div className="absolute inset-0 bg-orange-500/20 rounded-full blur-3xl group-hover:opacity-40 transition-opacity"></div>
             <img 
               src="/tony.png" 
               alt="Tony Low" 
-              className="relative w-full max-w-md object-contain drop-shadow-2xl grayscale hover:grayscale-0 transition-all duration-1000 ease-in-out" 
+              className="relative w-full max-w-md object-contain drop-shadow-2xl transform hover:scale-105 transition duration-700" 
             />
           </div>
-        </Reveal>
+        </FadeIn>
 
         {/* TEXT SIDE */}
-        <Reveal delay={200} className="space-y-8">
-          <div>
-            <p className="font-mono text-xs text-orange-500 mb-4 tracking-widest">SUBJECT: TONY LOW</p>
-            <h2 className="text-6xl md:text-7xl font-black tracking-tighter text-white leading-[0.9]">
-              THE<br/>KITCHEN LAB
-            </h2>
-          </div>
-          
-          <div className="space-y-6 text-lg text-zinc-400 font-light leading-relaxed border-l border-zinc-800 pl-8">
+        <FadeIn delay={200}>
+          <h2 className="text-7xl font-black mb-8 tracking-tighter text-white">MEET <span className="text-orange-500">TONY</span></h2>
+          <div className="space-y-6 text-lg md:text-xl text-stone-400 font-light leading-relaxed">
             <p>
-              Tony works in high tech sales, but cooking is where he gets to be creative. He calls his happy place the <strong className="text-white">Kitchen Lab</strong>, where he experiments with recipes he sees amidst his travels, recalls from his experiences, and learned from his family.
+              Tony works in high tech sales, but cooking is where he gets to be creative. He calls his happy place the <span className="font-bold text-orange-400">Kitchen Lab</span>, where he experiments with recipes he sees amidst his travels, recalls from his experiences, and learned from his family.
             </p>
             <p>
               Where his mother used her hands and one cleaver, Tony collects Japanese knives. Where she made do with whatever Milwaukee had, he imports ingredients. 
             </p>
-            <p className="font-serif italic text-2xl text-white pt-4">
-              "When he recreates her recipes, he's reliving a part of his childhood and teaching the culture to his kids."
+            <p className="font-serif italic text-2xl text-stone-200 border-l-4 border-orange-500 pl-6 my-8">
+              "But when he recreates her recipes, he's reliving a part of his childhood and teaching the culture to his kids."
             </p>
           </div>
           
-          <div className="pt-4">
+          <div className="mt-12">
             <button 
               onClick={scrollToGame}
-              className="group flex items-center gap-4 border border-zinc-700 bg-zinc-900 text-white px-8 py-4 font-mono text-sm font-bold uppercase tracking-widest hover:bg-orange-600 hover:border-orange-600 transition-all duration-300"
+              className="group flex items-center gap-4 bg-orange-600 text-white px-8 py-4 rounded-none font-mono font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-all"
             >
-              Start Simulation <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform"/>
+              Enter The Lab <ChevronRight className="group-hover:translate-x-1 transition-transform"/>
             </button>
           </div>
-        </Reveal>
+        </FadeIn>
 
       </div>
     </section>
@@ -241,12 +237,12 @@ const ShrimpCookingGame = () => {
   };
 
   return (
-    <div className="w-full h-[700px] border border-zinc-700 bg-zinc-900 relative select-none flex flex-col overflow-hidden shadow-2xl font-mono text-zinc-100">
+    <div className="w-full h-[700px] border border-stone-700 bg-stone-900 relative select-none flex flex-col overflow-hidden shadow-2xl font-mono text-stone-200">
       {/* HUD */}
-      <div className="h-16 border-b border-zinc-700 bg-zinc-950 flex items-center justify-between px-6 z-20">
+      <div className="h-16 border-b border-stone-700 bg-stone-800 flex items-center justify-between px-6 z-20">
         <div className="flex items-center gap-8">
            <div>
-             <span className="block text-[10px] font-bold uppercase text-zinc-500 leading-none mb-1">STATION</span>
+             <span className="block text-[10px] font-bold uppercase text-stone-500 leading-none mb-1">STATION</span>
              <span className="block font-bold text-lg leading-none text-orange-500">{gameState.toUpperCase()}</span>
            </div>
            
@@ -267,14 +263,14 @@ const ShrimpCookingGame = () => {
         </div>
 
         <div>
-           <span className="block text-[10px] font-bold uppercase text-zinc-500 leading-none mb-1 text-right">SCORE</span>
+           <span className="block text-[10px] font-bold uppercase text-stone-500 leading-none mb-1 text-right">SCORE</span>
            <span className="block font-bold text-xl leading-none text-white">{score.toString().padStart(4, '0')}</span>
         </div>
       </div>
 
       {feedback && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none w-full text-center">
-          <span className="text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-zinc-500 drop-shadow-2xl animate-pulse">
+          <span className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-stone-400 drop-shadow-2xl animate-pulse">
             {feedback}
           </span>
         </div>
@@ -354,7 +350,7 @@ const ShrimpCookingGame = () => {
                 
                 <div onDragOver={(e) => e.preventDefault()} onDrop={handleSauceDrop} className="w-80 h-80 border-2 border-zinc-600 rounded-full flex items-center justify-center relative bg-zinc-800 shadow-2xl overflow-hidden group">
                   <div className="absolute inset-4 border border-dashed border-zinc-500 rounded-full"></div>
-                  <span className="text-xs font-bold z-10 bg-zinc-950 text-white px-2 py-1 border border-zinc-700">MIXING BOWL</span>
+                  <span className="text-xs font-bold z-10 bg-black text-white px-2 py-1 border border-zinc-700">MIXING BOWL</span>
                   <div className="absolute bottom-0 w-full bg-orange-700 transition-all duration-500 opacity-90" style={{height: `${sauceIngredientsAdded.length * 25}%`}}></div>
                 </div>
               </div>
