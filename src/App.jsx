@@ -33,7 +33,7 @@ const FloatingText = ({ children, delay = 0, className = "" }) => {
   );
 };
 
-// --- NEW: FLOATING CONTEXT SECTION (DESIGN AS TEXT) ---
+// --- NEW: FLOATING CONTEXT SECTION (FULL TEXT) ---
 const FloatingContext = () => {
   const [scrollProgress, setScrollProgress] = useState(0);
   const containerRef = useRef(null);
@@ -53,108 +53,127 @@ const FloatingContext = () => {
   }, []);
 
   return (
-    <div ref={containerRef} className="relative bg-stone-100 text-black py-40 overflow-hidden font-serif tracking-wide">
+    <div ref={containerRef} className="relative bg-stone-50 text-black py-40 overflow-hidden font-serif tracking-wide">
       
       {/* BACKGROUND ELEMENTS */}
       <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
-         {/* Dynamic Red Circle for "China/Heritage" */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-600 rounded-full blur-[120px]" 
              style={{ transform: `translateY(${scrollProgress * 200}px) scale(${1 + scrollProgress * 0.5})` }} />
-         {/* Dynamic Orange for "Cooking" */}
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-500 rounded-full blur-[100px]" 
              style={{ transform: `translateY(${scrollProgress * -100}px)` }} />
       </div>
 
-      <div className="relative z-10 px-6 md:px-20 max-w-7xl mx-auto space-y-48">
+      <div className="relative z-10 px-6 md:px-20 max-w-7xl mx-auto space-y-32">
         
         {/* BLOCK 1: ARRIVAL */}
         <FloatingText className="max-w-4xl mr-auto">
           <p className="text-xl md:text-2xl text-stone-500 font-sans font-bold uppercase tracking-widest mb-4">The Arrival</p>
-          <p className="text-4xl md:text-6xl leading-tight font-black text-gray-900">
-            Tony Low's father arrived in America at <span className="text-red-700">five foot eleven, 125 pounds</span>. 
+          <p className="text-3xl md:text-5xl leading-tight font-black text-gray-900">
+            Tony Low's father arrived in America at five foot eleven, <span className="text-red-700">125 pounds</span>. You could count his ribs. 
           </p>
-          <p className="text-2xl md:text-3xl mt-8 text-gray-600 font-light leading-relaxed">
-            You could count his ribs. He'd fled communist China where he got two bowls of rice a day, crossed an ocean to a country where he didn't know the language.
+          <p className="text-xl md:text-2xl mt-6 text-gray-700 font-light leading-relaxed">
+            He'd fled communist China where he got two bowls of rice a day, crossed an ocean to a country where he didn't know the language. The oldest son in a Chinese immigrant family, Tony watched his parents take any work that would have them: waiter, waitress, bartender, whatever paid rent and put food on the table for three kids who knew they were poor but were happy anyway.
           </p>
         </FloatingText>
 
-        {/* BLOCK 2: SURVIVAL */}
-        <FloatingText className="max-w-3xl ml-auto text-right">
+        {/* BLOCK 2: THE RECIPE & MARKET */}
+        <FloatingText className="max-w-4xl ml-auto text-right">
            <div className="border-r-4 border-black pr-8">
-              <p className="text-lg md:text-xl text-stone-800 italic mb-6">
-                "Waiter, waitress, bartender, whatever paid rent."
+              <p className="text-2xl md:text-4xl font-bold text-gray-900 mb-6">
+                His dad brought home the recipe for Shrimp with Lobster Sauce from the restaurant where he worked.
               </p>
-              <p className="text-2xl md:text-4xl font-bold text-gray-900">
-                The oldest son in a Chinese immigrant family, Tony watched his parents take any work that would have them. They put food on the table for three kids who knew they were poor but were <span className="underline decoration-orange-500 decoration-4 underline-offset-4">happy anyway</span>.
+              <p className="text-lg md:text-xl text-stone-600 leading-relaxed mb-6">
+                It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. Getting Chinese ingredients meant driving a hundred miles to Chicago for these amazing dinners at authentic provincial restaurants. 
+              </p>
+              <p className="text-xl italic text-gray-800">
+                At the fish markets, everyone knew Tony's dad. <span className="font-bold text-red-600">"Hey Jack,"</span> they'd call out, giving him the best pick. His parents recreated what they could from memory and whatever Milwaukee, Wisconsin had to offer.
               </p>
            </div>
         </FloatingText>
 
-        {/* BLOCK 3: THE RECIPE */}
-        <FloatingText className="max-w-5xl mx-auto text-center">
-           <h2 className="text-[5rem] md:text-[8rem] leading-[0.8] font-black text-orange-600 opacity-90 mix-blend-multiply">
-             SHRIMP WITH<br/>LOBSTER SAUCE
-           </h2>
-           <p className="text-xl md:text-2xl mt-8 font-sans max-w-2xl mx-auto">
-             His dad brought the recipe home from the restaurant. It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. 
+        {/* BLOCK 3: MOTHER'S LOVE */}
+        <FloatingText className="max-w-5xl mx-auto bg-white p-10 md:p-12 shadow-xl border-l-8 border-orange-500">
+           <p className="text-3xl md:text-4xl leading-tight font-serif text-gray-900 mb-6">
+             In the Low house, meals weren't conversational. You sat down, ate what was in front of you, cleaned your plate. <span className="text-orange-600 italic">That's how his mother showed love.</span>
+           </p>
+           <p className="text-lg md:text-xl text-gray-600 leading-relaxed">
+             She'd stand at the stove for hours with one knife and a cleaver. The best piece of fish always went to the kids, her bowl was always smallest, and "I already ate" was her most reliable lie.
            </p>
         </FloatingText>
 
-        {/* BLOCK 4: THE MARKET */}
+        {/* BLOCK 4: WATCHING HER WORK */}
         <FloatingText className="max-w-4xl mr-auto">
-           <p className="text-3xl md:text-5xl font-serif text-gray-800 leading-snug">
-             <span className="text-red-600 font-bold">"Hey Jack!"</span> Everyone at the fish market knew Tony's dad.
+           <p className="text-4xl md:text-6xl font-black text-stone-300 mb-4 select-none">MEMORY</p>
+           <p className="text-2xl md:text-3xl text-gray-900 font-bold mb-6">
+             Tony loved watching her work. 
            </p>
-           <p className="text-lg md:text-xl mt-6 text-stone-600 border-l-2 border-stone-300 pl-6">
-             Getting authentic ingredients meant driving a hundred miles to Chicago. Otherwise, they recreated what they could from memory and whatever Milwaukee, Wisconsin had to offer.
-           </p>
-        </FloatingText>
-
-        {/* BLOCK 5: MOTHER'S LOVE */}
-        <FloatingText className="max-w-4xl ml-auto bg-white p-8 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] border-2 border-black">
-           <p className="font-mono text-xs uppercase tracking-widest text-gray-400 mb-4">DATA: AFFECTION</p>
-           <p className="text-xl md:text-2xl leading-relaxed mb-6">
-             In the Low house, meals weren't conversational. You sat down, ate what was in front of you, cleaned your plate. <span className="font-bold">That's how his mother showed love.</span>
-           </p>
-           <p className="text-lg text-gray-600 italic">
-             "The best piece of fish always went to the kids, her bowl was always smallest, and 'I already ate' was her most reliable lie."
+           <p className="text-lg md:text-xl text-gray-700 leading-relaxed">
+             The way she'd slice through things with her cleaver, chopping, dicing, mashing. It was like watching a movie. For the Shrimp with Lobster Sauce, she'd make this compote with fermented black beans, ginger, and garlic that had such a distinct, fascinating aroma. When she'd crack an egg into the wok, Tony knew the dish was minutes away.
            </p>
         </FloatingText>
 
-        {/* BLOCK 6: MAGIC DUST */}
-        <FloatingText className="max-w-5xl mx-auto">
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="text-5xl md:text-7xl font-black text-stone-200 text-right leading-none select-none">
-                MAGIC<br/>DUST
-              </div>
-              <div className="text-lg md:text-xl text-gray-800">
-                <p className="mb-6">
-                  She never measured anything. She just sprinkled magic dust on her food and it tasted better than anything Tony can make.
-                </p>
-                <p className="font-bold text-red-700">
-                  Where his mother used her hands and one cleaver, Tony collects Japanese knives. He calls his happy place the Kitchen Lab.
-                </p>
-              </div>
-           </div>
+        {/* BLOCK 5: THE KITCHEN LAB */}
+        <FloatingText className="max-w-4xl ml-auto text-right">
+           <p className="text-xl md:text-2xl text-gray-900 font-light mb-6">
+             Now, at 58, Tony works in high tech sales. Binary thinking, prescriptions, programs. Cooking is where he gets to be creative. He calls his happy place the <span className="font-bold">Kitchen Lab</span>.
+           </p>
+           <p className="text-lg md:text-xl text-stone-600 border-t border-black pt-6">
+             Where his mother used her hands and one cleaver, Tony collects Japanese knives. Where she made do with whatever Milwaukee had, he imports ingredients. But when he recreates her recipes, he's not improving them. <span className="text-red-700 font-bold">He's keeping the line of culture alive.</span>
+           </p>
         </FloatingText>
 
-        {/* BLOCK 7: CONCLUSION */}
-        <div className="space-y-32 pt-20">
+        {/* BLOCK 6: THE PRESENT */}
+        <FloatingText className="max-w-4xl mr-auto">
+           <p className="text-lg md:text-xl text-gray-800 mb-4">
+             His mother lives in Colorado now. She's older, sicker, can't cook much anymore. Tony's biggest regret is not living near her. 
+           </p>
+           <p className="text-2xl md:text-3xl font-serif text-gray-900 italic">
+             After filming this project, he's visited twice. Each time, he cooks for her. The son feeding the mother who spent decades feeding him.
+           </p>
+        </FloatingText>
+
+        {/* BLOCK 7: MAGIC DUST */}
+        <FloatingText className="max-w-5xl mx-auto text-center">
+           <h2 className="text-[4rem] md:text-[6rem] leading-none font-black text-orange-600 opacity-90 mix-blend-multiply mb-6">
+             MAGIC DUST
+           </h2>
+           <p className="text-xl md:text-2xl text-gray-800 max-w-3xl mx-auto">
+             She never measured anything, never wrote anything down. She just sprinkled magic dust on her food and it tasted better than anything Tony can make. He wants to glean more of her recipes before it's too late.
+           </p>
+        </FloatingText>
+
+        {/* BLOCK 8: LEGACY */}
+        <FloatingText className="max-w-4xl ml-auto text-right bg-stone-200 p-8">
+           <p className="text-lg md:text-xl text-gray-700 mb-6">
+             While Tony's two sons prefer his chow fun over the Shrimp with Lobster Sauce, food remains the line Tony's drawing: dim sum in Chinatown, red envelopes at Chinese New Year, mooncakes during the Lunar Festival. 
+           </p>
+           <p className="text-2xl md:text-4xl font-bold text-gray-900">
+             Tony's love language is food. You feed him, you're expressing your love. He cooks for you, he's giving it back.
+           </p>
+        </FloatingText>
+
+        {/* BLOCK 9: QUESTIONS (THE END) */}
+        <div className="space-y-12 pt-20 border-t-2 border-black">
             <FloatingText className="max-w-3xl mx-auto text-center">
-                <p className="text-2xl md:text-4xl font-light text-stone-600 mb-4">
-                  Tony's love language is food.
-                </p>
-                <p className="text-3xl md:text-5xl font-bold text-gray-900">
-                  You feed him, you're expressing your love. He cooks for you, he's giving it back.
+                <p className="text-xl font-light text-stone-600 mb-8">
+                  What follows is Tony's story, his mother's recipe, and a reminder to cherish every plate and every person because here's what matters:
                 </p>
             </FloatingText>
             
-            <FloatingText className="max-w-2xl mx-auto text-left border-t-2 border-black pt-8">
-                <p className="text-lg font-mono mb-4">WHAT MATTERS:</p>
-                <ul className="space-y-6 text-xl md:text-2xl font-serif list-disc pl-5">
-                  <li>When was the last time you actually tasted your food instead of scrolling through it?</li>
-                  <li>Who taught you to cook the dish that feels like home?</li>
-                  <li className="font-bold text-red-600">And when they're gone, will you remember how they made it?</li>
+            <FloatingText className="max-w-3xl mx-auto bg-black text-white p-12 shadow-[12px_12px_0px_0px_rgba(255,100,0,1)]">
+                <ul className="space-y-8 text-xl md:text-3xl font-serif leading-snug">
+                  <li className="flex gap-4">
+                    <span className="text-orange-500">→</span> 
+                    When was the last time you actually tasted your food instead of scrolling through it?
+                  </li>
+                  <li className="flex gap-4">
+                    <span className="text-orange-500">→</span> 
+                    Who taught you to cook the dish that feels like home?
+                  </li>
+                  <li className="flex gap-4 font-bold text-orange-500">
+                    <span>→</span> 
+                    And when they're gone, will you remember how they made it, or will you wish you'd paid attention?
+                  </li>
                 </ul>
             </FloatingText>
         </div>
@@ -163,7 +182,6 @@ const FloatingContext = () => {
     </div>
   );
 };
-
 
 // --- THE GAME COMPONENT (Internal) ---
 const ShrimpCookingGame = () => {
