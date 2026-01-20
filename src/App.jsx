@@ -573,6 +573,7 @@ function App() {
              <p className="font-mono text-sm uppercase tracking-widest text-orange-700">Recreate the Recipe · Beat the Clock</p>
            </div>
            <ShrimpCookingGame />
+           <p className="mt-6 text-[10px] text-orange-900/50 text-center uppercase tracking-widest font-bold">Graphics by Gemini</p>
         </div>
       </div>
 
