@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Clock, AlertCircle } from 'lucide-react';
+import { CheckCircle, ArrowDown, Instagram, Mail, Globe, RotateCcw, Clock, AlertTriangle, Play } from 'lucide-react';
 
-// --- HELPER: SCROLL OBSERVER FOR FADE IN & ALIGNMENT ---
-const FloatingText = ({ children, delay = 0, className = "" }) => {
+// --- HELPER: FADE IN COMPONENT ---
+const FadeIn = ({ children, delay = 0, className = "" }) => {
   const [isVisible, setIsVisible] = useState(false);
   const domRef = useRef();
 
@@ -23,8 +23,8 @@ const FloatingText = ({ children, delay = 0, className = "" }) => {
   return (
     <div
       ref={domRef}
-      className={`transition-all duration-[1500ms] ease-out transform ${className} ${
-        isVisible ? 'opacity-100 translate-y-0 blur-0' : 'opacity-0 translate-y-24 blur-sm'
+      className={`transition-all duration-1000 ease-out transform ${className} ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
       }`}
       style={{ transitionDelay: `${delay}ms` }}
     >
@@ -33,141 +33,32 @@ const FloatingText = ({ children, delay = 0, className = "" }) => {
   );
 };
 
-// --- NEW: FLOATING CONTEXT SECTION (DESIGN AS TEXT) ---
-const FloatingContext = () => {
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (containerRef.current) {
-        const { top, height } = containerRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        const progress = Math.max(0, Math.min(1, (windowHeight - top) / (height + windowHeight)));
-        setScrollProgress(progress);
-      }
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+// --- STORY TEXT COMPONENT (Clean Editorial Style) ---
+const StoryBlock = ({ title, children, align = "left" }) => {
+  const alignmentClasses = {
+    left: "mr-auto text-left",
+    center: "mx-auto text-center",
+    right: "ml-auto text-right"
+  };
 
   return (
-    <div ref={containerRef} className="relative bg-stone-100 text-black py-40 overflow-hidden font-serif tracking-wide">
-      
-      {/* BACKGROUND ELEMENTS */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none opacity-10">
-         {/* Dynamic Red Circle for "China/Heritage" */}
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-red-600 rounded-full blur-[120px]" 
-             style={{ transform: `translateY(${scrollProgress * 200}px) scale(${1 + scrollProgress * 0.5})` }} />
-         {/* Dynamic Orange for "Cooking" */}
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-orange-500 rounded-full blur-[100px]" 
-             style={{ transform: `translateY(${scrollProgress * -100}px)` }} />
-      </div>
-
-      <div className="relative z-10 px-6 md:px-20 max-w-7xl mx-auto space-y-48">
-        
-        {/* BLOCK 1: ARRIVAL */}
-        <FloatingText className="max-w-4xl mr-auto">
-          <p className="text-xl md:text-2xl text-stone-500 font-sans font-bold uppercase tracking-widest mb-4">The Arrival</p>
-          <p className="text-4xl md:text-6xl leading-tight font-black text-gray-900">
-            Tony Low's father arrived in America at <span className="text-red-700">five foot eleven, 125 pounds</span>. 
+    <div className="py-24 px-6 md:px-20 max-w-7xl mx-auto">
+      <FadeIn className={`max-w-4xl ${alignmentClasses[align]}`}>
+        {title && (
+          <p className="font-mono text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">
+            {title}
           </p>
-          <p className="text-2xl md:text-3xl mt-8 text-gray-600 font-light leading-relaxed">
-            You could count his ribs. He'd fled communist China where he got two bowls of rice a day, crossed an ocean to a country where he didn't know the language.
-          </p>
-        </FloatingText>
-
-        {/* BLOCK 2: SURVIVAL */}
-        <FloatingText className="max-w-3xl ml-auto text-right">
-           <div className="border-r-4 border-black pr-8">
-              <p className="text-lg md:text-xl text-stone-800 italic mb-6">
-                "Waiter, waitress, bartender, whatever paid rent."
-              </p>
-              <p className="text-2xl md:text-4xl font-bold text-gray-900">
-                The oldest son in a Chinese immigrant family, Tony watched his parents take any work that would have them. They put food on the table for three kids who knew they were poor but were <span className="underline decoration-orange-500 decoration-4 underline-offset-4">happy anyway</span>.
-              </p>
-           </div>
-        </FloatingText>
-
-        {/* BLOCK 3: THE RECIPE */}
-        <FloatingText className="max-w-5xl mx-auto text-center">
-           <h2 className="text-[5rem] md:text-[8rem] leading-[0.8] font-black text-orange-600 opacity-90 mix-blend-multiply">
-             SHRIMP WITH<br/>LOBSTER SAUCE
-           </h2>
-           <p className="text-xl md:text-2xl mt-8 font-sans max-w-2xl mx-auto">
-             His dad brought the recipe home from the restaurant. It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. 
-           </p>
-        </FloatingText>
-
-        {/* BLOCK 4: THE MARKET */}
-        <FloatingText className="max-w-4xl mr-auto">
-           <p className="text-3xl md:text-5xl font-serif text-gray-800 leading-snug">
-             <span className="text-red-600 font-bold">"Hey Jack!"</span> Everyone at the fish market knew Tony's dad.
-           </p>
-           <p className="text-lg md:text-xl mt-6 text-stone-600 border-l-2 border-stone-300 pl-6">
-             Getting authentic ingredients meant driving a hundred miles to Chicago. Otherwise, they recreated what they could from memory and whatever Milwaukee, Wisconsin had to offer.
-           </p>
-        </FloatingText>
-
-        {/* BLOCK 5: MOTHER'S LOVE */}
-        <FloatingText className="max-w-4xl ml-auto bg-white p-8 md:p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] border-2 border-black">
-           <p className="font-mono text-xs uppercase tracking-widest text-gray-400 mb-4">DATA: AFFECTION</p>
-           <p className="text-xl md:text-2xl leading-relaxed mb-6">
-             In the Low house, meals weren't conversational. You sat down, ate what was in front of you, cleaned your plate. <span className="font-bold">That's how his mother showed love.</span>
-           </p>
-           <p className="text-lg text-gray-600 italic">
-             "The best piece of fish always went to the kids, her bowl was always smallest, and 'I already ate' was her most reliable lie."
-           </p>
-        </FloatingText>
-
-        {/* BLOCK 6: MAGIC DUST */}
-        <FloatingText className="max-w-5xl mx-auto">
-           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-              <div className="text-5xl md:text-7xl font-black text-stone-200 text-right leading-none select-none">
-                MAGIC<br/>DUST
-              </div>
-              <div className="text-lg md:text-xl text-gray-800">
-                <p className="mb-6">
-                  She never measured anything. She just sprinkled magic dust on her food and it tasted better than anything Tony can make.
-                </p>
-                <p className="font-bold text-red-700">
-                  Where his mother used her hands and one cleaver, Tony collects Japanese knives. He calls his happy place the Kitchen Lab.
-                </p>
-              </div>
-           </div>
-        </FloatingText>
-
-        {/* BLOCK 7: CONCLUSION */}
-        <div className="space-y-32 pt-20">
-            <FloatingText className="max-w-3xl mx-auto text-center">
-                <p className="text-2xl md:text-4xl font-light text-stone-600 mb-4">
-                  Tony's love language is food.
-                </p>
-                <p className="text-3xl md:text-5xl font-bold text-gray-900">
-                  You feed him, you're expressing your love. He cooks for you, he's giving it back.
-                </p>
-            </FloatingText>
-            
-            <FloatingText className="max-w-2xl mx-auto text-left border-t-2 border-black pt-8">
-                <p className="text-lg font-mono mb-4">WHAT MATTERS:</p>
-                <ul className="space-y-6 text-xl md:text-2xl font-serif list-disc pl-5">
-                  <li>When was the last time you actually tasted your food instead of scrolling through it?</li>
-                  <li>Who taught you to cook the dish that feels like home?</li>
-                  <li className="font-bold text-red-600">And when they're gone, will you remember how they made it?</li>
-                </ul>
-            </FloatingText>
+        )}
+        <div className="text-3xl md:text-5xl font-serif leading-tight text-gray-900 space-y-8">
+          {children}
         </div>
-
-      </div>
+      </FadeIn>
     </div>
   );
 };
 
-
-// --- THE GAME COMPONENT (Internal) ---
+// --- THE GAME COMPONENT ---
 const ShrimpCookingGame = () => {
-  // Assets
   const assets = {
     tony: "/tony.png",
     wok: "/wok.png",
@@ -176,31 +67,26 @@ const ShrimpCookingGame = () => {
     oneShrimp: "/one-shrimp.png", 
     finalShrimp: "/final-shrimp.png",
     seasonings: "/seasonings.png",
-    salted_black_soy_beans: "/beans.png",
+    beans: "/beans.png",
     garlic: "/garlic.png",
-    shaoxing_wine: "/wine.png",
+    wine: "/wine.png",
     egg: "/egg.png",
     knife: "/knife.png", 
   };
 
-  // State
-  const [gameState, setGameState] = useState('menu'); // menu, prep, sauce, cooking, plating, gameOver, lost
+  const [gameState, setGameState] = useState('menu'); 
   const [score, setScore] = useState(0);
   const [feedback, setFeedback] = useState('');
   const [draggedItem, setDraggedItem] = useState(null);
+  const [timeLeft, setTimeLeft] = useState(60); 
   
-  // Timer State
-  const [timeLeft, setTimeLeft] = useState(60); // 60 seconds to win
-  
-  // Game Logic States
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
+  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
-  // --- GAME TIMER ---
   useEffect(() => {
     let interval;
     if (gameState !== 'menu' && gameState !== 'gameOver' && gameState !== 'lost' && gameState !== 'final') {
@@ -217,7 +103,6 @@ const ShrimpCookingGame = () => {
     return () => clearInterval(interval);
   }, [gameState]);
 
-  // --- COOKING PROGRESS TIMER ---
   useEffect(() => {
     let timer;
     if (gameState === 'cooking' && cookingStep === 'shrimp_cooking') {
@@ -235,7 +120,6 @@ const ShrimpCookingGame = () => {
     return () => clearInterval(timer);
   }, [cookingStep, gameState]);
 
-  // Handlers
   const triggerFeedback = (text) => {
     setFeedback(text);
     setTimeout(() => setFeedback(''), 1000);
@@ -271,7 +155,7 @@ const ShrimpCookingGame = () => {
     }
     if (draggedItem === 'egg' && cookingStep === 'sauce_added') {
       setCookingStep('egg_added');
-      setScore(prev => prev + (timeLeft * 10)); // Bonus points for time left
+      setScore(prev => prev + (timeLeft * 10)); 
       triggerFeedback("PERFECTO");
       setTimeout(() => setGameState('final'), 2000);
     }
@@ -288,217 +172,202 @@ const ShrimpCookingGame = () => {
   };
 
   return (
-    <div className="w-full h-[700px] border-2 border-black bg-white relative select-none flex flex-col overflow-hidden brutal-shadow">
-      
-      {/* HUD */}
-      <div className="h-14 border-b-2 border-black flex items-center justify-between px-4 bg-gray-50 z-20 font-sans">
-        <div className="flex items-center gap-6">
-           <div className="flex flex-col">
-             <span className="text-[10px] font-bold uppercase text-gray-500">Station</span>
-             <span className="font-bold text-sm">{gameState.toUpperCase()}</span>
+    <div className="w-full h-[750px] border-2 border-black bg-stone-100 relative select-none flex flex-col overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] font-mono">
+      <div className="h-16 border-b-2 border-black bg-white flex items-center justify-between px-6 z-20">
+        <div className="flex items-center gap-8">
+           <div>
+             <span className="block text-[10px] font-bold uppercase text-gray-400 leading-none mb-1">STATION</span>
+             <span className="block font-bold text-lg leading-none">{gameState.toUpperCase()}</span>
            </div>
            
-           {/* TIMER DISPLAY */}
            {gameState !== 'menu' && gameState !== 'final' && gameState !== 'lost' && (
-             <div className={`flex items-center gap-2 font-mono text-xl font-bold ${timeLeft < 15 ? 'text-red-600 animate-pulse' : 'text-black'}`}>
-               <Clock size={20} />
-               <span>00:{timeLeft.toString().padStart(2, '0')}</span>
+             <div className="w-48">
+                <div className="flex justify-between text-[10px] font-bold mb-1">
+                   <span>TIME REMAINING</span>
+                   <span className={timeLeft < 15 ? 'text-red-600' : 'text-black'}>{timeLeft}s</span>
+                </div>
+                <div className="h-2 w-full bg-gray-200 border border-black">
+                   <div 
+                     className={`h-full transition-all duration-1000 ${timeLeft < 15 ? 'bg-red-600' : 'bg-black'}`} 
+                     style={{ width: `${(timeLeft / 60) * 100}%` }}
+                   ></div>
+                </div>
              </div>
            )}
         </div>
 
-        <div className="flex items-center gap-2">
-           <span className="text-[10px] font-bold uppercase text-gray-500 text-right">Score</span>
-           <span className="font-mono font-bold text-xl">{score.toString().padStart(4, '0')}</span>
+        <div>
+           <span className="block text-[10px] font-bold uppercase text-gray-400 leading-none mb-1 text-right">SCORE</span>
+           <span className="block font-bold text-xl leading-none">{score.toString().padStart(4, '0')}</span>
         </div>
       </div>
 
       {feedback && (
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-[60] pointer-events-none w-full text-center">
-          <span className="text-6xl font-black bg-yellow-400 text-black px-4 py-2 border-2 border-black shadow-lg animate-bounce inline-block tracking-tighter font-sans">
+          <span className="text-4xl font-black bg-black text-white px-6 py-4 border-2 border-white shadow-[4px_4px_0px_0px_rgba(0,0,0,0.5)] inline-block">
             {feedback}
           </span>
         </div>
       )}
 
-      {/* MENU */}
       {gameState === 'menu' && (
-        <div className="flex-1 flex flex-col items-center justify-center bg-gray-100 relative font-sans">
-          <h1 className="text-5xl md:text-8xl font-black mb-2 tracking-tighter text-center">TONY'<br/>TUTORIAL</h1>
-          <p className="text-xs font-bold mb-8 text-gray-500 tracking-[0.2em] uppercase">Beat the Clock: 60 Seconds</p>
-          <button onClick={startGame} className="brutal-btn text-xl">
-            START COOKING
-          </button>
-        </div>
-      )}
-
-      {/* STATIONS */}
-      {gameState !== 'menu' && gameState !== 'final' && gameState !== 'lost' && (
-        <div className="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/graphy.png')] font-sans">
-          
-          {/* 1. PREP STATION */}
-          {gameState === 'prep' && (
-            <div className="h-full flex flex-col p-8 items-center">
-              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8 bg-white/80 backdrop-blur-sm p-2">
-                <h2 className="text-2xl font-bold tracking-tight">01 / DEVEIN</h2>
-                <span className="text-xs font-bold tracking-wider">DRAG KNIFE TO SHRIMP</span>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-8">
-                 {[...Array(targetShrimpCount)].map((_, i) => (
-                   <div key={i} onDragOver={(e) => e.preventDefault()} onDrop={(e) => handlePrepDrop(e, i)}
-                     className={`w-32 h-32 flex items-center justify-center transition-all relative
-                       ${i === shrimpPrepped ? 'scale-110 drop-shadow-2xl' : ''}
-                     `}>
-                     {i < shrimpPrepped ? (
-                        <CheckCircle className="w-24 h-24 text-green-500" />
-                     ) : (
-                        <img src={assets.oneShrimp} className={`w-full h-full object-contain drop-shadow-lg ${i === shrimpPrepped ? 'animate-pulse' : ''}`} alt="Shrimp" />
-                     )}
-                   </div>
-                 ))}
-              </div>
-
-              <div className="mt-auto relative">
-                 <div draggable onDragStart={(e) => handleDragStart(e, 'knife')} className="cursor-grab active:cursor-grabbing hover:scale-110 transition-transform">
-                   <img src={assets.knife} className="w-24 h-24 object-contain drop-shadow-xl" alt="Knife" />
-                   <div className="bg-black text-white text-[10px] font-bold px-2 py-1 absolute -bottom-2 left-1/2 transform -translate-x-1/2 tracking-widest">TOOL</div>
-                 </div>
-              </div>
-              
-              {shrimpPrepped === targetShrimpCount && (
-                <button onClick={() => setGameState('sauce')} className="absolute bottom-8 right-8 brutal-btn bg-yellow-400">NEXT &rarr;</button>
-              )}
-            </div>
-          )}
-
-          {/* 2. SAUCE STATION */}
-          {gameState === 'sauce' && (
-            <div className="h-full flex flex-col p-8 items-center">
-              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8 bg-white/80 backdrop-blur-sm p-2">
-                <h2 className="text-2xl font-bold tracking-tight">02 / COMPOUND</h2>
-                <span className="text-xs font-bold tracking-wider">DRAG INGREDIENTS TO BOWL</span>
-              </div>
-
-              <div className="flex flex-col md:flex-row w-full justify-between items-center max-w-5xl gap-12">
-                <div className="grid grid-cols-2 gap-8">
-                  {requiredSauceIngredients.map((item) => (
-                    <div key={item} draggable={!sauceIngredientsAdded.includes(item)} onDragStart={(e) => handleDragStart(e, item)}
-                      className={`w-32 h-32 flex flex-col items-center justify-center cursor-grab transition-transform 
-                        ${sauceIngredientsAdded.includes(item) ? 'opacity-20 grayscale pointer-events-none' : 'hover:scale-110'}`}>
-                      <img src={assets[item]} className="w-24 h-24 object-contain drop-shadow-md" alt={item} />
-                      <span className="font-bold text-[10px] uppercase bg-white px-2 mt-1 border border-black tracking-widest">{item}</span>
-                    </div>
-                  ))}
-                </div>
-                
-                <div onDragOver={(e) => e.preventDefault()} onDrop={handleSauceDrop} className="w-80 h-80 border-4 border-black rounded-full flex items-center justify-center relative bg-white shadow-xl overflow-hidden group">
-                  <div className="absolute inset-4 border-2 border-dashed border-gray-300 rounded-full"></div>
-                  <span className="text-xs font-black z-10 bg-black text-white px-2 py-1 tracking-widest">MIXING BOWL</span>
-                  <div className="absolute bottom-0 w-full bg-amber-600 transition-all duration-500 opacity-80" style={{height: `${sauceIngredientsAdded.length * 25}%`}}></div>
-                  {sauceIngredientsAdded.map((item, idx) => (
-                     <img key={idx} src={assets[item]} className="absolute w-12 h-12 animate-bounce" style={{left: `${20 + idx*15}%`, bottom: `${10 + idx*10}%`}} />
-                  ))}
-                </div>
-              </div>
-
-              {sauceIngredientsAdded.length === 4 && (
-                <button onClick={() => setGameState('cooking')} className="absolute bottom-8 right-8 brutal-btn bg-yellow-400">HEAT &rarr;</button>
-              )}
-            </div>
-          )}
-
-          {/* 3. COOKING STATION */}
-          {gameState === 'cooking' && (
-            <div className="h-full flex flex-col p-8 items-center relative">
-               <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-4 bg-white/80 backdrop-blur-sm p-2">
-                <h2 className="text-2xl font-bold tracking-tight">03 / THERMAL</h2>
-                <span className="text-xs text-red-600 font-black tracking-widest">{cookingStep.toUpperCase().replace('_', ' ')}</span>
-              </div>
-
-              <div className="relative flex-1 w-full flex items-center justify-center">
-                 <div onDragOver={(e) => e.preventDefault()} onDrop={handleWokDrop} className="w-[500px] h-[400px] flex items-center justify-center relative transition-transform">
-                    <div className="absolute bottom-0 w-64 h-12 bg-black opacity-20 blur-xl rounded-full"></div>
-                    <img src={assets.wok} className="w-full h-full object-contain drop-shadow-2xl z-10" alt="Wok" />
-                    
-                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 flex items-center justify-center z-20">
-                        {cookingStep !== 'empty' && (
-                            <img src={assets.shrimp} className={`w-40 object-contain transition-all duration-500 ${cookingStep === 'shrimp_cooking' ? 'animate-shake saturate-150' : ''}`} alt="Cooking" />
-                        )}
-                        {cookingStep === 'egg_added' && (
-                             <img src={assets.egg} className="absolute top-0 right-0 w-24 animate-bounce" alt="Egg" />
-                        )}
-                    </div>
-
-                    {cookingStep !== 'empty' && (
-                        <div className="absolute -top-10 left-1/2 w-20 h-40 bg-gray-200 blur-2xl opacity-40 animate-pulse transform -translate-x-1/2"></div>
-                    )}
-                 </div>
-              </div>
-
-              <div className="h-32 w-full border-t-2 border-black flex items-center justify-center gap-12 bg-gray-100 z-30">
-                {cookingStep === 'empty' && (
-                  <div draggable onDragStart={(e) => handleDragStart(e, 'prepped_shrimp')} className="cursor-move hover:scale-110 transition text-center group">
-                     <div className="w-24 h-24 bg-white border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
-                        <img src={assets.shrimp} className="w-16" alt="Prepped" />
-                     </div>
-                     <span className="font-bold text-[10px] bg-black text-white px-2 tracking-wider">PREPPED SHRIMP</span>
-                  </div>
-                )}
-                {cookingStep === 'shrimp_cooked' && (
-                   <div draggable onDragStart={(e) => handleDragStart(e, 'mixed_sauce')} className="cursor-move hover:scale-110 transition text-center group">
-                      <div className="w-24 h-24 bg-amber-100 border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
-                        <span className="text-4xl">🥣</span>
-                      </div>
-                      <span className="font-bold text-[10px] bg-black text-white px-2 tracking-wider">SAUCE MIX</span>
-                   </div>
-                )}
-                 {cookingStep === 'sauce_added' && (
-                   <div draggable onDragStart={(e) => handleDragStart(e, 'egg')} className="cursor-move hover:scale-110 transition text-center group">
-                      <div className="w-24 h-24 bg-white border-2 border-black rounded-full flex items-center justify-center mb-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] group-active:shadow-none group-active:translate-y-1">
-                        <img src={assets.egg} className="w-16" alt="Egg" />
-                      </div>
-                      <span className="font-bold text-[10px] bg-black text-white px-2 tracking-wider">FARM EGG</span>
-                   </div>
-                )}
-              </div>
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* WIN SCREEN */}
-      {gameState === 'final' && (
-        <div className="flex-1 flex flex-col items-center justify-center bg-white p-8 font-sans">
-          <div className="border-4 border-black p-8 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-gray-50">
-            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Order Complete</h1>
-            <p className="text-xl font-bold text-green-600 mb-4">TIME BONUS: {timeLeft}s</p>
-            
-            <div className="my-8 relative group">
-                <div className="absolute inset-0 bg-yellow-400 rounded-full blur-3xl opacity-20 group-hover:opacity-40 transition-opacity"></div>
-                <img src={assets.finalShrimp} alt="Final Dish" className="w-96 h-auto mx-auto drop-shadow-2xl transform transition hover:scale-105 duration-500" />
-            </div>
-
-            <p className="text-sm font-bold mb-6 border-b-2 border-black pb-4 inline-block tracking-wider">FINAL SCORE: {score}</p>
-            <p className="italic text-gray-500 mb-8 text-lg font-medium">"A perfect harmony of wok hei and texture."</p>
-            
-            <button onClick={startGame} className="bg-black text-white px-8 py-4 font-bold hover:bg-yellow-400 hover:text-black transition-colors w-full flex items-center justify-center gap-2 tracking-wide uppercase">
-              <RotateCcw size={20}/> Restart Shift
+        <div className="flex-1 flex flex-col items-center justify-center bg-stone-100 relative">
+          <div className="border-4 border-black p-12 bg-white text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
+            <h1 className="text-5xl md:text-7xl font-black mb-4 tracking-tighter">KITCHEN<br/>LAB</h1>
+            <p className="text-sm font-bold mb-8 text-gray-500 tracking-widest uppercase border-t border-b border-gray-200 py-4">
+              Mission: Complete Service in 60s
+            </p>
+            <button onClick={startGame} className="bg-black text-white text-xl font-bold py-4 px-12 hover:bg-stone-700 transition-colors w-full">
+              START SHIFT
             </button>
           </div>
         </div>
       )}
 
-      {/* LOSE SCREEN */}
-      {gameState === 'lost' && (
-        <div className="flex-1 flex flex-col items-center justify-center bg-red-50 p-8 font-sans">
-          <div className="border-4 border-red-600 p-8 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(200,0,0,1)] bg-white">
-            <AlertCircle size={64} className="text-red-600 mx-auto mb-4" />
-            <h1 className="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase text-red-600">TOO SLOW!</h1>
-            <p className="text-xl font-bold mb-8">The customer walked out.</p>
+      {gameState !== 'menu' && gameState !== 'final' && gameState !== 'lost' && (
+        <div className="flex-1 relative bg-[url('https://www.transparenttextures.com/patterns/graphy.png')]">
+          
+          {gameState === 'prep' && (
+            <div className="h-full flex flex-col p-8 items-center">
+              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8">
+                <h2 className="text-2xl font-bold">01 / DEVEIN</h2>
+                <span className="text-xs font-bold bg-black text-white px-2 py-1">TOOL: KNIFE</span>
+              </div>
+              
+              <div className="grid grid-cols-3 gap-8">
+                 {[...Array(targetShrimpCount)].map((_, i) => (
+                   <div key={i} onDragOver={(e) => e.preventDefault()} onDrop={(e) => handlePrepDrop(e, i)}
+                     className={`w-28 h-28 border-2 border-black bg-white flex items-center justify-center transition-all relative
+                       ${i === shrimpPrepped ? 'shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]' : 'opacity-50'}
+                     `}>
+                     {i < shrimpPrepped ? (
+                        <CheckCircle className="w-16 h-16 text-black" />
+                     ) : (
+                        <img src={assets.oneShrimp} className="w-full h-full object-contain p-2" alt="Shrimp" />
+                     )}
+                   </div>
+                 ))}
+              </div>
+
+              <div className="mt-auto">
+                 <div draggable onDragStart={(e) => handleDragStart(e, 'knife')} className="bg-white border-2 border-black p-6 cursor-grab active:cursor-grabbing hover:-translate-y-1 transition-transform shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                   <img src={assets.knife} className="w-24 object-contain" alt="Knife" />
+                 </div>
+              </div>
+              
+              {shrimpPrepped === targetShrimpCount && (
+                <button onClick={() => setGameState('sauce')} className="absolute bottom-8 right-8 bg-black text-white px-6 py-3 font-bold hover:bg-stone-700 transition">NEXT &rarr;</button>
+              )}
+            </div>
+          )}
+
+          {gameState === 'sauce' && (
+            <div className="h-full flex flex-col p-8 items-center">
+              <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-8">
+                <h2 className="text-2xl font-bold">02 / COMPOUND</h2>
+                <span className="text-xs font-bold bg-black text-white px-2 py-1">ACTION: COMBINE</span>
+              </div>
+
+              <div className="flex flex-col md:flex-row w-full justify-between items-center max-w-5xl gap-12">
+                <div className="grid grid-cols-2 gap-4">
+                  {requiredSauceIngredients.map((item) => (
+                    <div key={item} draggable={!sauceIngredientsAdded.includes(item)} onDragStart={(e) => handleDragStart(e, item)}
+                      className={`w-32 h-32 border-2 border-black bg-white flex flex-col items-center justify-center cursor-grab transition-all 
+                        ${sauceIngredientsAdded.includes(item) ? 'opacity-20 pointer-events-none' : 'hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]'}`}>
+                      <img src={assets[item]} className="w-16 h-16 object-contain mb-2" alt={item} />
+                      <span className="font-bold text-[10px] uppercase">{item}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div onDragOver={(e) => e.preventDefault()} onDrop={handleSauceDrop} className="w-80 h-80 border-2 border-black rounded-full flex items-center justify-center relative bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+                  <div className="absolute inset-4 border border-dashed border-gray-300 rounded-full"></div>
+                  <span className="text-xs font-bold z-10 bg-black text-white px-2 py-1">MIXING BOWL</span>
+                  <div className="absolute bottom-0 w-full bg-amber-600 transition-all duration-500 opacity-90" style={{height: `${sauceIngredientsAdded.length * 25}%`}}></div>
+                </div>
+              </div>
+
+              {sauceIngredientsAdded.length === 4 && (
+                <button onClick={() => setGameState('cooking')} className="absolute bottom-8 right-8 bg-black text-white px-6 py-3 font-bold hover:bg-stone-700 transition">HEAT &rarr;</button>
+              )}
+            </div>
+          )}
+
+          {gameState === 'cooking' && (
+            <div className="h-full flex flex-col p-8 items-center relative">
+               <div className="w-full flex justify-between items-end border-b-2 border-black pb-2 mb-4">
+                <h2 className="text-2xl font-bold">03 / THERMAL</h2>
+                <span className="text-xs font-bold text-red-600">{cookingStep.toUpperCase().replace('_', ' ')}</span>
+              </div>
+
+              <div className="relative flex-1 w-full flex items-center justify-center">
+                 <div onDragOver={(e) => e.preventDefault()} onDrop={handleWokDrop} className="w-[500px] h-[400px] flex items-center justify-center relative transition-transform">
+                    <img src={assets.wok} className="w-full h-full object-contain drop-shadow-2xl z-10" alt="Wok" />
+                    
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 flex items-center justify-center z-20">
+                        {cookingStep !== 'empty' && (
+                            <img src={assets.shrimp} className={`w-40 object-contain transition-all duration-500 ${cookingStep === 'shrimp_cooking' ? 'animate-pulse saturate-150' : ''}`} alt="Cooking" />
+                        )}
+                        {cookingStep === 'egg_added' && (
+                             <img src={assets.egg} className="absolute top-0 right-0 w-24 animate-bounce" alt="Egg" />
+                        )}
+                    </div>
+                 </div>
+              </div>
+
+              <div className="h-32 w-full border-t-2 border-black flex items-center justify-center gap-8 bg-gray-100 z-30">
+                {cookingStep === 'empty' && (
+                  <div draggable onDragStart={(e) => handleDragStart(e, 'prepped_shrimp')} className="cursor-move hover:-translate-y-1 transition text-center group bg-white border-2 border-black p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                     <img src={assets.shrimp} className="w-16 h-16 object-contain" alt="Prepped" />
+                     <span className="font-bold text-[10px] block border-t border-black mt-2 pt-1">PREPPED SHRIMP</span>
+                  </div>
+                )}
+                {cookingStep === 'shrimp_cooked' && (
+                   <div draggable onDragStart={(e) => handleDragStart(e, 'mixed_sauce')} className="cursor-move hover:-translate-y-1 transition text-center group bg-white border-2 border-black p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      <div className="w-16 h-16 flex items-center justify-center text-2xl">🥣</div>
+                      <span className="font-bold text-[10px] block border-t border-black mt-2 pt-1">SAUCE MIX</span>
+                   </div>
+                )}
+                 {cookingStep === 'sauce_added' && (
+                   <div draggable onDragStart={(e) => handleDragStart(e, 'egg')} className="cursor-move hover:-translate-y-1 transition text-center group bg-white border-2 border-black p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      <img src={assets.egg} className="w-16 h-16 object-contain" alt="Egg" />
+                      <span className="font-bold text-[10px] block border-t border-black mt-2 pt-1">FARM EGG</span>
+                   </div>
+                )}
+              </div>
+            </div>
+          )}
+        </div>
+      )}
+
+      {gameState === 'final' && (
+        <div className="flex-1 flex flex-col items-center justify-center bg-white p-8">
+          <div className="border-4 border-black p-12 max-w-2xl text-center shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-stone-50">
+            <h1 className="text-5xl md:text-6xl font-black mb-4 tracking-tighter uppercase">Order Complete</h1>
+            <p className="text-xl font-bold text-green-600 mb-8 border-b-2 border-black inline-block pb-2">TIME BONUS: +{timeLeft * 10}</p>
             
-            <button onClick={startGame} className="bg-red-600 text-white px-8 py-4 font-bold hover:bg-black transition-colors w-full flex items-center justify-center gap-2 tracking-wide uppercase">
-              <RotateCcw size={20}/> Try Again
+            <div className="my-8">
+                <img src={assets.finalShrimp} alt="Final Dish" className="w-80 h-auto mx-auto drop-shadow-xl" />
+            </div>
+
+            <p className="text-sm font-bold mb-8">TOTAL SCORE: {score}</p>
+            
+            <button onClick={startGame} className="bg-black text-white px-8 py-4 font-bold hover:bg-stone-700 transition-colors w-full flex items-center justify-center gap-2">
+              <RotateCcw size={20}/> RESTART SHIFT
+            </button>
+          </div>
+        </div>
+      )}
+
+      {gameState === 'lost' && (
+        <div className="flex-1 flex flex-col items-center justify-center bg-red-600 p-8 text-white">
+          <div className="border-4 border-white p-12 max-w-2xl text-center">
+            <AlertTriangle size={80} className="mx-auto mb-6" />
+            <h1 className="text-6xl font-black mb-4 tracking-tighter uppercase">TOO SLOW</h1>
+            <p className="text-2xl font-bold mb-12">The customer walked out.</p>
+            
+            <button onClick={startGame} className="bg-white text-red-600 px-8 py-4 font-bold hover:bg-black hover:text-white transition-colors w-full flex items-center justify-center gap-2 tracking-wide uppercase">
+              <RotateCcw size={20}/> TRY AGAIN
             </button>
           </div>
         </div>
@@ -509,23 +378,9 @@ const ShrimpCookingGame = () => {
 };
 
 
-// --- MAIN LAYOUT COMPONENT ---
-const Section = ({ title, children, className = "" }) => (
-  <section className={`border-b-2 border-black py-20 px-6 md:px-12 ${className}`}>
-    <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-12 gap-8">
-      <div className="md:col-span-3">
-        <h2 className="text-xs font-bold uppercase tracking-widest sticky top-8">{title}</h2>
-      </div>
-      <div className="md:col-span-9">
-        {children}
-      </div>
-    </div>
-  </section>
-);
-
 function App() {
   return (
-    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-stone-50 text-black selection:bg-black selection:text-white font-sans">
       
       {/* 1. ENTRY / TITLE PAGE */}
       <header 
@@ -553,121 +408,106 @@ function App() {
         </div>
       </header>
 
-      {/* 2. THE FILM (UPDATED: FULL WIDTH) */}
-      <section className="border-b-2 border-black py-20 px-6 md:px-12">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex justify-between items-end mb-4">
-             <h2 className="text-xs font-bold uppercase tracking-widest">(01) THE FILM</h2>
-             <div className="text-xs font-bold tracking-widest uppercase text-right">
-                <span>FEATURING TONY LOW</span><br/>
-                <span>BY NITHYA SUNKARA INDLAMURI</span>
-             </div>
-          </div>
-          {/* Video Container - Expanded */}
-          <div className="w-full aspect-video bg-black border-2 border-black relative shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]">
-               <iframe 
-                  src="https://player.vimeo.com/video/1132358106?badge=0&autopause=0&player_id=0&app_id=58479" 
-                  className="w-full h-full" 
-                  frameBorder="0" 
-                  allow="autoplay; fullscreen; picture-in-picture" 
-                  allowFullScreen
-                  title="To the Mothers"
-                ></iframe>
-          </div>
-        </div>
-      </section>
+      {/* --- SCROLLYTELLING START --- */}
 
-      {/* 3. FLOATING CONTEXT (UPDATED: TONY'S STORY, COLOR DESIGN) */}
-      <FloatingContext />
-
-      {/* 4. THE GAME */}
-      <Section title="(02) INTERACTIVE">
-        <div className="mb-8">
-          <h3 className="text-4xl font-bold mb-2 tracking-tight">KITCHEN LAB SIMULATOR</h3>
-          <p className="text-sm text-gray-600 font-medium">Drag ingredients to interact. Beat the timer.</p>
-        </div>
-        
-        {/* The Game Component */}
-        <ShrimpCookingGame />
-        
-        {/* DISCLAIMER */}
-        <p className="mt-6 text-[10px] text-gray-400 text-center uppercase tracking-widest font-bold">
-          Disclaimer: The graphics in this game were created by Google Gemini and are AI generated.
+      {/* STORY BLOCK 1: ORIGINS */}
+      <StoryBlock title="01. The Arrival">
+        <p>Tony Low's father arrived in America at five foot eleven, <span className="font-bold">125 pounds</span>. You could count his ribs.</p>
+        <p>He'd fled communist China where he got two bowls of rice a day, crossed an ocean to a country where he didn't know the language.</p>
+        <p className="text-xl md:text-3xl text-gray-600 font-sans mt-8">
+          The oldest son in a Chinese immigrant family, Tony watched his parents take any work that would have them: waiter, waitress, bartender, whatever paid rent.
         </p>
-      </Section>
+      </StoryBlock>
 
-      {/* 5. ARCHIVE SECTION */}
-      <Section title="(03) ARCHIVE">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-2 border-black bg-black gap-0.5">
-          
-          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
-              <video 
-                  src="/mom6.mp4" 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
-                  autoPlay loop muted playsInline
-              />
-              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
-                  FIG A. PREP WORK
-              </div>
-          </div>
+      {/* 2. THE FILM COMPONENT */}
+      <div className="w-full aspect-video bg-black border-y-2 border-black relative">
+           <iframe 
+              src="https://player.vimeo.com/video/1132358106?badge=0&autopause=0&player_id=0&app_id=58479" 
+              className="w-full h-full" 
+              frameBorder="0" 
+              allow="autoplay; fullscreen; picture-in-picture" 
+              allowFullScreen
+              title="To the Mothers"
+            ></iframe>
+      </div>
 
-          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
-              <img 
-                  src="/mom1.png" 
-                  alt="Cleaning Fish"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
-              />
-              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
-                  FIG B. RAW MATERIALS
-              </div>
-          </div>
+      {/* STORY BLOCK 2: RECIPE */}
+      <StoryBlock title="02. The Recipe" align="right">
+        <p>His dad brought home the recipe for <span className="underline decoration-2 underline-offset-4">Shrimp with Lobster Sauce</span> from the restaurant where he worked.</p>
+        <p>It became a staple, reserved for celebrations. Back then, there were only three Chinatowns in America. Getting Chinese ingredients meant driving a hundred miles to Chicago.</p>
+        <p className="italic text-gray-700">"Hey Jack," they'd call out at the fish markets, giving him the best pick.</p>
+      </StoryBlock>
 
-          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
-              <img 
-                  src="/mom5.png" 
-                  alt="Blending Soup"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
-              />
-              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
-                  FIG C. REDUCTION
-              </div>
-          </div>
+      {/* STORY BLOCK 3: MOTHER'S LOVE */}
+      <StoryBlock title="03. Affection" align="center">
+        <p>In the Low house, meals weren't conversational. You sat down, ate what was in front of you, cleaned your plate. <span className="font-bold">That's how his mother showed love.</span></p>
+        <p className="text-xl text-gray-500">She'd stand at the stove for hours with one knife and a cleaver. The best piece of fish always went to the kids.</p>
+      </StoryBlock>
 
-          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
-              <img 
-                  src="/mom3.png" 
-                  alt="Wrapping Dumplings"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
-              />
-              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
-                  FIG D. ASSEMBLY
-              </div>
-          </div>
-
-          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
-              <img 
-                  src="/mom2.png" 
-                  alt="Wrapping Together"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
-              />
-              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
-                  FIG E. TRANSMISSION
-              </div>
-          </div>
-
-          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
-              <img 
-                  src="/mom4.png" 
-                  alt="Eating"
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700"
-              />
-              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">
-                  FIG F. NOURISHMENT
-              </div>
-          </div>
-
+      {/* 4. GAME COMPONENT */}
+      <div className="border-y-2 border-black py-12 bg-stone-100">
+        <div className="max-w-7xl mx-auto px-6 mb-8 text-center">
+           <h3 className="text-4xl font-bold tracking-tight mb-2">KITCHEN LAB SIMULATOR</h3>
+           <p className="font-mono text-sm uppercase tracking-widest text-gray-500">Recreate the Recipe · Beat the Clock</p>
         </div>
-      </Section>
+        <ShrimpCookingGame />
+      </div>
+
+      {/* STORY BLOCK 4: KITCHEN LAB */}
+      <StoryBlock title="04. The Lab">
+        <p>Now, at 58, Tony works in high tech sales. Binary thinking, prescriptions, programs.</p>
+        <p>Cooking is where he gets to be creative. He calls his happy place the <span className="font-black">Kitchen Lab</span>.</p>
+        <p className="text-gray-600 text-2xl mt-4">Where his mother used her hands and one cleaver, Tony collects Japanese knives. But he's not improving the recipes. He's keeping the line of culture alive.</p>
+      </StoryBlock>
+
+      {/* STORY BLOCK 5: MAGIC DUST */}
+      <StoryBlock title="05. Magic Dust" align="right">
+        <p>She never measured anything. She just sprinkled <span className="italic">magic dust</span> on her food and it tasted better than anything Tony can make.</p>
+        <p>He wants to glean more of her recipes before it's too late.</p>
+        <p className="text-xl mt-8 border-l-4 border-black pl-6">
+          The son is feeding the mother who spent decades feeding him.
+        </p>
+      </StoryBlock>
+
+      {/* 5. ARCHIVE COMPONENT */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 border-y-2 border-black bg-black gap-0.5">
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <video src="/mom6.mp4" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" autoPlay loop muted playsInline />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">FIG A. PREP WORK</div>
+          </div>
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img src="/mom1.png" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">FIG B. RAW MATERIALS</div>
+          </div>
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img src="/mom5.png" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">FIG C. REDUCTION</div>
+          </div>
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img src="/mom3.png" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">FIG D. ASSEMBLY</div>
+          </div>
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img src="/mom2.png" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">FIG E. TRANSMISSION</div>
+          </div>
+          <div className="relative aspect-[3/4] bg-white group overflow-hidden">
+              <img src="/mom4.png" className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
+              <div className="absolute bottom-2 left-2 bg-black text-white text-[10px] px-2 py-1 font-mono uppercase tracking-widest">FIG F. NOURISHMENT</div>
+          </div>
+      </div>
+
+      {/* STORY BLOCK 6: QUESTIONS */}
+      <div className="bg-black text-white py-32 px-6 md:px-20 text-center">
+        <FadeIn>
+          <p className="font-mono text-xs uppercase tracking-widest text-gray-500 mb-12">WHAT MATTERS</p>
+          <div className="space-y-12 max-w-4xl mx-auto text-2xl md:text-4xl font-serif leading-relaxed">
+            <p>When was the last time you actually tasted your food instead of scrolling through it?</p>
+            <p>Who taught you to cook the dish that feels like home?</p>
+            <p className="text-stone-400">And when they're gone, will you remember how they made it, or will you wish you'd paid attention?</p>
+          </div>
+        </FadeIn>
+      </div>
 
       <footer className="py-8 px-12 border-t border-white bg-black text-white flex justify-between text-xs font-bold tracking-widest uppercase">
         <div>© 2025 ALL RIGHTS RESERVED</div>
