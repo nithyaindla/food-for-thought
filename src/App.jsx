@@ -147,7 +147,7 @@ const ShrimpCookingGame = () => {
   const assets = {
     tony: "/tony.png", wok: "/wok.png", stove: "/stove.png", shrimp: "/shrimp.png",
     oneShrimp: "/one-shrimp.png", finalShrimp: "/final-shrimp.png", seasonings: "/seasonings.png",
-    beans: "/beans.png", garlic: "/garlic.png", wine: "/wine.png", egg: "/egg.png", knife: "/knife.png", 
+    salted_black_soy_beans: "/beans.png", garlic: "/garlic.png", shaoxing_wine: "/wine.png", egg: "/egg.png", knife: "/knife.png", 
   };
 
   const [gameState, setGameState] = useState('menu'); 
@@ -157,7 +157,7 @@ const ShrimpCookingGame = () => {
   const [shrimpPrepped, setShrimpPrepped] = useState(0);
   const targetShrimpCount = 6;
   const [sauceIngredientsAdded, setSauceIngredientsAdded] = useState([]);
-  const requiredSauceIngredients = ['seasonings', 'beans', 'garlic', 'wine'];
+  const requiredSauceIngredients = ['seasonings', 'salted_black_soy_beans', 'garlic', 'shaoxing_wine'];
   const [cookingStep, setCookingStep] = useState('empty');
   const [cookProgress, setCookProgress] = useState(0);
 
@@ -419,8 +419,8 @@ function App() {
         </div>
         
         {/* Title moved to Bottom Right to avoid face */}
-        <div className="absolute bottom-20 right-6 md:right-12 relative z-10 text-right">
-          <h1 className="text-[10vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
+        <div className="absolute bottom-20 right-6 md:right-12 relative z-10 text-left">
+          <h1 className="text-[8vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
             TONY'S<br/>KITCHEN LAB
           </h1>
         </div>
