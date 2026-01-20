@@ -419,7 +419,7 @@ function App() {
         </div>
         
         {/* Title moved to Bottom Right to avoid face */}
-        <div className="absolute bottom-6 right-6 md:right-12 relative z-10 text-left">
+        <div className="absolute bottom-2 right-6 md:right-12 relative z-10 text-left">
           <h1 className="text-[8vw] leading-[0.85] font-syne font-black tracking-tighter uppercase text-white mix-blend-overlay opacity-90">
             TONY'S<br/>KITCHEN<br/>LAB
           </h1>
@@ -458,9 +458,7 @@ function App() {
 
       {/* 5. ART TEXT: RECIPE */}
       <ArtText title="02. THE RECIPE">
-        His dad brought home the recipe for <span className="underline decoration-orange-600 decoration-4 underline-offset-4">Shrimp with Lobster Sauce</span> from the restaurant where he worked. It became a staple, reserved for celebrations. 
-        <br/><br/>
-        Back then, getting Chinese ingredients meant driving a hundred miles to Chicago. "Hey Jack," they'd call out at the fish markets, giving him the best pick.
+        His dad brought home the recipe for <span className="underline decoration-orange-600 decoration-4 underline-offset-4">Shrimp with Lobster Sauce</span> from the restaurant where he worked. It became a staple, reserved for celebrations.
       </ArtText>
 
       {/* 6. ART TEXT: LOVE */}
